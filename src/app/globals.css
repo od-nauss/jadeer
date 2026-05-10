@@ -1,0 +1,211 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* خط El Messiri المحلي */
+@font-face {
+  font-family: 'El Messiri';
+  src: url('/fonts/ElMessiri-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --color-primary: #2A6364;
+  --color-gold: #C7B08C;
+  --color-ivory: #F9F9F9;
+  --color-wine: #73384B;
+  --color-steelblue: #2E6F8E;
+  --color-sage: #4F8F7A;
+  --color-umber: #6B5A4A;
+
+  --font-messiri: 'El Messiri', 'Tajawal', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-messiri);
+}
+
+body {
+  font-family: var(--font-messiri);
+  background-color: var(--color-ivory);
+  color: #2A2A2A;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* RTL support */
+html[dir="rtl"] {
+  direction: rtl;
+}
+
+/* Scrollbar مؤسسي */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F1EADC;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C7B08C;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B09373;
+}
+
+/* تحسينات بصرية مؤسسية */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.gold-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(199, 176, 140, 0.5),
+    transparent
+  );
+}
+
+/* رسوم Recharts بألوان الهوية */
+.recharts-default-tooltip {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid #C7B08C !important;
+  border-radius: 8px !important;
+  font-family: var(--font-messiri) !important;
+}
+
+/* بطاقات قابلة للتمرير */
+.scrollable-card {
+  scrollbar-width: thin;
+  scrollbar-color: #C7B08C #F1EADC;
+}
+
+/* تأثير bounce خفيف للأزرار المهمة */
+.btn-primary {
+  background: linear-gradient(135deg, #2A6364 0%, #235253 100%);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #235253 0%, #1B4142 100%);
+  box-shadow: 0 8px 20px rgba(42, 99, 100, 0.25);
+  transform: translateY(-1px);
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, #C7B08C 0%, #B09373 100%);
+  color: #143131;
+  transition: all 0.3s ease;
+}
+
+.btn-gold:hover {
+  background: linear-gradient(135deg, #B09373 0%, #8A745B 100%);
+  color: white;
+  box-shadow: 0 8px 20px rgba(199, 176, 140, 0.4);
+  transform: translateY(-1px);
+}
+
+/* بطاقة مؤسسية */
+.institutional-card {
+  background: white;
+  border: 1px solid rgba(199, 176, 140, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(42, 99, 100, 0.05);
+  transition: all 0.3s ease;
+}
+
+.institutional-card:hover {
+  border-color: rgba(199, 176, 140, 0.5);
+  box-shadow: 0 8px 24px rgba(42, 99, 100, 0.08);
+}
+
+/* خلفية مؤسسية مع لمسة ذهبية */
+.institutional-bg {
+  background:
+    radial-gradient(ellipse at top right, rgba(199, 176, 140, 0.08), transparent 50%),
+    radial-gradient(ellipse at bottom left, rgba(42, 99, 100, 0.05), transparent 50%),
+    #F9F9F9;
+}
+
+/* الشعار - حماية من التشوه */
+.logo-container img {
+  filter: brightness(0.95);
+}
+
+/* تأثير fade للـ skeleton */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #f0e8d8 0%,
+    #f8f3e7 50%,
+    #f0e8d8 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -1000px 0;
+  }
+  to {
+    background-position: 1000px 0;
+  }
+}
+
+/* tooltip للنصوص التعريفية */
+.help-tooltip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: help;
+}
+
+.help-tooltip-content {
+  position: absolute;
+  bottom: 100%;
+  right: 50%;
+  transform: translateX(50%);
+  background: #143131;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  white-space: normal;
+  width: 280px;
+  text-align: right;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  pointer-events: none;
+  z-index: 50;
+  margin-bottom: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.help-tooltip:hover .help-tooltip-content {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
