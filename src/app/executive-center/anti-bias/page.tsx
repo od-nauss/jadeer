@@ -1,5 +1,6 @@
 import { ShieldCheck } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
 const GUARANTEES = [
   'الموظف لا يتحكم وحده في المقيمين',
   'الموظف يقترح 15 مقيماً فقط',

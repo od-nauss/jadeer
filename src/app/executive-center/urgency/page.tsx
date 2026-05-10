@@ -1,5 +1,6 @@
 import { Clock, TrendingUp } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
 const POINTS = [
   'كل شهر يمر دون نظام لاكتشاف القيادات يعني احتمال بقاء كفاءات مؤثرة خارج المشهد.',
   'قرارات التكليف تحتاج بيانات لا انطباعات فقط.',

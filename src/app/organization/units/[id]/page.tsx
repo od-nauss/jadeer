@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import { Card, Badge } from '@/components/ui';
 import { READINESS_LEVELS } from '@/lib/utils';
 
+export const dynamic = 'force-dynamic';
 export default async function OrganizationUnitPage({ params }: { params: { id: string } }) {
   const supabase = createClient();
   const { data: unit } = await supabase

@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 import { READINESS_LEVELS } from '@/lib/utils';
 
+export const dynamic = 'force-dynamic';
 export default async function ExecutiveCandidatesPage() {
   const supabase = createClient();
   const { data: cards } = await supabase
@@ -18,7 +19,7 @@ export default async function ExecutiveCandidatesPage() {
         title="المرشحون"
         description="جميع المرشحين الذين اعتمدت لجنة الحوكمة بطاقاتهم القيادية. الترتيب بالدرجة الكلية."
         example="انقر على أي مرشح لرؤية بطاقته الكاملة: نقاط القوة، الفجوات، الملاءمة التنظيمية، التوصية."
-        icon={Users}
+        icon={<Users className="h-5 w-5" />}
       />
 
       {cards && cards.length > 0 ? (
@@ -83,7 +84,7 @@ export default async function ExecutiveCandidatesPage() {
         </div>
       ) : (
         <EmptyState
-          icon={Users}
+          icon={<Users className="h-5 w-5" />}
           title="لا توجد بطاقات معتمدة"
           description="ستظهر البطاقات هنا فور اعتماد لجنة الحوكمة."
         />

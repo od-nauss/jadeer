@@ -2,6 +2,7 @@ import { Bell } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
+export const dynamic = 'force-dynamic';
 export default async function ExecutiveAlertsPage() {
   const supabase = createClient();
   const { data: alerts } = await supabase
@@ -16,7 +17,7 @@ export default async function ExecutiveAlertsPage() {
       <PageHeader
         title="الإشعارات الذكية"
         description="جميع التنبيهات الموجهة للقيادة العليا. الأولوية حسب الأهمية."
-        icon={Bell}
+        icon={<Bell className="h-5 w-5" />}
       />
 
       {alerts && alerts.length > 0 ? (
@@ -53,7 +54,7 @@ export default async function ExecutiveAlertsPage() {
           </div>
         </Card>
       ) : (
-        <EmptyState icon={Bell} title="لا توجد إشعارات حالياً" description="ستظهر التنبيهات الذكية هنا تلقائياً." />
+        <EmptyState icon={<Bell className="h-5 w-5" />} title="لا توجد إشعارات حالياً" description="ستظهر التنبيهات الذكية هنا تلقائياً." />
       )}
     </div>
   );

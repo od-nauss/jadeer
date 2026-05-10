@@ -1,13 +1,14 @@
 import { ScrollText } from 'lucide-react';
 import { PageHeader, Card } from '@/components/ui';
 
+export const dynamic = 'force-dynamic';
 export default function AdvisorReportsPage() {
   return (
     <div>
       <PageHeader
         title="التقارير"
         description="تقارير قيادية مختصرة جاهزة للاطلاع. يمكنك تحميل أي تقرير PDF."
-        icon={ScrollText}
+        icon={<ScrollText className="h-5 w-5" />}
       />
 
       <div className="grid md:grid-cols-2 gap-3">

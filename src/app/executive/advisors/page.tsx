@@ -2,6 +2,7 @@ import { Users } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
+export const dynamic = 'force-dynamic';
 export default async function ExecutiveAdvisorsPage() {
   const supabase = createClient();
   const { data: advisors } = await supabase
@@ -16,7 +17,7 @@ export default async function ExecutiveAdvisorsPage() {
         title="المستشارون"
         description="قائمة المستشارين الذين منحتهم صلاحية الاطلاع على البطاقات القيادية. كل صلاحية موثقة في سجل التدقيق."
         example="المستشار يرى البطاقات والتقارير لكنه لا يستطيع تعديل أي قرار."
-        icon={Users}
+        icon={<Users className="h-5 w-5" />}
       />
 
       {advisors && advisors.length > 0 ? (
@@ -40,7 +41,7 @@ export default async function ExecutiveAdvisorsPage() {
           </div>
         </Card>
       ) : (
-        <EmptyState icon={Users} title="لا يوجد مستشارون مضافون" description="تواصل مع مدير النظام لإضافة مستشار." />
+        <EmptyState icon={<Users className="h-5 w-5" />} title="لا يوجد مستشارون مضافون" description="تواصل مع مدير النظام لإضافة مستشار." />
       )}
     </div>
   );

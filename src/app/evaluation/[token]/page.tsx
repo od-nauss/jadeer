@@ -3,6 +3,7 @@ import { createServiceClient } from '@/lib/supabase/server';
 import { UniversityLogo } from '@/components/branding/Logo';
 import { EvaluationForm } from './evaluation-form';
 
+export const dynamic = 'force-dynamic';
 export default async function EvaluationPage({
   params,
 }: {

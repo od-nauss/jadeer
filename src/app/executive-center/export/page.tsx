@@ -1,5 +1,6 @@
 import { FileText, Download, Share2 } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
 const EXPORT_OPTIONS = [
   { title: 'تصدير نسخة PDF كاملة من العرض التنفيذي', desc: 'كافة الأقسام في مستند واحد قابل للمشاركة' },
   { title: 'تصدير ملخص قيادي مختصر', desc: '5 صفحات تركز على الفكرة والقيمة والقرار المطلوب' },

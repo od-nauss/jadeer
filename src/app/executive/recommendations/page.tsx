@@ -3,6 +3,7 @@ import { TrendingUp, ArrowLeft, Award, AlertTriangle, Eye } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, EmptyState } from '@/components/ui';
 
+export const dynamic = 'force-dynamic';
 export default async function ExecutiveRecommendationsPage() {
   const supabase = createClient();
 
@@ -67,7 +68,7 @@ export default async function ExecutiveRecommendationsPage() {
       <PageHeader
         title="توصيات النظام"
         description="ما تقترحه المنصة بناءً على تحليل البطاقات. هذه التوصيات أداة دعم قرار، ولا تستبدل القرار القيادي."
-        icon={TrendingUp}
+        icon={<TrendingUp className="h-5 w-5" />}
       />
 
       <div className="space-y-6">

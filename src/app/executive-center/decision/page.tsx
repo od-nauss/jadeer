@@ -1,6 +1,7 @@
 import { Award, CheckCircle2, FileSignature } from 'lucide-react';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
 const APPROVALS = [
   {
     title: 'اعتماد منصة جدير كمنصة مؤسسية',

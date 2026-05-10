@@ -34,7 +34,7 @@ export async function DashboardLayout({
 
       <div className="md:mr-72">
         <Topbar
-          fullName={user.fullName}
+          fullName={user.full_name}
           email={user.email}
           role={displayRole}
           isAdmin={user.isAdmin}

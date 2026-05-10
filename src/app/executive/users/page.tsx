@@ -2,6 +2,7 @@ import { Users } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge } from '@/components/ui';
 
+export const dynamic = 'force-dynamic';
 export default async function ExecutiveUsersPage() {
   const supabase = createClient();
   const { data: users } = await supabase
@@ -14,7 +15,7 @@ export default async function ExecutiveUsersPage() {
       <PageHeader
         title="مستخدمو المنصة"
         description="عرض جميع مستخدمي المنصة. يمكنك مراقبة من يستخدم النظام وأدوارهم."
-        icon={Users}
+        icon={<Users className="h-5 w-5" />}
       />
 
       <Card>

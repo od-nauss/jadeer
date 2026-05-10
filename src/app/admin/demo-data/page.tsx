@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge } from '@/components/ui';
 import { DemoDataActions } from './demo-actions';
 
+export const dynamic = 'force-dynamic';
 export default async function AdminDemoDataPage() {
   const supabase = createClient();
 
@@ -24,7 +25,7 @@ export default async function AdminDemoDataPage() {
         title="إدارة البيانات التجريبية"
         description="عرض ومتابعة البيانات التجريبية في المنصة. تستطيع حذف كامل البيانات التجريبية بنقرة واحدة بعد تأكيد مزدوج."
         example="عند الانتقال للإنتاج، احذف البيانات التجريبية لتبدأ بنظام نظيف."
-        icon={Database}
+        icon={<Database className="h-5 w-5" />}
       />
 
       <Card title="ملخص البيانات التجريبية" subtitle="جميع السجلات المعلّمة كبيانات تجريبية">

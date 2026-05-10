@@ -12,6 +12,8 @@ import {
   Brain,
 } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 const QUICK_LINKS = [
   { href: '/executive-center/why', label: 'لماذا نحتاج المنصة؟', icon: Target },
   { href: '/executive-center/how-it-works', label: 'كيف تعمل المنصة؟', icon: Brain },

@@ -2,6 +2,7 @@ import { Trophy } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
+export const dynamic = 'force-dynamic';
 export default async function AdminCompetitionsPage() {
   const supabase = createClient();
   const { data: competitions } = await supabase
@@ -15,7 +16,7 @@ export default async function AdminCompetitionsPage() {
         title="المسابقات الوظيفية"
         description="عرض جميع المسابقات الوظيفية في المنظمة وحالتها. المسابقة قناة منظمة لاكتشاف الكفاءات لشاغر محدد."
         example="مسابقة لشاغر 'مدير إدارة العمليات' تُفتح للموظفين ذوي الجاهزية 75%+ في تصنيف 'قائد تشغيلي'."
-        icon={Trophy}
+        icon={<Trophy className="h-5 w-5" />}
       />
 
       {competitions && competitions.length > 0 ? (
@@ -45,7 +46,7 @@ export default async function AdminCompetitionsPage() {
         </div>
       ) : (
         <EmptyState
-          icon={Trophy}
+          icon={<Trophy className="h-5 w-5" />}
           title="لا توجد مسابقات حالياً"
           description="ستظهر هنا المسابقات الوظيفية عند إنشائها."
         />

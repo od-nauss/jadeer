@@ -16,6 +16,8 @@ import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { PageHeader, Card } from '@/components/ui';
 
+export const dynamic = 'force-dynamic';
+
 export default async function CandidateDashboard() {
   const user = await getCurrentUser();
   if (!user) return null;
@@ -63,7 +65,7 @@ export default async function CandidateDashboard() {
         title={`مرحباً ${user.full_name?.split(' ')[0] || ''}`}
         description="هذه رحلتك في مسار الجاهزية القيادية. اكمل المراحل بترتيبها لتحصل على بطاقتك القيادية المعتمدة من لجنة الحوكمة."
         example="ابدأ بإكمال الملف القيادي، ثم انتقل للمبادرات والمؤشرات، فالاختبارات، ثم اقترح دائرة الثقة."
-        icon={Sparkles}
+        icon={<Sparkles className="h-5 w-5" />}
       />
 
       {/* مؤشر التقدم العام */}

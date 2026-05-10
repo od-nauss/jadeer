@@ -2,6 +2,7 @@ import { FileText, Activity } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
+export const dynamic = 'force-dynamic';
 const TRACK_LABELS: Record<string, string> = {
   individual: 'تقييم فردي',
   competition: 'مسابقة وظيفية',
@@ -21,7 +22,7 @@ export default async function HREvaluationTracksPage() {
       <PageHeader
         title="مسارات التقييم"
         description="جميع المرشحين موزعين على مساراتهم: فردي، مسابقة، تعاقب، تطوير. كل مسار له معاييره."
-        icon={FileText}
+        icon={<FileText className="h-5 w-5" />}
       />
 
       {profiles && profiles.length > 0 ? (
@@ -61,7 +62,7 @@ export default async function HREvaluationTracksPage() {
           </div>
         </Card>
       ) : (
-        <EmptyState icon={FileText} title="لا توجد ملفات" description="ستظهر المسارات هنا." />
+        <EmptyState icon={<FileText className="h-5 w-5" />} title="لا توجد ملفات" description="ستظهر المسارات هنا." />
       )}
     </div>
   );

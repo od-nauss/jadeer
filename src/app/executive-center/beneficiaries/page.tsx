@@ -1,5 +1,6 @@
 import { Users, Building2, Briefcase, ShieldCheck, GraduationCap } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
 const BENEFICIARIES = [
   {
     icon: Briefcase,

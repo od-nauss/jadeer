@@ -2,6 +2,7 @@ import { Users } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
+export const dynamic = 'force-dynamic';
 export default async function HRCandidatesPage() {
   const supabase = createClient();
   const { data: profiles } = await supabase
@@ -14,7 +15,7 @@ export default async function HRCandidatesPage() {
       <PageHeader
         title="المرشحون"
         description="جميع المرشحين في المنصة. يمكنك متابعة حالة كل مرشح واكتمال ملفه."
-        icon={Users}
+        icon={<Users className="h-5 w-5" />}
       />
 
       {profiles && profiles.length > 0 ? (
@@ -61,7 +62,7 @@ export default async function HRCandidatesPage() {
           </div>
         </Card>
       ) : (
-        <EmptyState icon={Users} title="لا يوجد مرشحون" description="ستظهر المرشحين هنا فور تسجيلهم." />
+        <EmptyState icon={<Users className="h-5 w-5" />} title="لا يوجد مرشحون" description="ستظهر المرشحين هنا فور تسجيلهم." />
       )}
     </div>
   );

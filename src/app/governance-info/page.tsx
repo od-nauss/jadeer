@@ -1,6 +1,7 @@
 import { ShieldCheck, CheckCircle2, Users, Lock, FileText, AlertTriangle } from 'lucide-react';
 import { PublicHeader, PublicFooter } from '@/components/layout/PublicLayout';
 
+export const dynamic = 'force-dynamic';
 export default function GovernanceInfoPage() {
   return (
     <div className="min-h-screen bg-ivory">

@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { PageHeader, Card } from '@/components/ui';
 
+export const dynamic = 'force-dynamic';
 export default async function CandidateProfilePage() {
   const user = await getCurrentUser();
   if (!user) return null;
@@ -20,7 +21,7 @@ export default async function CandidateProfilePage() {
         title="الملف القيادي"
         description="هذه البيانات الأساسية ستكون محور تقييمك. كن دقيقاً وشفافاً، فكل بيان قد يطلب التحقق منه."
         example="في خانة 'الخبرات السابقة'، اذكر المسمى الوظيفي والمدة والإنجازات الأبرز، ولا تتجاهل أصغر الأدوار التي طوّرت قيادتك."
-        icon={User}
+        icon={<User className="h-5 w-5" />}
       />
 
       <Card>

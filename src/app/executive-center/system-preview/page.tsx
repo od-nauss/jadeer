@@ -1,5 +1,6 @@
 import { Monitor, LayoutDashboard, FileText, Activity, Users, Award, Map, Target } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
 const SCREENS = [
   {
     icon: LayoutDashboard,

@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { PageHeader, StatCard, Card } from '@/components/ui';
 import { READINESS_LEVELS } from '@/lib/utils';
 
+export const dynamic = 'force-dynamic';
 export default async function ExecutiveDashboard() {
   const supabase = createClient();
 
@@ -38,17 +39,17 @@ export default async function ExecutiveDashboard() {
         title="لوحة القيادة العليا"
         description="نظرة شاملة على جاهزية الكفاءات في المنظمة. هذه اللوحة تساعدك على رؤية الكفاءات الجاهزة، الواعدة، والمخفية بنظرة واحدة."
         example="انقر على 'بطاقات المرشحين' لرؤية البطاقات الكاملة المعتمدة من لجنة الحوكمة."
-        icon={LayoutDashboard}
+        icon={<LayoutDashboard className="h-5 w-5" />}
       />
 
       {/* المؤشرات */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
-        <StatCard label="جاهز الآن" value={readyNow.count || 0} icon={Award} variant="sage" />
-        <StatCard label="جاهز خلال سنة" value={withinYear.count || 0} icon={TrendingUp} variant="gold" />
-        <StatCard label="واعد" value={promising.count || 0} icon={TrendingUp} variant="steelblue" />
-        <StatCard label="قيادة مخفية" value={hidden.count || 0} icon={Eye} variant="primary" />
-        <StatCard label="إنجاز عالٍ / رضا منخفض" value={lowSatisfaction.count || 0} icon={AlertTriangle} variant="wine" />
-        <StatCard label="إجمالي المرشحين" value={totalCandidates.count || 0} icon={Users} variant="primary" />
+        <StatCard label="جاهز الآن" value={readyNow.count || 0} icon={<Award className="h-5 w-5" />} variant="sage" />
+        <StatCard label="جاهز خلال سنة" value={withinYear.count || 0} icon={<TrendingUp className="h-5 w-5" />} variant="gold" />
+        <StatCard label="واعد" value={promising.count || 0} icon={<TrendingUp className="h-5 w-5" />} variant="steelblue" />
+        <StatCard label="قيادة مخفية" value={hidden.count || 0} icon={<Eye className="h-5 w-5" />} variant="primary" />
+        <StatCard label="إنجاز عالٍ / رضا منخفض" value={lowSatisfaction.count || 0} icon={<AlertTriangle className="h-5 w-5" />} variant="wine" />
+        <StatCard label="إجمالي المرشحين" value={totalCandidates.count || 0} icon={<Users className="h-5 w-5" />} variant="primary" />
       </div>
 
       {/* أبرز المرشحين */}

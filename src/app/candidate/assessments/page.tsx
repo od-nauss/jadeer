@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
+export const dynamic = 'force-dynamic';
 export default async function CandidateAssessmentsPage() {
   const user = await getCurrentUser();
   if (!user) return null;
@@ -29,7 +30,7 @@ export default async function CandidateAssessmentsPage() {
         title="الاختبارات الذكية"
         description="ثمانية اختبارات تكشف جوانب مختلفة من قدراتك القيادية. خذ وقتك في كل اختبار واجب بصدق - الإجابات الصحيحة هي الإجابات الواقعية."
         example="بعض الاختبارات سيناريوهات قصيرة تختار منها أنسب رد قيادي. لا توجد إجابات صحيحة تماماً، فقط إجابات تعكس نمطك القيادي."
-        icon={ClipboardCheck}
+        icon={<ClipboardCheck className="h-5 w-5" />}
       />
 
       {assessmentsRes.data && assessmentsRes.data.length > 0 ? (
@@ -77,7 +78,7 @@ export default async function CandidateAssessmentsPage() {
         </div>
       ) : (
         <EmptyState
-          icon={ClipboardCheck}
+          icon={<ClipboardCheck className="h-5 w-5" />}
           title="لا توجد اختبارات حالياً"
           description="ستظهر الاختبارات هنا بعد إعداد المنصة."
         />

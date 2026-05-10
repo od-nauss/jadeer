@@ -2,6 +2,7 @@ import { Bell } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
+export const dynamic = 'force-dynamic';
 export default async function HRNotificationsPage() {
   const supabase = createClient();
   const { data: notifications } = await supabase
@@ -16,7 +17,7 @@ export default async function HRNotificationsPage() {
       <PageHeader
         title="الإشعارات"
         description="جميع التنبيهات الموجهة للموارد البشرية."
-        icon={Bell}
+        icon={<Bell className="h-5 w-5" />}
       />
 
       {notifications && notifications.length > 0 ? (
@@ -42,7 +43,7 @@ export default async function HRNotificationsPage() {
           </div>
         </Card>
       ) : (
-        <EmptyState icon={Bell} title="لا إشعارات" description="ستظهر الإشعارات هنا تلقائياً." />
+        <EmptyState icon={<Bell className="h-5 w-5" />} title="لا إشعارات" description="ستظهر الإشعارات هنا تلقائياً." />
       )}
     </div>
   );

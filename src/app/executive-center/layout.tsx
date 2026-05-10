@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowLeft, ChevronLeft } from 'lucide-react';
 import { UniversityLogo } from '@/components/branding/Logo';
 
+export const dynamic = 'force-dynamic';
 const EXEC_PAGES = [
   { slug: 'overview', title: 'نظرة عامة' },
   { slug: 'why', title: 'لماذا نحتاج المنصة' },

@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 const AXES = [
   { name: 'القيادة والتأثير', weight: 20, color: 'bg-gold-500' },
   { name: 'التفكير الاستراتيجي', weight: 15, color: 'bg-primary-400' },

@@ -15,6 +15,8 @@ import { createClient } from '@/lib/supabase/server';
 import { Card, Badge } from '@/components/ui';
 import { READINESS_LEVELS, leadershipTypeLabel } from '@/lib/utils';
 
+export const dynamic = 'force-dynamic';
+
 export default async function LeadershipCardDetailPage({
   params,
 }: {

@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 
+export const dynamic = 'force-dynamic';
 const ALLOWED_ROLES = ['admin', 'president', 'governance', 'hr', 'advisor'];
 
 export default async function OrganizationLayout({

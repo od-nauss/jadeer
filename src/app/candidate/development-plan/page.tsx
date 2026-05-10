@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
+export const dynamic = 'force-dynamic';
 export default async function CandidateDevelopmentPlanPage() {
   const user = await getCurrentUser();
   if (!user) return null;
@@ -34,7 +35,7 @@ export default async function CandidateDevelopmentPlanPage() {
         title="خطة التطوير الفردية"
         description="خطة مولّدة من المنصة بناءً على فجواتك في البطاقة القيادية، تراجعها الموارد البشرية وتعتمدها اللجنة. تابع تنفيذها بانتظام."
         example="إذا كانت فجوتك 'إدارة الأزمات'، ستجد هنا برنامج 'القيادة في الأزمات' مع مدة 8 أسابيع وأولوية عالية."
-        icon={Target}
+        icon={<Target className="h-5 w-5" />}
       />
 
       {!plan ? (
@@ -88,7 +89,7 @@ export default async function CandidateDevelopmentPlanPage() {
             </div>
           ) : (
             <EmptyState
-              icon={Target}
+              icon={<Target className="h-5 w-5" />}
               title="الخطة لا تحتوي على بنود بعد"
               description="ستضاف بنود التطوير من فريق الموارد البشرية."
             />

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ShieldAlert, ArrowLeft } from 'lucide-react';
 import { UniversityLogo } from '@/components/branding/Logo';
 
+export const dynamic = 'force-dynamic';
 export default function UnauthorizedPage() {
   return (
     <div className="min-h-screen institutional-bg flex items-center justify-center px-4">

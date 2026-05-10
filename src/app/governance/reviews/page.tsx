@@ -3,6 +3,7 @@ import { FileSearch, ArrowLeft } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
+export const dynamic = 'force-dynamic';
 export default async function GovernanceReviewsPage() {
   const supabase = createClient();
   const { data: profiles } = await supabase
@@ -17,7 +18,7 @@ export default async function GovernanceReviewsPage() {
         title="الملفات بانتظار المراجعة"
         description="جميع الملفات المرسلة من المرشحين والتي تنتظر مراجعة لجنة الحوكمة. الترتيب حسب الأقدمية لضمان العدالة في الانتظار."
         example="انقر على أي ملف لرؤية كل بياناته (الملف، المبادرات، المؤشرات، الاختبارات، 360) واتخاذ قرار."
-        icon={FileSearch}
+        icon={<FileSearch className="h-5 w-5" />}
       />
 
       {profiles && profiles.length > 0 ? (
@@ -59,7 +60,7 @@ export default async function GovernanceReviewsPage() {
         </Card>
       ) : (
         <EmptyState
-          icon={FileSearch}
+          icon={<FileSearch className="h-5 w-5" />}
           title="لا توجد ملفات بانتظار المراجعة"
           description="ستظهر هنا الملفات فور إرسالها من المرشحين."
         />

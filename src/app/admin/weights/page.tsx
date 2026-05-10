@@ -2,6 +2,7 @@ import { Sliders, Info } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge } from '@/components/ui';
 
+export const dynamic = 'force-dynamic';
 export default async function AdminWeightsPage() {
   const supabase = createClient();
 
@@ -31,7 +32,7 @@ export default async function AdminWeightsPage() {
         title="أوزان التقييم"
         description="محاور التقييم السبعة بأوزانها الافتراضية. مجموع الأوزان يجب أن يساوي 100% دائماً."
         example="يمكنك تعديل الأوزان لكل وحدة تنظيمية على حدة. فمثلاً وحدة تشغيلية يمكن أن ترفع وزن 'الأداء والإنجاز' وتقلل 'التفكير الاستراتيجي'."
-        icon={Sliders}
+        icon={<Sliders className="h-5 w-5" />}
       />
 
       <Card>

@@ -1,5 +1,6 @@
 import { Bell, AlertTriangle, TrendingUp, Eye } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
 const ALERTS = [
   {
     type: 'مرشح تجاوز 85٪',

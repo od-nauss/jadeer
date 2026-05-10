@@ -3,6 +3,7 @@ import { Eye, Users, FileText, ArrowLeft, ScrollText } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, StatCard } from '@/components/ui';
 
+export const dynamic = 'force-dynamic';
 export default async function AdvisorDashboard() {
   const supabase = createClient();
   const [cards, hidden, ready] = await Promise.all([
@@ -17,13 +18,13 @@ export default async function AdvisorDashboard() {
         title="لوحة المستشار"
         description="عرض البطاقات القيادية المعتمدة. صلاحيتك للقراءة فقط، ولا يمكنك تعديل أي قرار. كل اطلاع يُسجَّل."
         example="استخدم 'الملاحظات' لتدوين تحليلاتك ومشاركتها مع الرئيس عند طلبه."
-        icon={Eye}
+        icon={<Eye className="h-5 w-5" />}
       />
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-8">
-        <StatCard label="بطاقات معتمدة" value={cards.count || 0} icon={FileText} variant="primary" />
-        <StatCard label="جاهز الآن" value={ready.count || 0} icon={Users} variant="sage" />
-        <StatCard label="قيادات مخفية" value={hidden.count || 0} icon={Eye} variant="gold" />
+        <StatCard label="بطاقات معتمدة" value={cards.count || 0} icon={<FileText className="h-5 w-5" />} variant="primary" />
+        <StatCard label="جاهز الآن" value={ready.count || 0} icon={<Users className="h-5 w-5" />} variant="sage" />
+        <StatCard label="قيادات مخفية" value={hidden.count || 0} icon={<Eye className="h-5 w-5" />} variant="gold" />
       </div>
 
       <Card title="وصول سريع">

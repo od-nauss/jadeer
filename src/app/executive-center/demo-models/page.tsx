@@ -1,5 +1,6 @@
 import { AlertTriangle } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
 const MODELS = [
   {
     name: 'سعد الحارثي',

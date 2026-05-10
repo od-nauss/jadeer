@@ -2,6 +2,7 @@ import { Target, Users, ShieldCheck, TrendingUp } from 'lucide-react';
 import { PublicHeader, PublicFooter } from '@/components/layout/PublicLayout';
 import { UniversityLogo } from '@/components/branding/Logo';
 
+export const dynamic = 'force-dynamic';
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-ivory">

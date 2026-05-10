@@ -2,6 +2,7 @@ import { Shield } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge } from '@/components/ui';
 
+export const dynamic = 'force-dynamic';
 export default async function AdminRolesPage() {
   const supabase = createClient();
   const { data: roles } = await supabase.from('roles').select('*').order('code');
@@ -11,7 +12,7 @@ export default async function AdminRolesPage() {
       <PageHeader
         title="الأدوار والصلاحيات"
         description="عرض وإدارة الأدوار الستة الأساسية في منصة جدير وصلاحيات كل دور."
-        icon={Shield}
+        icon={<Shield className="h-5 w-5" />}
       />
 
       <div className="grid md:grid-cols-2 gap-4">
