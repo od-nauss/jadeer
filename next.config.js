@@ -7,9 +7,6 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  experimental: {
-    staticGenerationTimeout: 1000,
-  },
   images: {
     remotePatterns: [
       {

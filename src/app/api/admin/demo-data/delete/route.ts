@@ -72,14 +72,14 @@ export async function POST() {
 
     // سجل التدقيق
     await logAudit({
-      operation_type: 'demo_data_deleted',
+      operationType: 'demo_data_deleted',
       description: `حذف البيانات التجريبية بالكامل (${Object.values(stats).reduce(
         (a, b) => a + b,
         0
       )} سجل)`,
       sensitivity: 'critical',
-      affected_entity: 'system',
-      metadata: stats,
+      affectedEntityType: 'system',
+      newValue: stats,
     });
 
     return NextResponse.json({ success: true, stats });
