@@ -48,8 +48,9 @@ export async function updateSession(request: NextRequest) {
     '/governance', '/hr', '/candidate', '/organization',
   ];
 
+  // Use exact segment matching to avoid /executive matching /executive-center
   const isProtectedPath = protectedPaths.some((path) =>
-    pathname.startsWith(path)
+    pathname === path || pathname.startsWith(path + '/')
   );
 
   if (isProtectedPath && !user) {

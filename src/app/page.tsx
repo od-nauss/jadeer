@@ -157,10 +157,10 @@ export default async function HomePage() {
           <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-primary-500/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
         </div>
 
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center">
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16 md:pt-14 md:pb-24 text-center">
           {/* شعار الجامعة */}
-          <div className="flex justify-center mb-8">
-            <UniversityLogo size="lg" />
+          <div className="flex justify-center mb-5">
+            <UniversityLogo size="md" />
           </div>
 
           {/* اسم المنصة */}
