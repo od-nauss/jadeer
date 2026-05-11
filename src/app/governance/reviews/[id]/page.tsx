@@ -111,11 +111,11 @@ export default async function GovernanceReviewDetailPage({
           {assessments.data && assessments.data.length > 0 ? (
             <div className="space-y-2">
               {assessments.data.map((a) => {
-                type AT = { assessments: { name: string } };
+                type AT = { assessments: { title: string } };
                 const at = a as unknown as AT;
                 return (
                   <div key={a.id} className="bg-gold-50 p-3 rounded-lg text-sm flex justify-between">
-                    <span className="text-primary-700">{at.assessments?.name}</span>
+                    <span className="text-primary-700">{at.assessments?.title}</span>
                     <span className="font-bold text-gold-700">{Number(a.score).toFixed(0)}%</span>
                   </div>
                 );
