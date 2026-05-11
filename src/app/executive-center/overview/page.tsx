@@ -93,20 +93,52 @@ export default function ExecutiveOverview() {
         </div>
       </section>
 
-      {/* الأرقام */}
-      <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {[
-          { value: '7',    label: 'محاور تقييم',         sub: 'بأوزان مختلفة' },
-          { value: '15',   label: 'مقيّماً في الـ 360°', sub: 'معتمدون من اللجنة' },
-          { value: '9',    label: 'مصادر بيانات',         sub: 'تُغذّي التحليل' },
-          { value: '100%', label: 'شفافية',               sub: 'كل قرار موثق' },
-        ].map((stat) => (
-          <div key={stat.label} className="bg-gradient-to-br from-gold-500/10 to-transparent border border-gold-400/20 rounded-2xl p-5 text-center">
-            <div className="text-4xl font-bold text-gold-400 mb-1">{stat.value}</div>
-            <div className="font-bold text-white text-sm">{stat.label}</div>
-            <div className="text-xs text-white/50 mt-1">{stat.sub}</div>
-          </div>
-        ))}
+      {/* الأرقام — منهجية المنصة */}
+      <section>
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-bold text-white mb-1">منهجية التقييم في أرقام</h2>
+          <p className="text-white/50 text-sm">حتى لو لم يوجد أي مرشح مسجل — هذه منهجية النظام</p>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { value: '7',    label: 'محاور تقييم',          sub: 'بأوزان مدروسة قابلة للتعديل', color: 'text-gold-400' },
+            { value: '15',   label: 'مقيّماً يقترحهم الموظف', sub: 'اللجنة تعتمد 7–10 منهم',      color: 'text-primary-300' },
+            { value: '9',    label: 'مصادر بيانات',          sub: 'تُغذّي التحليل الذكي',         color: 'text-sage' },
+            { value: '60٪',  label: 'حد أدنى من اللجنة',     sub: 'من مجموع المقيمين المعتمدين',  color: 'text-amber-300' },
+          ].map((stat) => (
+            <div key={stat.label} className="bg-gradient-to-br from-gold-500/10 to-transparent border border-gold-400/20 rounded-2xl p-5 text-center">
+              <div className={`text-4xl font-bold mb-1 ${stat.color}`}>{stat.value}</div>
+              <div className="font-bold text-white text-sm">{stat.label}</div>
+              <div className="text-xs text-white/50 mt-1">{stat.sub}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* بطاقات التصنيفات التجريبية */}
+      <section className="bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div className="text-center mb-5">
+          <h2 className="text-xl font-bold text-white mb-1">مخرجات نموذجية من المنصة</h2>
+          <p className="text-white/50 text-xs">أمثلة توضيحية — المنصة تنتج هذه التصنيفات بشكل آلي لكل مرشح</p>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {[
+            { label: 'جاهز الآن للقيادة',        color: 'text-sage',       bg: 'bg-sage/10',          count: '1', icon: '🏆' },
+            { label: 'جاهز خلال سنة',            color: 'text-primary-300', bg: 'bg-primary-300/10',   count: '1', icon: '📈' },
+            { label: 'قائد إنساني',               color: 'text-steelblue',  bg: 'bg-steelblue/10',     count: '1', icon: '🤝' },
+            { label: 'أداء عالٍ / رضا منخفض',    color: 'text-amber-300',  bg: 'bg-amber-300/10',     count: '1', icon: '⚠️' },
+            { label: 'قيادة مخفية محتملة',        color: 'text-purple-300', bg: 'bg-purple-300/10',    count: '1', icon: '🔍' },
+            { label: 'قائد تقني واعد',            color: 'text-gold-300',   bg: 'bg-gold-300/10',      count: '1', icon: '💡' },
+            { label: 'متخصص جيد / ليس للقيادة',  color: 'text-white/60',   bg: 'bg-white/5',          count: '1', icon: '🎯' },
+            { label: 'قائد استراتيجي',            color: 'text-gold-400',   bg: 'bg-gold-400/10',      count: '1', icon: '🌟' },
+          ].map((item) => (
+            <div key={item.label} className={`${item.bg} border border-white/10 rounded-xl p-3 text-center`}>
+              <div className="text-2xl mb-1">{item.icon}</div>
+              <div className={`text-2xl font-bold ${item.color} mb-1`}>{item.count}</div>
+              <div className="text-xs text-white/60 leading-tight">{item.label}</div>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* CTA */}

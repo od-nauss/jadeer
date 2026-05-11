@@ -7,25 +7,24 @@ import { UniversityLogo } from '@/components/branding/Logo';
 export const dynamic = 'force-dynamic';
 
 const EXEC_PAGES = [
-  // المرحلة الأولى — الشد
+  // المرحلة الأولى — الرؤية
   { slug: 'overview',          title: '١ · نظرة عامة' },
-  { slug: 'why',               title: '٢ · لماذا جدير' },
-  { slug: 'urgency',           title: '٣ · البطاقة القيادية' },
-  { slug: 'organization-fit',  title: '٤ · الخريطة التنظيمية' },
-  // المرحلة الثانية — الكيف
-  { slug: 'methodology',       title: '٥ · آلية الاحتساب' },
-  { slug: 'smart-alerts',      title: '٦ · الذكاء الاصطناعي' },
+  { slug: 'why',               title: '٢ · لماذا نحتاجها؟' },
+  { slug: 'beneficiaries',     title: '٣ · من المستفيد؟' },
+  // المرحلة الثانية — المنهجية
+  { slug: 'how-it-works',      title: '٤ · كيف تعمل؟' },
+  { slug: 'methodology',       title: '٥ · منهجية التقييم' },
+  { slug: 'anti-bias',         title: '٦ · منع التحيز' },
+  // المرحلة الثالثة — الإثبات
   { slug: 'system-preview',    title: '٧ · لقطات النظام' },
-  // المرحلة الثالثة — المسار
-  { slug: 'how-it-works',      title: '٨ · كيف تعمل المنصة' },
-  { slug: 'demo-models',       title: '٩ · النماذج التجريبية' },
-  { slug: 'critical-points',   title: '١٠ · خطة التطوير' },
-  // المرحلة الرابعة — الضمانات
-  { slug: 'beneficiaries',     title: '١١ · المستفيدون' },
-  { slug: 'anti-bias',         title: '١٢ · الحوكمة والعدالة' },
-  { slug: 'faq-leadership',    title: '١٣ · الأسئلة المتوقعة' },
+  { slug: 'critical-points',   title: '٨ · النقاط الحرجة' },
+  { slug: 'smart-alerts',      title: '٩ · التنبيهات الذكية' },
+  { slug: 'organization-fit',  title: '١٠ · الملاءمة التنظيمية' },
+  { slug: 'demo-models',       title: '١١ · النماذج التجريبية' },
   // الخاتمة
-  { slug: 'decision',          title: '١٤ · القرار المطلوب' },
+  { slug: 'urgency',           title: '١٢ · القيمة العاجلة' },
+  { slug: 'faq-leadership',    title: '١٣ · أسئلة القيادة' },
+  { slug: 'decision',          title: '١٤ · من الفكرة للتنفيذ' },
   { slug: 'export',            title: '١٥ · تصدير العرض' },
 ];
 
@@ -34,12 +33,15 @@ export default function ExecutiveCenterLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const cookieStore = cookies();
-  const access = cookieStore.get('executive_center_access');
+  // إيقاف كلمة المرور مؤقتاً: أضف EXEC_CENTER_NO_PASSWORD=true في .env.local
+  const bypassEnabled = process.env.EXEC_CENTER_NO_PASSWORD === 'true';
 
-  // Redirect to the standalone access page (outside this layout)
-  if (!access || access.value !== 'granted') {
-    redirect('/exec-access');
+  if (!bypassEnabled) {
+    const cookieStore = cookies();
+    const access = cookieStore.get('executive_center_access');
+    if (!access || access.value !== 'granted') {
+      redirect('/exec-access');
+    }
   }
 
   return (

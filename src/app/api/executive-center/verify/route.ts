@@ -11,6 +11,13 @@ export async function POST(request: NextRequest) {
     }
 
     // الكلمة الافتراضية: 1170 (من متغيرات البيئة)
+    // إذا كان الوضع التجريبي مفعلاً، ادخل دون كلمة مرور
+    if (process.env.EXEC_CENTER_NO_PASSWORD === 'true') {
+      const cookieStore = cookies();
+      cookieStore.set('executive_center_access', 'granted', { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'lax', maxAge: 60 * 60 * 24, path: '/' });
+      return NextResponse.json({ success: true });
+    }
+
     const defaultCode = process.env.EXECUTIVE_CENTER_DEFAULT_CODE || '1170';
 
     let isValid = false;

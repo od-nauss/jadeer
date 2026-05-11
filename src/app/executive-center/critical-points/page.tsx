@@ -1,222 +1,186 @@
-import Link from 'next/link';
-import { TrendingUp, Target, CheckCircle2, Calendar, ChevronLeft, Brain, Users } from 'lucide-react';
+import { Shield, Eye, Brain, AlertTriangle, CheckCircle2, Lock, TrendingUp, Users, FileSearch, Award, Bell, Scale } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
-export default function DevelopmentPlanPage() {
-  return (
-    <div className="space-y-16 max-w-5xl mx-auto" dir="rtl">
+const CRITICAL_POINTS = [
+  {
+    icon: Shield,
+    color: 'text-gold-400',
+    bg: 'bg-gold-400/10',
+    title: 'دائرة الثقة القيادية',
+    what: 'آلية هيكلية تضمن أن تقييم 360° يأتي من مقيمين متنوعين ومعتمدين، لا من اختيار فردي.',
+    why: 'التقييم من دائرة المعارف فقط يؤدي إلى نتائج مشوهة وقابلة للتلاعب.',
+    risk: 'دون هذه الآلية: المقيمون يصبحون أصدقاء وليس شهوداً موضوعيين.',
+    solution: 'الموظف يقترح 15، اللجنة تعتمد 7–10، وتحدد 60٪ على الأقل من المقيمين.',
+  },
+  {
+    icon: Lock,
+    color: 'text-primary-300',
+    bg: 'bg-primary-300/10',
+    title: 'روابط التقييم الذكية المؤمنة',
+    what: 'كل مقيم يحصل على رابط مخصص، يستخدم مرة واحدة، مرتبط بهويته وعلاقته بالمرشح.',
+    why: 'لمنع إرسال الرابط لشخص آخر أو التقييم المتعدد من نفس الشخص.',
+    risk: 'دون هذا: يمكن للمرشح التحكم في من يملأ التقييم فعلياً.',
+    solution: 'المنصة تسجل وقت الفتح والجهاز وعنوان IP، وتعرض أي حالة مشبوهة للجنة.',
+  },
+  {
+    icon: Eye,
+    color: 'text-steelblue',
+    bg: 'bg-steelblue/10',
+    title: 'كشف التقييمات المتطرفة والتحيز',
+    what: 'المنصة تحلل توزيع الدرجات وتكشف تلقائياً أي مقيم يعطي درجات استثنائية غير مبررة.',
+    why: 'المجاملة والانتقام موجودان في أي بيئة بشرية — المنصة تراهما قبل أن يؤثرا.',
+    risk: 'دون هذا: تقييم واحد مشوه يمكن أن يغير النتيجة كلياً.',
+    solution: 'مؤشرات التحيز تعرض للجنة مع توصية باستبعاد مقيم أو إعادة التقييم.',
+  },
+  {
+    icon: AlertTriangle,
+    color: 'text-amber-300',
+    bg: 'bg-amber-400/10',
+    title: 'رصد الأداء العالي مع رضا منخفض',
+    what: 'المنصة تكشف النمط الخطير: موظف ينجز استثنائياً لكن فريقه يعاني في صمت.',
+    why: 'الأداء الرقمي المرتفع يخفي أحياناً إشكالية إنسانية أعمق تهدد تماسك الفريق.',
+    risk: 'دون هذا: يُكلَّف شخص في موقع قيادي ويفقد المنصة أعداداً من الموظفين.',
+    solution: 'تصنيف خاص "أداء عالٍ / رضا منخفض" مع توصية بتطوير إدارة الفريق قبل التكليف.',
+  },
+  {
+    icon: Brain,
+    color: 'text-purple-300',
+    bg: 'bg-purple-400/10',
+    title: 'كشف القيادة المخفية',
+    what: 'تحليل الأنماط عبر المبادرات وتقييم الزملاء والأثر الفعلي — لا المنصب الرسمي.',
+    why: 'كثير من القادة الحقيقيين لا يصلون للمشهد بسبب ضعف الحضور الإداري لا ضعف القدرة.',
+    risk: 'دون هذا: تخسر المنظمة كفاءات استثنائية غير مرئية.',
+    solution: 'علامة "قيادة مخفية محتملة" تُرفع للرئيس مع ملخص الأدلة الداعمة.',
+  },
+  {
+    icon: FileSearch,
+    color: 'text-sage',
+    bg: 'bg-sage/10',
+    title: 'التحقق من المبادرات والإنجازات',
+    what: 'المبادرات لا تُقبل بمجرد الكتابة — المقيمون يُسألون عن دور المرشح الحقيقي فيها.',
+    why: 'المبالغة في وصف الإنجازات ظاهرة طبيعية في بيئات التنافس — المنصة تصفيها.',
+    risk: 'دون هذا: قرار تكليف مبني على إنجازات مبالغ فيها أو غير محققة.',
+    solution: 'كل مبادرة مرتبطة بمقيم يؤكدها، وأي تناقض يرفع تنبيهاً للجنة.',
+  },
+  {
+    icon: TrendingUp,
+    color: 'text-gold-300',
+    bg: 'bg-gold-300/10',
+    title: 'مستوى الثقة في التصنيف',
+    what: 'كل بطاقة قيادية تحمل درجة ثقة مستقلة تعكس مدى اتساق المصادر وتنوع المقيمين.',
+    why: '80٪ من مصدر واحد تختلف جوهرياً عن 75٪ من 9 مصادر متنوعة.',
+    risk: 'دون هذا: القيادة لا تعرف كم يمكن الاعتماد فعلياً على النتيجة.',
+    solution: 'مستوى الثقة يظهر في البطاقة بوضوح مع شرح العوامل المؤثرة فيه.',
+  },
+  {
+    icon: Scale,
+    color: 'text-primary-200',
+    bg: 'bg-primary-200/10',
+    title: 'التظلمات وإعادة المراجعة',
+    what: 'كل مرشح يحق له التظلم الرسمي على النتيجة أمام لجنة الحوكمة.',
+    why: 'العدالة الحقيقية لا تكتمل دون حق الطعن، وإلا يبقى شعور بالظلم حتى لو النتيجة صحيحة.',
+    risk: 'دون هذا: الثقة في المنظومة تنهار عند أول قرار مثير للجدل.',
+    solution: 'آلية تظلم رسمية مع سجل موثق لكل مرحلة من مراحل القرار.',
+  },
+  {
+    icon: Users,
+    color: 'text-amber-200',
+    bg: 'bg-amber-200/10',
+    title: 'خريطة التعاقب الوظيفي',
+    what: 'المنصة تبني تلقائياً صفاً قيادياً ثانياً وثالثاً لكل وحدة تنظيمية حرجة.',
+    why: 'الفراغ القيادي المفاجئ من أكبر مخاطر الاستمرارية المؤسسية.',
+    risk: 'دون هذا: خروج قيادي واحد يشل وحدة كاملة لأشهر.',
+    solution: 'خريطة تعاقب حية تتحدث مع كل دورة تقييم — ليس خطة ورقية مرة كل سنتين.',
+  },
+  {
+    icon: Bell,
+    color: 'text-rose-300',
+    bg: 'bg-rose-400/10',
+    title: 'الإشعارات الاستباقية للقيادة',
+    what: 'المنصة تنبه القيادة تلقائياً عند ظهور مرشح استثنائي أو خطر قيادي وشيك.',
+    why: 'الانتظار حتى الاجتماع الدوري يعني تأخيراً قد يكون مكلفاً.',
+    risk: 'دون هذا: الفرص تضيع والمخاطر تتراكم قبل أن تصل للطاولة الصحيحة.',
+    solution: 'تنبيهات فورية لكبار المسؤولين عند أي حدث قيادي مؤثر.',
+  },
+  {
+    icon: CheckCircle2,
+    color: 'text-sage',
+    bg: 'bg-sage/10',
+    title: 'سجل الحوكمة والتدقيق الكامل',
+    what: 'كل قرار، كل تعديل، كل اعتماد — يُسجل تلقائياً مع التوقيت والمسؤول.',
+    why: 'المساءلة لا تكتمل دون أثر رقمي موثق لكل إجراء.',
+    risk: 'دون هذا: أي قرار يُطعن فيه يصبح بلا إثبات ولا رواية موثوقة.',
+    solution: 'سجل تدقيق شامل متاح للجنة الحوكمة في أي وقت، قابل للتصدير.',
+  },
+  {
+    icon: Award,
+    color: 'text-gold-400',
+    bg: 'bg-gold-400/10',
+    title: 'خطة التطوير الفردية المرتبطة بالنتيجة',
+    what: 'عند صدور البطاقة القيادية، تقترح المنصة تلقائياً خطة تطوير مبنية على الفجوات المحددة.',
+    why: 'التقييم بلا خطة عمل هو قياس بلا قيمة — المنصة تتبع التشخيص بالعلاج.',
+    risk: 'دون هذا: المرشح يعرف نقاط ضعفه لكن لا يملك خارطة طريق واضحة للتحسن.',
+    solution: 'خطة تطوير فردية تتكامل مع الموارد البشرية وتُتابع في دورة التقييم القادمة.',
+  },
+];
 
-      {/* العنوان */}
+export default function CriticalPointsPage() {
+  return (
+    <div className="space-y-12 max-w-5xl mx-auto" dir="rtl">
       <section className="text-center">
-        <div className="inline-block bg-emerald-500/15 border border-emerald-400/30 rounded-full px-5 py-2 text-emerald-300 text-sm font-bold mb-6">
-          المحور العاشر من العرض
+        <div className="inline-block bg-gold-500/15 border border-gold-400/30 rounded-full px-5 py-2 text-gold-300 text-sm font-bold mb-6">
+          ما الذي يجعل منصة جدير مختلفة؟
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-          خطة <span className="text-emerald-400">التطوير القيادي</span>
+        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">
+          النقاط الحرجة <span className="text-gold-400">داخل المنصة</span>
         </h1>
-        <p className="text-white/70 text-lg max-w-2xl mx-auto">
-          جدير لا تكتفي بقياس الجاهزية — بل تُنشئ خطة تطوير مخصصة لكل مرشح
-          تُسرّع وصوله للقيادة وتسدّ فجواته الحقيقية
+        <p className="text-lg text-white/70 max-w-2xl mx-auto">
+          12 آلية تُميّز منصة جدير عن أي نظام تقييم تقليدي — كل واحدة تعالج مخاطرة حقيقية تواجهها المنظمات يومياً.
         </p>
       </section>
 
-      {/* فكرة خطة التطوير */}
-      <section className="grid md:grid-cols-3 gap-5">
-        {[
-          { icon: Target, title: 'مبنية على فجوات حقيقية', desc: 'لا تخمين — كل هدف في الخطة مرتبط بفجوة محددة كشفها التحليل المتعدد المصادر.', color: 'text-gold-400', bg: 'bg-gold-400/10' },
-          { icon: Brain,  title: 'مُصمَّمة بالذكاء الاصطناعي', desc: 'AI يُوصي بالتدخلات الأنسب لكل شخص بناءً على نمط تعلّمه وطبيعة دوره.', color: 'text-purple-400', bg: 'bg-purple-400/10' },
-          { icon: TrendingUp, title: 'قابلة للقياس والمتابعة', desc: 'كل هدف له مؤشر نجاح وموعد نهائي — الموارد البشرية والمستشار يتابعان التقدم.', color: 'text-emerald-400', bg: 'bg-emerald-400/10' },
-        ].map((item) => (
-          <div key={item.title} className="bg-white/5 border border-white/10 rounded-2xl p-6">
-            <div className={`inline-flex h-12 w-12 items-center justify-center rounded-xl ${item.bg} mb-4`}>
-              <item.icon className={`h-6 w-6 ${item.color}`} />
+      <div className="grid md:grid-cols-2 gap-5">
+        {CRITICAL_POINTS.map((point, idx) => (
+          <div key={idx} className="bg-white/5 hover:bg-white/8 border border-white/10 hover:border-gold-400/20 rounded-2xl p-6 transition-all group">
+            <div className="flex items-start gap-4 mb-4">
+              <div className={`inline-flex h-11 w-11 items-center justify-center rounded-xl ${point.bg} flex-shrink-0`}>
+                <point.icon className={`h-6 w-6 ${point.color}`} />
+              </div>
+              <div>
+                <div className="text-xs text-white/30 mb-0.5">#{idx + 1}</div>
+                <h3 className="font-bold text-white text-base leading-tight group-hover:text-gold-300 transition">{point.title}</h3>
+              </div>
             </div>
-            <h3 className="font-bold text-white mb-2">{item.title}</h3>
-            <p className="text-sm text-white/60 leading-relaxed">{item.desc}</p>
+
+            <div className="space-y-2 text-sm">
+              <div className="flex gap-2">
+                <span className="text-gold-400 font-bold flex-shrink-0 w-12 text-xs pt-0.5">ما هي؟</span>
+                <span className="text-white/70 leading-relaxed">{point.what}</span>
+              </div>
+              <div className="flex gap-2">
+                <span className="text-steelblue font-bold flex-shrink-0 w-12 text-xs pt-0.5">لماذا؟</span>
+                <span className="text-white/60 leading-relaxed">{point.why}</span>
+              </div>
+              <div className="flex gap-2">
+                <span className="text-rose-300 font-bold flex-shrink-0 w-12 text-xs pt-0.5">الخطر</span>
+                <span className="text-white/50 leading-relaxed italic">{point.risk}</span>
+              </div>
+              <div className="flex gap-2 pt-2 border-t border-white/10">
+                <span className="text-sage font-bold flex-shrink-0 w-12 text-xs pt-0.5">الحل</span>
+                <span className="text-white/80 leading-relaxed">{point.solution}</span>
+              </div>
+            </div>
           </div>
         ))}
-      </section>
+      </div>
 
-      {/* مثال مفصّل: نورة القحطاني */}
-      <section>
-        <h2 className="text-2xl font-bold text-white mb-2">خطة تطوير قيادي — نورة القحطاني</h2>
-        <p className="text-white/60 mb-8">درجة الجاهزية: 87% · المستهدف: 93%+ خلال 8 أشهر</p>
-
-        <div className="space-y-6">
-
-          {/* الشهر 1-2 */}
-          <div className="relative">
-            <div className="flex items-start gap-4">
-              <div className="shrink-0 flex flex-col items-center">
-                <div className="h-10 w-10 rounded-xl bg-primary-600 flex items-center justify-center text-white font-bold text-sm">
-                  1-2
-                </div>
-                <div className="w-0.5 h-full bg-white/10 mt-2 mb-0" />
-              </div>
-              <div className="flex-1 pb-6">
-                <div className="flex items-center gap-3 mb-3">
-                  <Calendar className="h-4 w-4 text-primary-300" />
-                  <span className="font-bold text-primary-300">الشهران الأول والثاني — التأسيس</span>
-                </div>
-                <div className="bg-white/5 border border-white/10 rounded-xl p-5 space-y-3">
-                  {[
-                    { goal: 'برنامج التفكير الاستراتيجي',      action: 'دورة مكثفة 3 أيام + مشروع تطبيقي فعلي داخل المنظمة', kpi: 'تقديم خطة استراتيجية لقطاعها بنهاية الشهر الثاني' },
-                    { goal: 'مهارات قراءة وتحليل البيانات',     action: 'تدريب عملي على لوحات BI + ورش Power BI/Tableau', kpi: 'بناء لوحة بيانات للقطاع بشكل مستقل' },
-                  ].map((item) => (
-                    <div key={item.goal} className="flex gap-3 items-start">
-                      <CheckCircle2 className="h-4 w-4 text-primary-400 shrink-0 mt-0.5" />
-                      <div>
-                        <div className="font-bold text-white text-sm">{item.goal}</div>
-                        <div className="text-xs text-white/60 mt-0.5">{item.action}</div>
-                        <div className="text-xs text-primary-300 mt-1 flex items-center gap-1">
-                          <Target className="h-3 w-3" /> {item.kpi}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* الشهر 3-4 */}
-          <div className="relative">
-            <div className="flex items-start gap-4">
-              <div className="shrink-0 flex flex-col items-center">
-                <div className="h-10 w-10 rounded-xl bg-gold-600 flex items-center justify-center text-white font-bold text-sm">
-                  3-4
-                </div>
-                <div className="w-0.5 h-full bg-white/10 mt-2" />
-              </div>
-              <div className="flex-1 pb-6">
-                <div className="flex items-center gap-3 mb-3">
-                  <Calendar className="h-4 w-4 text-gold-300" />
-                  <span className="font-bold text-gold-300">الشهران الثالث والرابع — التعمّق</span>
-                </div>
-                <div className="bg-white/5 border border-white/10 rounded-xl p-5 space-y-3">
-                  {[
-                    { goal: 'قيادة التغيير المؤسسي', action: 'تكليف بقيادة مبادرة تحوّل حقيقية داخلياً كاختبار عملي', kpi: 'تقرير تأثير موثق + تقييم من الفريق والمشرف' },
-                    { goal: 'مهارات التفاوض والإقناع', action: 'ورشة تطبيقية مع سيناريوهات واقعية من بيئة العمل', kpi: 'تقديم نتائج المفاوضات الداخلية لمشروع فعلي' },
-                  ].map((item) => (
-                    <div key={item.goal} className="flex gap-3 items-start">
-                      <CheckCircle2 className="h-4 w-4 text-gold-400 shrink-0 mt-0.5" />
-                      <div>
-                        <div className="font-bold text-white text-sm">{item.goal}</div>
-                        <div className="text-xs text-white/60 mt-0.5">{item.action}</div>
-                        <div className="text-xs text-gold-300 mt-1 flex items-center gap-1">
-                          <Target className="h-3 w-3" /> {item.kpi}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* الشهر 5-6 */}
-          <div className="relative">
-            <div className="flex items-start gap-4">
-              <div className="shrink-0 flex flex-col items-center">
-                <div className="h-10 w-10 rounded-xl bg-steelblue flex items-center justify-center text-white font-bold text-sm">
-                  5-6
-                </div>
-                <div className="w-0.5 h-full bg-white/10 mt-2" />
-              </div>
-              <div className="flex-1 pb-6">
-                <div className="flex items-center gap-3 mb-3">
-                  <Calendar className="h-4 w-4 text-steelblue" />
-                  <span className="font-bold" style={{ color: '#2E6F8E' }}>الشهران الخامس والسادس — الاختبار الفعلي</span>
-                </div>
-                <div className="bg-white/5 border border-white/10 rounded-xl p-5 space-y-3">
-                  {[
-                    { goal: 'قيادة قطاع أو إدارة بشكل مؤقت', action: 'تكليف مؤقت (Acting) لمدة 60 يوماً لاختبار الجاهزية الفعلية', kpi: 'تقييم 360° ثانوي بنهاية التكليف' },
-                    { goal: 'برنامج الإرشاد (Mentoring)', action: 'جلسات أسبوعية مع قائد أقدم داخل المنظمة', kpi: 'تقرير تطور مشترك بين الموجّه والمتطوّر' },
-                  ].map((item) => (
-                    <div key={item.goal} className="flex gap-3 items-start">
-                      <CheckCircle2 className="h-4 w-4 text-blue-400 shrink-0 mt-0.5" />
-                      <div>
-                        <div className="font-bold text-white text-sm">{item.goal}</div>
-                        <div className="text-xs text-white/60 mt-0.5">{item.action}</div>
-                        <div className="text-xs mt-1 flex items-center gap-1" style={{ color: '#2E6F8E' }}>
-                          <Target className="h-3 w-3" /> {item.kpi}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* الشهر 7-8 */}
-          <div className="flex items-start gap-4">
-            <div className="shrink-0">
-              <div className="h-10 w-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-bold text-sm">
-                7-8
-              </div>
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-3">
-                <Calendar className="h-4 w-4 text-emerald-300" />
-                <span className="font-bold text-emerald-300">الشهران السابع والثامن — التقييم والاعتماد</span>
-              </div>
-              <div className="bg-emerald-500/10 border border-emerald-400/20 rounded-xl p-5 space-y-3">
-                <div className="flex gap-3 items-start">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <div>
-                    <div className="font-bold text-white text-sm">إعادة التقييم الشاملة</div>
-                    <div className="text-xs text-white/60 mt-0.5">تطبيق كامل لمنهجية جدير مجدداً بعد التطوير</div>
-                    <div className="text-xs text-emerald-300 mt-1 flex items-center gap-1">
-                      <Target className="h-3 w-3" /> الهدف: رفع الدرجة من 87% إلى 93%+
-                    </div>
-                  </div>
-                </div>
-                <div className="flex gap-3 items-start">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <div>
-                    <div className="font-bold text-white text-sm">قرار التكليف الرسمي</div>
-                    <div className="text-xs text-white/60 mt-0.5">لجنة الحوكمة تُعيد مراجعة البطاقة وتُصدر قرار التكليف</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* نتيجة الخطة */}
-      <section className="bg-gradient-to-br from-emerald-900/20 to-primary-900/40 border border-emerald-400/20 rounded-2xl p-8 text-center">
-        <h2 className="text-2xl font-bold text-white mb-4">النتيجة المتوقعة بعد 8 أشهر</h2>
-        <div className="grid sm:grid-cols-3 gap-6 mb-6">
-          <div>
-            <div className="text-4xl font-bold text-emerald-400 mb-1">87% → 93%</div>
-            <div className="text-sm text-white/60">درجة الجاهزية</div>
-          </div>
-          <div>
-            <div className="text-4xl font-bold text-gold-400 mb-1">جاهزة</div>
-            <div className="text-sm text-white/60">للمناصب القيادية العليا</div>
-          </div>
-          <div>
-            <div className="text-4xl font-bold text-primary-300 mb-1">موثّق</div>
-            <div className="text-sm text-white/60">كل خطوة في سجل جدير</div>
-          </div>
-        </div>
-        <p className="text-white/70 max-w-2xl mx-auto text-sm leading-relaxed">
-          جدير لا تُقدّم خطة تطوير عامة — بل تُصمّم مساراً شخصياً دقيقاً يُسرّع الوصول للقيادة
-          وتتابع تنفيذه خطوة بخطوة عبر لوحة متابعة متكاملة للموارد البشرية والمستشار.
+      <div className="text-center bg-gradient-to-br from-gold-500/10 to-transparent border border-gold-400/20 rounded-3xl p-8">
+        <p className="text-xl md:text-2xl font-bold text-white mb-3">
+          هذه ليست ميزات إضافية — هي الفرق بين نظام حقيقي وقائمة خانات فارغة.
         </p>
-      </section>
-
-      {/* CTA */}
-      <section className="text-center pt-4">
-        <Link href="/executive-center/beneficiaries"
-          className="inline-flex items-center gap-3 text-gold-300 hover:text-gold-200 font-bold text-lg transition group">
-          من يستفيد من كل هذا؟
-          <ChevronLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
-        </Link>
-      </section>
+        <p className="text-white/50 text-sm">كل نقطة من النقاط الاثنتي عشرة تعالج خطراً يمكن أن يودي بأي عملية تقييم غير محمية.</p>
+      </div>
     </div>
   );
 }
