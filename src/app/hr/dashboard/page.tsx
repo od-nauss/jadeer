@@ -1,54 +1,123 @@
-﻿import Link from 'next/link';
-import { GraduationCap, Users, Trophy, Activity, Target, Bell, FileText, ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
+import { GraduationCap, Users, Activity, Target, Bell, FileText, ArrowLeft, Trophy, Brain, AlertTriangle, Route, TrendingUp } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, StatCard, Card } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
+
 export default async function HRDashboard() {
   const supabase = createClient();
-  const [candidates, completed, plans, competitions] = await Promise.all([
+
+  const [
+    { count: totalCandidates },
+    { count: newFiles },
+    { count: inProgress },
+    { count: completed },
+    { count: returned },
+    { count: approvedCandidates },
+    { count: activePlans },
+    { count: delayedPlans },
+    { count: openCompetitions },
+    { count: readyYear },
+    { count: promising },
+  ] = await Promise.all([
     supabase.from('candidate_profiles').select('id', { count: 'exact', head: true }),
+    supabase.from('candidate_profiles').select('id', { count: 'exact', head: true }).eq('status', 'new'),
+    supabase.from('candidate_profiles').select('id', { count: 'exact', head: true }).eq('status', 'in_progress'),
     supabase.from('candidate_profiles').select('id', { count: 'exact', head: true }).gte('completion_score', 80),
-    supabase.from('development_plans').select('id', { count: 'exact', head: true }),
+    supabase.from('candidate_profiles').select('id', { count: 'exact', head: true }).eq('status', 'returned_for_completion'),
+    supabase.from('candidate_profiles').select('id', { count: 'exact', head: true }).eq('status', 'approved'),
+    supabase.from('development_plans').select('id', { count: 'exact', head: true }).in('overall_status', ['approved', 'in_progress']),
+    supabase.from('development_plans').select('id', { count: 'exact', head: true }).eq('overall_status', 'delayed'),
     supabase.from('competitions').select('id', { count: 'exact', head: true }).eq('status', 'open'),
+    supabase.from('leadership_cards').select('id', { count: 'exact', head: true }).eq('readiness_level', 'ready_within_year').eq('is_published', true),
+    supabase.from('leadership_cards').select('id', { count: 'exact', head: true }).eq('readiness_level', 'promising').eq('is_published', true),
   ]);
 
+  // التحليل الذكي
+  const { data: incompleteFiles } = await supabase
+    .from('candidate_profiles')
+    .select('id')
+    .lt('completion_score', 60)
+    .in('status', ['new', 'in_progress']);
+  const { data: stalePlans } = await supabase
+    .from('development_plans')
+    .select('id')
+    .eq('overall_status', 'proposed');
+
+  const aiAlerts: Array<{ type: 'warning' | 'info' | 'error'; text: string; href: string }> = [];
+  if ((incompleteFiles?.length || 0) > 3) aiAlerts.push({ type: 'error', text: `${incompleteFiles?.length} ملف اكتماله أقل من 60٪ — يحتاج متابعة.`, href: '/hr/completion-tracking' });
+  if ((readyYear || 0) > 0) aiAlerts.push({ type: 'info', text: `${readyYear} مرشح جاهز خلال سنة — يحتاج خطة تطوير مركزة.`, href: '/hr/development-plans' });
+  if ((promising || 0) > 0) aiAlerts.push({ type: 'info', text: `${promising} مرشح واعد — تحقق من خطط التطوير.`, href: '/hr/development-plans' });
+  if ((stalePlans?.length || 0) > 0) aiAlerts.push({ type: 'warning', text: `${stalePlans?.length} خطة تطوير مقترحة لم تُراجع بعد.`, href: '/hr/development-plans' });
+  if ((delayedPlans || 0) > 0) aiAlerts.push({ type: 'error', text: `${delayedPlans} خطة تطوير متأخرة — يحتاج إجراء.`, href: '/hr/development-plans' });
+  if ((returned || 0) > 0) aiAlerts.push({ type: 'warning', text: `${returned} ملف معاد للاستكمال — تواصل مع المرشح.`, href: '/hr/completion-tracking' });
+
+  const stats = [
+    { label: 'إجمالي المتقدمين', value: totalCandidates || 0, icon: <Users className="h-5 w-5" />, variant: 'primary' as const },
+    { label: 'ملفات جديدة', value: newFiles || 0, icon: <FileText className="h-5 w-5" />, variant: 'gold' as const },
+    { label: 'قيد الاستكمال', value: inProgress || 0, icon: <Activity className="h-5 w-5" />, variant: 'gold' as const },
+    { label: 'ملفات مكتملة +80%', value: completed || 0, icon: <Activity className="h-5 w-5" />, variant: 'sage' as const },
+    { label: 'معتمدون من اللجنة', value: approvedCandidates || 0, icon: <GraduationCap className="h-5 w-5" />, variant: 'sage' as const },
+    { label: 'خطط تطوير نشطة', value: activePlans || 0, icon: <Target className="h-5 w-5" />, variant: 'primary' as const },
+    { label: 'خطط متأخرة', value: delayedPlans || 0, icon: <AlertTriangle className="h-5 w-5" />, variant: 'wine' as const },
+    { label: 'مسابقات مفتوحة', value: openCompetitions || 0, icon: <Trophy className="h-5 w-5" />, variant: 'gold' as const },
+  ];
+
   return (
-    <div>
+    <div dir="rtl">
       <PageHeader
         title="لوحة الموارد البشرية"
-        description="مركز عمل الموارد البشرية: متابعة المرشحين، إدارة المسابقات، خطط التطوير، تقارير الفجوات القيادية."
-        example="ابدأ يومك بمتابعة المرشحين الذين توقفوا عن إكمال ملفاتهم، ثم خطط التطوير التي تحتاج مراجعة."
+        description="مركز متابعة المرشحين، خطط التطوير، المسابقات الوظيفية، ومسارات التقييم. تحويل نتائج جدير لخطط تطوير قابلة للمتابعة."
+        example="ابدأ يومك بمتابعة الملفات غير المكتملة، ثم مراجعة خطط التطوير المقترحة، ثم إشعارات المسابقات."
         icon={<GraduationCap className="h-5 w-5" />}
       />
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-        <StatCard label="إجمالي المرشحين" value={candidates.count || 0} icon={<Users className="h-5 w-5" />} variant="primary" />
-        <StatCard label="ملفات مكتملة" value={completed.count || 0} icon={<Activity className="h-5 w-5" />} variant="sage" />
-        <StatCard label="خطط تطوير نشطة" value={plans.count || 0} icon={<Target className="h-5 w-5" />} variant="gold" />
-        <StatCard label="مسابقات مفتوحة" value={competitions.count || 0} icon={<Trophy className="h-5 w-5" />} variant="steelblue" />
+      {/* التنبيهات الذكية */}
+      {aiAlerts.length > 0 && (
+        <div className="mb-6 space-y-2">
+          <div className="flex items-center gap-2 text-sm font-bold text-primary-700 mb-2">
+            <Brain className="h-4 w-4 text-gold-600" />تنبيهات تشغيلية ذكية
+          </div>
+          {aiAlerts.map((alert, i) => (
+            <Link key={i} href={alert.href}
+              className={`flex items-start gap-3 p-3 rounded-xl border text-sm hover:opacity-80 transition ${
+                alert.type === 'error' ? 'bg-rose-50 border-rose-200 text-wine' :
+                alert.type === 'warning' ? 'bg-amber-50 border-amber-200 text-amber-800' :
+                'bg-blue-50 border-blue-200 text-steelblue'
+              }`}>
+              <AlertTriangle className="h-4 w-4 flex-shrink-0 mt-0.5" />
+              <span className="flex-1">{alert.text}</span>
+              <ArrowLeft className="h-4 w-4 flex-shrink-0" />
+            </Link>
+          ))}
+        </div>
+      )}
+
+      {/* المؤشرات */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        {stats.map((s) => (
+          <StatCard key={s.label} label={s.label} value={s.value} icon={s.icon} variant={s.variant} />
+        ))}
       </div>
 
+      {/* الأدوات السريعة */}
       <Card title="أدوات سريعة">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid md:grid-cols-3 gap-3">
           {[
-            { href: '/hr/candidates', label: 'إدارة المرشحين', icon: Users },
-            { href: '/hr/completion-tracking', label: 'متابعة استكمال الملفات', icon: Activity },
-            { href: '/hr/competitions', label: 'المسابقات الوظيفية', icon: Trophy },
-            { href: '/hr/evaluation-tracks', label: 'مسارات التقييم', icon: FileText },
-            { href: '/hr/development-plans', label: 'خطط التطوير', icon: Target },
-            { href: '/hr/development-reports', label: 'تقارير التطوير', icon: FileText },
-            { href: '/hr/notifications', label: 'الإشعارات', icon: Bell },
-            { href: '/hr/notes', label: 'ملاحظات الموارد', icon: FileText },
-          ].map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="flex items-center gap-3 p-3 bg-white border border-gold-200 rounded-lg hover:bg-gold-50 hover:border-gold-400 transition"
-            >
-              <item.icon className="h-5 w-5 text-gold-700" />
-              <span className="font-medium text-primary-700 flex-1 text-sm">{item.label}</span>
-              <ArrowLeft className="h-4 w-4 text-gold-500" />
+            { href: '/hr/candidates', label: 'قائمة المتقدمين', icon: '👥' },
+            { href: '/hr/completion-tracking', label: 'متابعة اكتمال الملفات', icon: '📊' },
+            { href: '/hr/competitions', label: 'المسابقات الوظيفية', icon: '🏆' },
+            { href: '/hr/competitions/create', label: 'إنشاء مسابقة جديدة', icon: '➕' },
+            { href: '/hr/development-plans', label: 'خطط التطوير', icon: '🎯' },
+            { href: '/hr/evaluation-tracks', label: 'مسارات التقييم', icon: '📋' },
+            { href: '/hr/leadership-needs', label: 'تحليل احتياجات القيادة', icon: '🔍' },
+            { href: '/hr/notes', label: 'ملاحظات الموارد البشرية', icon: '📝' },
+            { href: '/hr/development-reports', label: 'تقارير التطوير', icon: '📈' },
+          ].map(({ href, label, icon }) => (
+            <Link key={href} href={href}
+              className="flex items-center gap-2 p-3 rounded-xl border border-gold-200 hover:bg-gold-50 hover:border-gold-300 transition-all text-sm text-primary-700 font-medium">
+              <span className="text-lg">{icon}</span>{label}
             </Link>
           ))}
         </div>
