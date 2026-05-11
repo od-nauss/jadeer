@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { getAdvisorPermissions } from '@/lib/auth/advisor-access';
@@ -6,7 +6,7 @@ import { getAdvisorPermissions } from '@/lib/auth/advisor-access';
 export async function POST(req: NextRequest) {
   try {
     const user = await getCurrentUser();
-    if (!user || !user.roles.includes('advisor')) {
+    if (!user || !user.primaryRoles.includes('advisor')) {
       return NextResponse.json({ error: 'غير مصرح' }, { status: 403 });
     }
 
@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const user = await getCurrentUser();
-    if (!user || !user.roles.includes('advisor')) return NextResponse.json({ error: 'غير مصرح' }, { status: 403 });
+    if (!user || !user.primaryRoles.includes('advisor')) return NextResponse.json({ error: 'غير مصرح' }, { status: 403 });
     const { id } = await req.json();
     const supabase = createServiceClient();
     await supabase.from('advisor_notes').delete().eq('id', id).eq('advisor_user_id', user.id);

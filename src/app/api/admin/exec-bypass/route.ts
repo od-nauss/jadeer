@@ -1,4 +1,4 @@
-// POST /api/admin/exec-bypass
+﻿// POST /api/admin/exec-bypass
 // يفعّل أو يعطّل كلمة المرور لمركز العرض التنفيذي
 import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/server';
@@ -6,7 +6,7 @@ import { getCurrentUser } from '@/lib/auth/current-user';
 
 export async function POST(req: NextRequest) {
   const user = await getCurrentUser();
-  if (!user || user.role !== 'admin') {
+  if (!user || user.primaryRole !== 'admin') {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 

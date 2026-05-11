@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 
 export async function POST(req: NextRequest) {
   try {
     const user = await getCurrentUser();
-    if (!user || (!user.isAdmin && !user.roles.includes('president'))) {
+    if (!user || (!user.isAdmin && !user.primaryRoles.includes('president'))) {
       return NextResponse.json({ error: 'غير مصرح — هذه الصلاحية للرئيس فقط' }, { status: 403 });
     }
 

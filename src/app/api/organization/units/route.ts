@@ -18,7 +18,7 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   const user = await getCurrentUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  if (!['admin', 'president'].includes(user.role)) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  if (!['admin', 'president'].includes(user.primaryRole)) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
   const body = await req.json();
   const {

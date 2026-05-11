@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 
 export async function POST(req: NextRequest) {
   try {
     const user = await getCurrentUser();
-    if (!user || (!user.isAdmin && !user.roles.includes('hr'))) {
+    if (!user || (!user.isAdmin && !user.primaryRoles.includes('hr'))) {
       return NextResponse.json({ error: 'غير مصرح' }, { status: 403 });
     }
     const body = await req.json();

@@ -10,7 +10,7 @@ import { computeFitScore } from '@/lib/ai/analyzerFit';
 export async function POST(req: NextRequest) {
   const user = await getCurrentUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  if (!['admin', 'president', 'hr'].includes(user.role)) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  if (!['admin', 'president', 'hr'].includes(user.primaryRole)) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
   const body = await req.json().catch(() => ({}));
   const { unitId, candidateId } = body;

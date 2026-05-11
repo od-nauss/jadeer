@@ -1,10 +1,10 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/server';
 import { getCurrentUser, logAudit } from '@/lib/auth/current-user';
 
 export async function POST() {
   const user = await getCurrentUser();
-  if (!user || !user.roles.includes('admin')) {
+  if (!user || !user.primaryRoles.includes('admin')) {
     return NextResponse.json({ error: 'غير مصرح' }, { status: 403 });
   }
 

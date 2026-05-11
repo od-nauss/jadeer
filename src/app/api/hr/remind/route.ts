@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 
@@ -15,7 +15,7 @@ const REMINDER_MESSAGES: Record<string, string> = {
 export async function POST(req: NextRequest) {
   try {
     const user = await getCurrentUser();
-    if (!user || (!user.isAdmin && !user.roles.includes('hr'))) return NextResponse.json({ error: 'غير مصرح' }, { status: 403 });
+    if (!user || (!user.isAdmin && !user.primaryRoles.includes('hr'))) return NextResponse.json({ error: 'غير مصرح' }, { status: 403 });
     const { candidate_profile_id, reminder_type = 'general', custom_message } = await req.json();
 
     const supabase = createServiceClient();

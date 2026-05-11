@@ -113,7 +113,7 @@ const DEMO_PROFILES = [
 
 export async function POST() {
   const user = await getCurrentUser();
-  if (!user || user.role !== 'admin') {
+  if (!user || user.primaryRole !== 'admin') {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
