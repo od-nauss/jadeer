@@ -67,7 +67,7 @@ export default async function CandidateInitiativesPage() {
         </div>
       ) : (
         <EmptyState
-          icon={Briefcase}
+          icon={<Briefcase className="h-8 w-8" />}
           title="لا توجد مبادرات بعد"
           description="ابدأ بإضافة أول مبادرة قدتها أو شاركت فيها."
         />

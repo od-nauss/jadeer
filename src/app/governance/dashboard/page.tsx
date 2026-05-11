@@ -25,12 +25,12 @@ export default async function GovernanceDashboard() {
       />
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
-        <StatCard label="ملفات بانتظار المراجعة" value={pendingReviews.count || 0} icon={FileSearch} variant="gold" />
-        <StatCard label="مقيمون بانتظار الاعتماد" value={pendingEvaluators.count || 0} icon={Users} variant="primary" />
-        <StatCard label="روابط 360 نشطة" value={openLinks.count || 0} icon={Link2} variant="steelblue" />
-        <StatCard label="تقييمات مكتملة" value={completedEvaluations.count || 0} icon={Award} variant="sage" />
-        <StatCard label="تظلمات مفتوحة" value={pendingAppeals.count || 0} icon={AlertTriangle} variant="wine" />
-        <StatCard label="قرارات صادرة" value={decisions.count || 0} icon={ScrollText} variant="primary" />
+        <StatCard label="ملفات بانتظار المراجعة" value={pendingReviews.count || 0} icon={<FileSearch className="h-5 w-5" />} variant="gold" />
+        <StatCard label="مقيمون بانتظار الاعتماد" value={pendingEvaluators.count || 0} icon={<Users className="h-5 w-5" />} variant="primary" />
+        <StatCard label="روابط 360 نشطة" value={openLinks.count || 0} icon={<Link2 className="h-5 w-5" />} variant="steelblue" />
+        <StatCard label="تقييمات مكتملة" value={completedEvaluations.count || 0} icon={<Award className="h-5 w-5" />} variant="sage" />
+        <StatCard label="تظلمات مفتوحة" value={pendingAppeals.count || 0} icon={<AlertTriangle className="h-5 w-5" />} variant="wine" />
+        <StatCard label="قرارات صادرة" value={decisions.count || 0} icon={<ScrollText className="h-5 w-5" />} variant="primary" />
       </div>
 
       <div className="grid md:grid-cols-2 gap-5 mb-6">

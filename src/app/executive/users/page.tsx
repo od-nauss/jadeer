@@ -15,7 +15,7 @@ export default async function ExecutiveUsersPage() {
       <PageHeader
         title="مستخدمو المنصة"
         description="عرض جميع مستخدمي المنصة. يمكنك مراقبة من يستخدم النظام وأدوارهم."
-        icon={Users}
+        icon={<Users className="h-5 w-5" />}
       />
 
       <Card>

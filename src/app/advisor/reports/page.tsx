@@ -8,7 +8,7 @@ export default function AdvisorReportsPage() {
       <PageHeader
         title="التقارير"
         description="تقارير قيادية مختصرة جاهزة للاطلاع. يمكنك تحميل أي تقرير PDF."
-        icon={ScrollText}
+        icon={<ScrollText className="h-5 w-5" />}
       />
 
       <div className="grid md:grid-cols-2 gap-3">

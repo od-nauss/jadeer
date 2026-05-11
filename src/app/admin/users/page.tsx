@@ -63,7 +63,7 @@ export default async function AdminUsersPage() {
             </table>
           </div>
         ) : (
-          <EmptyState icon={Users} title="لا توجد مستخدمون" description="ابدأ بتشغيل seed لإنشاء الحسابات التجريبية." />
+          <EmptyState icon={<Users className="h-8 w-8" />} title="لا توجد مستخدمون" description="ابدأ بتشغيل seed لإنشاء الحسابات التجريبية." />
         )}
       </Card>
     </div>

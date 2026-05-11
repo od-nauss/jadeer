@@ -53,7 +53,7 @@ export default async function HRCompetitionsPage() {
           })}
         </div>
       ) : (
-        <EmptyState icon={Trophy} title="لا توجد مسابقات" description="ابدأ بإنشاء أول مسابقة وظيفية." />
+        <EmptyState icon={<Trophy className="h-8 w-8" />} title="لا توجد مسابقات" description="ابدأ بإنشاء أول مسابقة وظيفية." />
       )}
     </div>
   );

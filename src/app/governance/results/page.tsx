@@ -66,7 +66,7 @@ export default async function GovernanceResultsPage() {
           })}
         </div>
       ) : (
-        <EmptyState icon={Award} title="لا توجد بطاقات بانتظار الاعتماد" description="ستظهر البطاقات هنا فور اكتمال التحليل." />
+        <EmptyState icon={<Award className="h-8 w-8" />} title="لا توجد بطاقات بانتظار الاعتماد" description="ستظهر البطاقات هنا فور اكتمال التحليل." />
       )}
     </div>
   );

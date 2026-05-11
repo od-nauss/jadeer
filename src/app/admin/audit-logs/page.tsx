@@ -79,7 +79,7 @@ export default async function AdminAuditLogsPage() {
           </div>
         ) : (
           <EmptyState
-            icon={ScrollText}
+            icon={<ScrollText className="h-8 w-8" />}
             title="لا توجد عمليات مسجلة"
             description="ستظهر هنا أول عملية حساسة فور تنفيذها."
           />

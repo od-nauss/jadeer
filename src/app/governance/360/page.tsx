@@ -17,7 +17,7 @@ export default async function Governance360Page() {
       <PageHeader
         title="متابعة تقييم 360"
         description="نسبة اكتمال تقييم 360 لكل مرشح. تستطيع تمديد الروابط أو إغلاق التقييم كمراجعة مشروطة."
-        icon={Eye}
+        icon={<Eye className="h-5 w-5" />}
       />
 
       {profiles && profiles.length > 0 ? (
@@ -65,7 +65,7 @@ export default async function Governance360Page() {
         </div>
       ) : (
         <EmptyState
-          icon={Eye}
+          icon={<Eye className="h-8 w-8" />}
           title="لا توجد تقييمات 360 جارية"
           description="ستظهر هنا التقييمات النشطة فور اعتماد قوائم المقيمين."
         />

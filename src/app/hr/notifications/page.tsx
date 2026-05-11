@@ -17,7 +17,7 @@ export default async function HRNotificationsPage() {
       <PageHeader
         title="الإشعارات"
         description="جميع التنبيهات الموجهة للموارد البشرية."
-        icon={Bell}
+        icon={<Bell className="h-5 w-5" />}
       />
 
       {notifications && notifications.length > 0 ? (
@@ -43,7 +43,7 @@ export default async function HRNotificationsPage() {
           </div>
         </Card>
       ) : (
-        <EmptyState icon={Bell} title="لا إشعارات" description="ستظهر الإشعارات هنا تلقائياً." />
+        <EmptyState icon={<Bell className="h-8 w-8" />} title="لا إشعارات" description="ستظهر الإشعارات هنا تلقائياً." />
       )}
     </div>
   );

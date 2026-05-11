@@ -60,7 +60,7 @@ export default function AdminSettingsPage() {
       <PageHeader
         title="إعدادات النظام"
         description="إعدادات النظام الشاملة. التعديلات الحساسة تتطلب موافقة لجنة الحوكمة وتُسجَّل في سجل التدقيق."
-        icon={Settings}
+        icon={<Settings className="h-5 w-5" />}
       />
 
       <div className="space-y-6">

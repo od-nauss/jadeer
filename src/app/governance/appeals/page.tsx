@@ -57,7 +57,7 @@ export default async function GovernanceAppealsPage() {
           })}
         </div>
       ) : (
-        <EmptyState icon={AlertTriangle} title="لا توجد تظلمات حالياً" description="ستظهر التظلمات هنا فور تقديمها." />
+        <EmptyState icon={<AlertTriangle className="h-8 w-8" />} title="لا توجد تظلمات حالياً" description="ستظهر التظلمات هنا فور تقديمها." />
       )}
     </div>
   );

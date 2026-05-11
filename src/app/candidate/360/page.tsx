@@ -87,7 +87,7 @@ export default async function Candidate360Page() {
           ))}
         </div>
       ) : (
-        <EmptyState icon={Users} title="لم تقترح مقيمين بعد" description="ابدأ بإضافة 15 اسماً." />
+        <EmptyState icon={<Users className="h-8 w-8" />} title="لم تقترح مقيمين بعد" description="ابدأ بإضافة 15 اسماً." />
       )}
     </div>
   );

@@ -23,10 +23,10 @@ export default async function HRDashboard() {
       />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-        <StatCard label="إجمالي المرشحين" value={candidates.count || 0} icon={Users} variant="primary" />
-        <StatCard label="ملفات مكتملة" value={completed.count || 0} icon={Activity} variant="sage" />
-        <StatCard label="خطط تطوير نشطة" value={plans.count || 0} icon={Target} variant="gold" />
-        <StatCard label="مسابقات مفتوحة" value={competitions.count || 0} icon={Trophy} variant="steelblue" />
+        <StatCard label="إجمالي المرشحين" value={candidates.count || 0} icon={<Users className="h-5 w-5" />} variant="primary" />
+        <StatCard label="ملفات مكتملة" value={completed.count || 0} icon={<Activity className="h-5 w-5" />} variant="sage" />
+        <StatCard label="خطط تطوير نشطة" value={plans.count || 0} icon={<Target className="h-5 w-5" />} variant="gold" />
+        <StatCard label="مسابقات مفتوحة" value={competitions.count || 0} icon={<Trophy className="h-5 w-5" />} variant="steelblue" />
       </div>
 
       <Card title="أدوات سريعة">

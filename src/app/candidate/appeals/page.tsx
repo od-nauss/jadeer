@@ -76,7 +76,7 @@ export default async function CandidateAppealsPage() {
           ))}
         </div>
       ) : (
-        <EmptyState icon={AlertTriangle} title="لا توجد تظلمات" description="ستظهر تظلماتك هنا فور تقديمها." />
+        <EmptyState icon={<AlertTriangle className="h-8 w-8" />} title="لا توجد تظلمات" description="ستظهر تظلماتك هنا فور تقديمها." />
       )}
     </div>
   );

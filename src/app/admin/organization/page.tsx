@@ -64,7 +64,7 @@ export default async function AdminOrganizationPage() {
         </Card>
       ) : (
         <EmptyState
-          icon={Building2}
+          icon={<Building2 className="h-8 w-8" />}
           title="لا توجد وحدات تنظيمية"
           description="شغّل ملف seed لإنشاء الهيكل التنظيمي التجريبي."
         />

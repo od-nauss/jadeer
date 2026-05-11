@@ -63,7 +63,7 @@ export default async function HRCompletionTrackingPage() {
           </div>
         </Card>
       ) : (
-        <EmptyState icon={Activity} title="جميع المرشحين أكملوا ملفاتهم" description="عمل ممتاز، لا حاجة لتذكير أحد." />
+        <EmptyState icon={<Activity className="h-8 w-8" />} title="جميع المرشحين أكملوا ملفاتهم" description="عمل ممتاز، لا حاجة لتذكير أحد." />
       )}
     </div>
   );

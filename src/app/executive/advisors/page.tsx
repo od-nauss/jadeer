@@ -41,7 +41,7 @@ export default async function ExecutiveAdvisorsPage() {
           </div>
         </Card>
       ) : (
-        <EmptyState icon={Users} title="لا يوجد مستشارون مضافون" description="تواصل مع مدير النظام لإضافة مستشار." />
+        <EmptyState icon={<Users className="h-8 w-8" />} title="لا يوجد مستشارون مضافون" description="تواصل مع مدير النظام لإضافة مستشار." />
       )}
     </div>
   );

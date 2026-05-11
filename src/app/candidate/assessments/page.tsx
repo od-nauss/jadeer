@@ -78,7 +78,7 @@ export default async function CandidateAssessmentsPage() {
         </div>
       ) : (
         <EmptyState
-          icon={ClipboardCheck}
+          icon={<ClipboardCheck className="h-8 w-8" />}
           title="لا توجد اختبارات حالياً"
           description="ستظهر الاختبارات هنا بعد إعداد المنصة."
         />

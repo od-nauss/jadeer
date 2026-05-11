@@ -44,12 +44,12 @@ export default async function ExecutiveDashboard() {
 
       {/* المؤشرات */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
-        <StatCard label="جاهز الآن" value={readyNow.count || 0} icon={Award} variant="sage" />
-        <StatCard label="جاهز خلال سنة" value={withinYear.count || 0} icon={TrendingUp} variant="gold" />
-        <StatCard label="واعد" value={promising.count || 0} icon={TrendingUp} variant="steelblue" />
-        <StatCard label="قيادة مخفية" value={hidden.count || 0} icon={Eye} variant="primary" />
-        <StatCard label="إنجاز عالٍ / رضا منخفض" value={lowSatisfaction.count || 0} icon={AlertTriangle} variant="wine" />
-        <StatCard label="إجمالي المرشحين" value={totalCandidates.count || 0} icon={Users} variant="primary" />
+        <StatCard label="جاهز الآن" value={readyNow.count || 0} icon={<Award className="h-5 w-5" />} variant="sage" />
+        <StatCard label="جاهز خلال سنة" value={withinYear.count || 0} icon={<TrendingUp className="h-5 w-5" />} variant="gold" />
+        <StatCard label="واعد" value={promising.count || 0} icon={<TrendingUp className="h-5 w-5" />} variant="steelblue" />
+        <StatCard label="قيادة مخفية" value={hidden.count || 0} icon={<Eye className="h-5 w-5" />} variant="primary" />
+        <StatCard label="إنجاز عالٍ / رضا منخفض" value={lowSatisfaction.count || 0} icon={<AlertTriangle className="h-5 w-5" />} variant="wine" />
+        <StatCard label="إجمالي المرشحين" value={totalCandidates.count || 0} icon={<Users className="h-5 w-5" />} variant="primary" />
       </div>
 
       {/* أبرز المرشحين */}

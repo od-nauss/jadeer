@@ -18,7 +18,7 @@ export default async function ExecutiveCardsPage() {
       <PageHeader
         title="البطاقات القيادية"
         description="جميع البطاقات القيادية المعتمدة من لجنة الحوكمة. كل بطاقة تحوي: درجة الجاهزية، نوع القيادة، نقاط القوة، الفجوات، التوصية."
-        icon={Award}
+        icon={<Award className="h-5 w-5" />}
       />
 
       {cards && cards.length > 0 ? (
@@ -85,7 +85,7 @@ export default async function ExecutiveCardsPage() {
         </Card>
       ) : (
         <EmptyState
-          icon={Award}
+          icon={<Award className="h-8 w-8" />}
           title="لا توجد بطاقات قيادية معتمدة بعد"
           description="ستظهر هنا فور اعتماد لجنة الحوكمة."
         />

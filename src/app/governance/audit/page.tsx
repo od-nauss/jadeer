@@ -16,7 +16,7 @@ export default async function GovernanceAuditPage() {
       <PageHeader
         title="سجل قرارات اللجنة"
         description="جميع القرارات الحوكمية الصادرة. هذا السجل لا يقبل الحذف من الواجهة، وهو الضامن المؤسسي للمساءلة."
-        icon={ScrollText}
+        icon={<ScrollText className="h-5 w-5" />}
       />
 
       {decisions && decisions.length > 0 ? (
@@ -58,7 +58,7 @@ export default async function GovernanceAuditPage() {
           </div>
         </Card>
       ) : (
-        <EmptyState icon={ScrollText} title="لا توجد قرارات مسجلة بعد" description="ستظهر هنا أول قرار حوكمي." />
+        <EmptyState icon={<ScrollText className="h-8 w-8" />} title="لا توجد قرارات مسجلة بعد" description="ستظهر هنا أول قرار حوكمي." />
       )}
     </div>
   );

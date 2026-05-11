@@ -89,7 +89,7 @@ export default async function CandidateDevelopmentPlanPage() {
             </div>
           ) : (
             <EmptyState
-              icon={Target}
+              icon={<Target className="h-8 w-8" />}
               title="الخطة لا تحتوي على بنود بعد"
               description="ستضاف بنود التطوير من فريق الموارد البشرية."
             />

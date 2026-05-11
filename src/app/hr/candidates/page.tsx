@@ -15,7 +15,7 @@ export default async function HRCandidatesPage() {
       <PageHeader
         title="المرشحون"
         description="جميع المرشحين في المنصة. يمكنك متابعة حالة كل مرشح واكتمال ملفه."
-        icon={Users}
+        icon={<Users className="h-5 w-5" />}
       />
 
       {profiles && profiles.length > 0 ? (
@@ -62,7 +62,7 @@ export default async function HRCandidatesPage() {
           </div>
         </Card>
       ) : (
-        <EmptyState icon={Users} title="لا يوجد مرشحون" description="ستظهر المرشحين هنا فور تسجيلهم." />
+        <EmptyState icon={<Users className="h-8 w-8" />} title="لا يوجد مرشحون" description="ستظهر المرشحين هنا فور تسجيلهم." />
       )}
     </div>
   );

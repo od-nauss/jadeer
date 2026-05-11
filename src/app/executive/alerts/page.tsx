@@ -17,7 +17,7 @@ export default async function ExecutiveAlertsPage() {
       <PageHeader
         title="الإشعارات الذكية"
         description="جميع التنبيهات الموجهة للقيادة العليا. الأولوية حسب الأهمية."
-        icon={Bell}
+        icon={<Bell className="h-5 w-5" />}
       />
 
       {alerts && alerts.length > 0 ? (
@@ -54,7 +54,7 @@ export default async function ExecutiveAlertsPage() {
           </div>
         </Card>
       ) : (
-        <EmptyState icon={Bell} title="لا توجد إشعارات حالياً" description="ستظهر التنبيهات الذكية هنا تلقائياً." />
+        <EmptyState icon={<Bell className="h-8 w-8" />} title="لا توجد إشعارات حالياً" description="ستظهر التنبيهات الذكية هنا تلقائياً." />
       )}
     </div>
   );

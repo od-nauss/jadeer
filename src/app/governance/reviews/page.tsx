@@ -60,7 +60,7 @@ export default async function GovernanceReviewsPage() {
         </Card>
       ) : (
         <EmptyState
-          icon={FileSearch}
+          icon={<FileSearch className="h-8 w-8" />}
           title="لا توجد ملفات بانتظار المراجعة"
           description="ستظهر هنا الملفات فور إرسالها من المرشحين."
         />

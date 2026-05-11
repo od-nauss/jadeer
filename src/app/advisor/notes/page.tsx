@@ -14,7 +14,7 @@ export default function AdvisorNotesPage() {
 
       <Card>
         <EmptyState
-          icon={FileText}
+          icon={<FileText className="h-8 w-8" />}
           title="لا توجد ملاحظات بعد"
           description="ابدأ بكتابة ملاحظاتك على البطاقات أثناء المراجعة."
         />

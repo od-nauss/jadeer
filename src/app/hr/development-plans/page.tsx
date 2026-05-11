@@ -58,7 +58,7 @@ export default async function HRDevelopmentPlansPage() {
           })}
         </div>
       ) : (
-        <EmptyState icon={Target} title="لا توجد خطط تطوير" description="ستظهر الخطط بعد اعتماد البطاقات القيادية." />
+        <EmptyState icon={<Target className="h-8 w-8" />} title="لا توجد خطط تطوير" description="ستظهر الخطط بعد اعتماد البطاقات القيادية." />
       )}
     </div>
   );

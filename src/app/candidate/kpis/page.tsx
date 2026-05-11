@@ -69,7 +69,7 @@ export default async function CandidateKPIsPage() {
           ))}
         </div>
       ) : (
-        <EmptyState icon={Activity} title="لا توجد مؤشرات" description="أضف أول مؤشر استخدمته في عملك." />
+        <EmptyState icon={<Activity className="h-8 w-8" />} title="لا توجد مؤشرات" description="أضف أول مؤشر استخدمته في عملك." />
       )}
     </div>
   );

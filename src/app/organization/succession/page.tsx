@@ -65,7 +65,7 @@ export default async function OrganizationSuccessionPage() {
           })}
         </div>
       ) : (
-        <EmptyState icon={Users} title="لا توجد خريطة تعاقب" description="ستُبنى الخريطة بعد اعتماد البطاقات." />
+        <EmptyState icon={<Users className="h-8 w-8" />} title="لا توجد خريطة تعاقب" description="ستُبنى الخريطة بعد اعتماد البطاقات." />
       )}
     </div>
   );

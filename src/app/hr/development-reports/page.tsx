@@ -8,7 +8,7 @@ export default function HRDevelopmentReportsPage() {
       <PageHeader
         title="تقارير التطوير"
         description="تقارير شاملة عن نشاطات التطوير في المنظمة: الفجوات الأكثر تكراراً، البرامج الأكثر طلباً، أثر التطوير."
-        icon={FileText}
+        icon={<FileText className="h-5 w-5" />}
       />
 
       <div className="grid md:grid-cols-2 gap-3">

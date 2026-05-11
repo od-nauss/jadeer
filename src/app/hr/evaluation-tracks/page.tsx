@@ -22,7 +22,7 @@ export default async function HREvaluationTracksPage() {
       <PageHeader
         title="مسارات التقييم"
         description="جميع المرشحين موزعين على مساراتهم: فردي، مسابقة، تعاقب، تطوير. كل مسار له معاييره."
-        icon={FileText}
+        icon={<FileText className="h-5 w-5" />}
       />
 
       {profiles && profiles.length > 0 ? (
@@ -62,7 +62,7 @@ export default async function HREvaluationTracksPage() {
           </div>
         </Card>
       ) : (
-        <EmptyState icon={FileText} title="لا توجد ملفات" description="ستظهر المسارات هنا." />
+        <EmptyState icon={<FileText className="h-8 w-8" />} title="لا توجد ملفات" description="ستظهر المسارات هنا." />
       )}
     </div>
   );

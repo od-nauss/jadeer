@@ -13,7 +13,7 @@ export default function HRNotesPage() {
       />
 
       <Card>
-        <EmptyState icon={FileText} title="لا توجد ملاحظات" description="ابدأ بتدوين ملاحظاتك المؤسسية." />
+        <EmptyState icon={<FileText className="h-8 w-8" />} title="لا توجد ملاحظات" description="ابدأ بتدوين ملاحظاتك المؤسسية." />
       </Card>
     </div>
   );

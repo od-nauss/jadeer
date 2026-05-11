@@ -18,7 +18,7 @@ export default async function AdvisorCardsPage() {
       <PageHeader
         title="البطاقات القيادية"
         description="عرض كافة البطاقات القيادية المعتمدة. لا يمكنك التعديل، فقط المراجعة والملاحظات."
-        icon={Award}
+        icon={<Award className="h-5 w-5" />}
       />
 
       {cards && cards.length > 0 ? (
@@ -66,7 +66,7 @@ export default async function AdvisorCardsPage() {
           </div>
         </Card>
       ) : (
-        <EmptyState icon={Award} title="لا توجد بطاقات معتمدة" description="ستظهر البطاقات هنا بعد الاعتماد." />
+        <EmptyState icon={<Award className="h-8 w-8" />} title="لا توجد بطاقات معتمدة" description="ستظهر البطاقات هنا بعد الاعتماد." />
       )}
     </div>
   );

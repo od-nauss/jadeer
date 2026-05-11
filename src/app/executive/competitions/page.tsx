@@ -15,7 +15,7 @@ export default async function ExecutiveCompetitionsPage() {
       <PageHeader
         title="المسابقات الوظيفية"
         description="جميع المسابقات الوظيفية في المنظمة وحالتها. اختر مرشحاً من نتائج المسابقة لرؤية بطاقته القيادية."
-        icon={Trophy}
+        icon={<Trophy className="h-5 w-5" />}
       />
 
       {competitions && competitions.length > 0 ? (
@@ -42,7 +42,7 @@ export default async function ExecutiveCompetitionsPage() {
           })}
         </div>
       ) : (
-        <EmptyState icon={Trophy} title="لا توجد مسابقات حالياً" description="ستظهر المسابقات هنا عند إنشائها." />
+        <EmptyState icon={<Trophy className="h-8 w-8" />} title="لا توجد مسابقات حالياً" description="ستظهر المسابقات هنا عند إنشائها." />
       )}
     </div>
   );

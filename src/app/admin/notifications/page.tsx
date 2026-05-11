@@ -16,7 +16,7 @@ export default async function AdminNotificationsPage() {
       <PageHeader
         title="الإشعارات الذكية"
         description="جميع الإشعارات المرسلة في المنصة. هذه الإشعارات موجهة حسب الدور وتساعد القيادة على عدم تفويت أي حدث مهم."
-        icon={Bell}
+        icon={<Bell className="h-5 w-5" />}
       />
 
       {notifications && notifications.length > 0 ? (
@@ -46,7 +46,7 @@ export default async function AdminNotificationsPage() {
           </div>
         </Card>
       ) : (
-        <EmptyState icon={Bell} title="لا توجد إشعارات بعد" description="ستظهر الإشعارات الذكية هنا تلقائياً." />
+        <EmptyState icon={<Bell className="h-8 w-8" />} title="لا توجد إشعارات بعد" description="ستظهر الإشعارات الذكية هنا تلقائياً." />
       )}
     </div>
   );

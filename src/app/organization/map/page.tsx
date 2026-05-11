@@ -68,7 +68,7 @@ export default async function OrganizationMapPage() {
           })}
         </div>
       ) : (
-        <EmptyState icon={Map} title="لا توجد وحدات" description="شغّل seed لإنشاء الهيكل التجريبي." />
+        <EmptyState icon={<Map className="h-8 w-8" />} title="لا توجد وحدات" description="شغّل seed لإنشاء الهيكل التجريبي." />
       )}
     </div>
   );

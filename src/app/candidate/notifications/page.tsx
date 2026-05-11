@@ -21,7 +21,7 @@ export default async function CandidateNotificationsPage() {
       <PageHeader
         title="الإشعارات"
         description="جميع الإشعارات الخاصة بك. تذكيرات إكمال الملف، حالة المراجعة، اعتماد البطاقة، وأي مستجدات."
-        icon={Bell}
+        icon={<Bell className="h-5 w-5" />}
       />
 
       {notifications && notifications.length > 0 ? (
@@ -55,7 +55,7 @@ export default async function CandidateNotificationsPage() {
           </div>
         </Card>
       ) : (
-        <EmptyState icon={Bell} title="لا توجد إشعارات" description="ستظهر إشعاراتك هنا تلقائياً." />
+        <EmptyState icon={<Bell className="h-8 w-8" />} title="لا توجد إشعارات" description="ستظهر إشعاراتك هنا تلقائياً." />
       )}
     </div>
   );

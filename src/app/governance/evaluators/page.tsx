@@ -58,7 +58,7 @@ export default async function GovernanceEvaluatorsPage() {
         </Card>
       ) : (
         <EmptyState
-          icon={Users}
+          icon={<Users className="h-8 w-8" />}
           title="لا توجد قوائم بانتظار الاعتماد"
           description="ستظهر القوائم هنا فور إرسال المرشحين لمقترحاتهم."
         />

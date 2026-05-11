@@ -18,7 +18,7 @@ export default async function AdvisorCandidatesPage() {
       <PageHeader
         title="المرشحون"
         description="جميع المرشحين بالبطاقات المعتمدة. للقراءة فقط."
-        icon={Users}
+        icon={<Users className="h-5 w-5" />}
       />
 
       {cards && cards.length > 0 ? (
@@ -57,7 +57,7 @@ export default async function AdvisorCandidatesPage() {
           })}
         </div>
       ) : (
-        <EmptyState icon={Users} title="لا توجد بطاقات" description="ستظهر البطاقات بعد اعتماد اللجنة." />
+        <EmptyState icon={<Users className="h-8 w-8" />} title="لا توجد بطاقات" description="ستظهر البطاقات بعد اعتماد اللجنة." />
       )}
     </div>
   );

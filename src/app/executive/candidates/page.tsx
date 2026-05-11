@@ -84,7 +84,7 @@ export default async function ExecutiveCandidatesPage() {
         </div>
       ) : (
         <EmptyState
-          icon={Users}
+          icon={<Users className="h-8 w-8" />}
           title="لا توجد بطاقات معتمدة"
           description="ستظهر البطاقات هنا فور اعتماد لجنة الحوكمة."
         />

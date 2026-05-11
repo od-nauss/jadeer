@@ -46,7 +46,7 @@ export default async function AdminCompetitionsPage() {
         </div>
       ) : (
         <EmptyState
-          icon={Trophy}
+          icon={<Trophy className="h-8 w-8" />}
           title="لا توجد مسابقات حالياً"
           description="ستظهر هنا المسابقات الوظيفية عند إنشائها."
         />
