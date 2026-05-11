@@ -158,9 +158,9 @@ export default async function HomePage() {
         </div>
 
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center">
-          {/* شعار زخرفي */}
+          {/* شعار الجامعة */}
           <div className="flex justify-center mb-8">
-            <div className="h-1 w-24 bg-gradient-to-l from-transparent via-gold-400 to-transparent rounded-full" />
+            <UniversityLogo size="lg" />
           </div>
 
           {/* اسم المنصة */}
