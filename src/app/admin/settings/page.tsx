@@ -1,23 +1,9 @@
 import { Settings, Lock, Bell, Globe, Database, Cpu } from 'lucide-react';
 import { PageHeader, Card } from '@/components/ui';
-import { createServiceClient } from '@/lib/supabase/server';
+import { cookies } from 'next/headers';
 import { ExecBypassToggle } from './ExecBypassToggle';
 
 export const dynamic = 'force-dynamic';
-
-async function getBypassStatus(): Promise<boolean> {
-  try {
-    const service = createServiceClient();
-    const { data } = await service
-      .from('executive_center_access')
-      .select('bypass_active')
-      .limit(1)
-      .single();
-    return data?.bypass_active === true;
-  } catch {
-    return false;
-  }
-}
 
 const INFO_GROUPS = [
   {
@@ -34,8 +20,7 @@ const INFO_GROUPS = [
     title: 'الذكاء الاصطناعي',
     items: [
       { label: 'مزود الذكاء الاصطناعي', value: 'Anthropic / OpenAI (حسب البيئة)' },
-      { label: 'تحليل الملفات', value: 'مفعّل' },
-      { label: 'تحليل المبادرات', value: 'مفعّل' },
+      { label: 'تحليل الملفات والمبادرات', value: 'مفعّل (قواعد)' },
       { label: 'كشف التحيز في 360', value: 'مفعّل' },
       { label: 'توليد ملخص البطاقة القيادية', value: 'مفعّل' },
     ],
@@ -55,26 +40,26 @@ const INFO_GROUPS = [
     items: [
       { label: 'مزود قاعدة البيانات', value: 'Supabase Postgres' },
       { label: 'النسخ الاحتياطي', value: 'يومي تلقائي' },
-      { label: 'تشفير الاتصالات', value: 'TLS 1.3' },
-      { label: 'صلاحية رابط 360', value: 'استخدام واحد فقط' },
-      { label: 'مدة صلاحية رابط 360', value: '14 يوماً' },
+      { label: 'صلاحية رابط 360', value: 'استخدام واحد فقط — 14 يوماً' },
     ],
   },
 ];
 
-export default async function AdminSettingsPage() {
-  const bypassActive = await getBypassStatus();
+export default function AdminSettingsPage() {
+  const cookieStore = cookies();
+  const bypassCookie = cookieStore.get('exec_center_bypass');
+  const bypassActive = bypassCookie?.value === 'granted' || process.env.EXEC_CENTER_NO_PASSWORD === 'true';
 
   return (
     <div dir="rtl">
       <PageHeader
         title="إعدادات النظام"
-        description="إعدادات المنصة الرئيسية. التعديلات تُسجَّل في سجل التدقيق."
+        description="إعدادات المنصة. التعديلات تُسجَّل في سجل التدقيق."
         icon={<Settings className="h-5 w-5" />}
       />
 
       <div className="space-y-5">
-        {/* الأمان — قابل للتعديل */}
+        {/* الأمان — تفاعلي */}
         <Card>
           <div className="flex items-center gap-3 mb-5">
             <div className="h-10 w-10 rounded-lg bg-gold-100 flex items-center justify-center">
@@ -83,24 +68,29 @@ export default async function AdminSettingsPage() {
             <h3 className="text-lg font-bold text-primary-700">الأمان والوصول</h3>
           </div>
 
-          {/* تبديل كلمة مرور العرض التنفيذي */}
-          <div className="p-4 bg-primary-50 border border-primary-200 rounded-xl mb-4">
+          <div className="p-4 bg-primary-50 border border-primary-200 rounded-xl">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
                 <div className="font-bold text-primary-700 text-sm mb-1">
                   كلمة مرور مركز العرض التنفيذي
                 </div>
                 <div className="text-xs text-darkgray leading-relaxed">
-                  عند التفعيل: يحتاج الزائر إدخال كلمة المرور <strong>1170</strong> للوصول للعرض.
+                  <strong>مغلق (أخضر):</strong> يطلب كلمة المرور <strong>1170</strong> للدخول.
                   <br />
-                  عند الإيقاف: يفتح العرض مباشرة بدون كلمة مرور — مناسب أثناء جلسات العرض على القيادة.
+                  <strong>مفتوح (أصفر):</strong> دخول مباشر بدون كلمة مرور — للعرض على القيادة.
                 </div>
               </div>
               <ExecBypassToggle initialBypass={bypassActive} />
             </div>
-            <div className={`mt-3 text-xs px-3 py-1.5 rounded-lg inline-flex items-center gap-1.5 ${bypassActive ? 'bg-amber-50 text-amber-700 border border-amber-200' : 'bg-sage/10 text-sage border border-sage/20'}`}>
+            <div className={`mt-3 text-xs px-3 py-1.5 rounded-lg inline-flex items-center gap-1.5 border ${
+              bypassActive
+                ? 'bg-amber-50 text-amber-700 border-amber-200'
+                : 'bg-sage/10 text-sage border-sage/20'
+            }`}>
               <span className={`h-2 w-2 rounded-full ${bypassActive ? 'bg-amber-500' : 'bg-sage'}`} />
-              {bypassActive ? 'مفتوح الآن — بدون كلمة مرور' : 'محمي بكلمة المرور 1170'}
+              {bypassActive
+                ? 'العرض التنفيذي مفتوح الآن بدون كلمة مرور'
+                : 'العرض التنفيذي محمي بكلمة المرور 1170'}
             </div>
           </div>
         </Card>

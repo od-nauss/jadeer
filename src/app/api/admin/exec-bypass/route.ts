@@ -1,53 +1,33 @@
-﻿// POST /api/admin/exec-bypass
-// يفعّل أو يعطّل كلمة المرور لمركز العرض التنفيذي
+// POST /api/admin/exec-bypass — يفعّل أو يعطّل مركز العرض بدون كلمة مرور
+// يستخدم cookie مباشرة بدون الحاجة لتعديل قاعدة البيانات
 import { NextRequest, NextResponse } from 'next/server';
-import { createServiceClient } from '@/lib/supabase/server';
+import { cookies } from 'next/headers';
 import { getCurrentUser } from '@/lib/auth/current-user';
+
+const BYPASS_COOKIE = 'exec_center_bypass';
 
 export async function POST(req: NextRequest) {
   const user = await getCurrentUser();
-  if (!user || user.primaryRole !== 'admin') {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  if (!user || !user.isAdmin) {
+    return NextResponse.json({ error: 'Forbidden — admin only' }, { status: 403 });
   }
 
   const { bypass } = await req.json();
-  const service = createServiceClient();
+  const response = NextResponse.json({ ok: true, bypass_active: !!bypass });
 
-  const { data: existing } = await service
-    .from('executive_center_access')
-    .select('id')
-    .limit(1)
-    .single();
-
-  if (existing) {
-    await service
-      .from('executive_center_access')
-      .update({ bypass_active: !!bypass, updated_at: new Date().toISOString() })
-      .eq('id', existing.id);
-  } else {
-    await service.from('executive_center_access').insert({
-      access_code_hash: '',
-      is_active: true,
-      bypass_active: !!bypass,
-    });
-  }
-
-  await service.from('audit_logs').insert({
-    user_id: user.id,
-    action: bypass ? 'exec_center_bypass_enabled' : 'exec_center_bypass_disabled',
-    entity_type: 'executive_center_access',
-    new_values: { bypass_active: !!bypass },
+  response.cookies.set(BYPASS_COOKIE, bypass ? 'granted' : '', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: bypass ? 60 * 60 * 24 * 30 : 0,
+    path: '/',
   });
 
-  return NextResponse.json({ ok: true, bypass_active: !!bypass });
+  return response;
 }
 
 export async function GET() {
-  const service = createServiceClient();
-  const { data } = await service
-    .from('executive_center_access')
-    .select('bypass_active')
-    .limit(1)
-    .single();
-  return NextResponse.json({ bypass_active: data?.bypass_active ?? false });
+  const cookieStore = cookies();
+  const c = cookieStore.get(BYPASS_COOKIE);
+  return NextResponse.json({ bypass_active: c?.value === 'granted' });
 }
