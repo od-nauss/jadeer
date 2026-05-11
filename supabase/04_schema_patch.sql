@@ -28,6 +28,11 @@ ALTER TABLE leadership_cards
 -- تحديث is_published بناءً على الحالة الحالية
 UPDATE leadership_cards SET is_published = (status = 'approved');
 
+-- إضافة عمود status لجدول evaluator_nominees
+ALTER TABLE evaluator_nominees
+  ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'pending'
+    CHECK (status IN ('pending','approved','rejected'));
+
 -- للتحقق من نجاح التعديل:
 SELECT column_name, data_type
 FROM information_schema.columns

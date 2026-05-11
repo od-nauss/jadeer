@@ -326,6 +326,7 @@ CREATE TABLE IF NOT EXISTS evaluator_nominees (
   verifiable_kpi_ids UUID[],
   has_personal_relationship BOOLEAN DEFAULT FALSE,
   notes TEXT,
+  status TEXT DEFAULT 'pending' CHECK (status IN ('pending','approved','rejected')),
   is_demo BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
