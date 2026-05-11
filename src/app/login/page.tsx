@@ -45,7 +45,7 @@ function LoginForm() {
         .from('users')
         .select('id, user_roles(roles(code))')
         .eq('auth_user_id', data.user.id)
-        .single();
+        .maybeSingle();
 
       type UserRoleRow = { roles: { code: string } };
       const roles = (userRow as { user_roles?: UserRoleRow[] } | null)?.user_roles?.map(
@@ -60,6 +60,9 @@ function LoginForm() {
         router.push(redirect);
       } else if (primaryRole && ROLES[primaryRole as keyof typeof ROLES]) {
         router.push(ROLES[primaryRole as keyof typeof ROLES].homePath);
+      } else if (data.user.email === 'admin@nauss.edu.sa') {
+        // المدير: توجيه للوحة الإدارة حتى لو لم يتم تهيئة السجل بعد
+        router.push('/admin/dashboard');
       } else {
         router.push('/');
       }

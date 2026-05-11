@@ -177,22 +177,41 @@ export default async function HomePage() {
           </p>
 
           {/* أزرار CTA */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="/register"
-              className="btn-gold px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-gold-900/20 flex items-center gap-2"
-            >
-              ابدأ رحلتك القيادية
-              <ArrowLeft className="h-5 w-5" />
-            </Link>
-            <Link
-              href="/exec-access"
-              className="px-8 py-4 rounded-xl font-bold text-lg border-2 border-gold-400/50 text-gold-200 hover:bg-gold-400/10 hover:border-gold-300 transition-all flex items-center gap-2"
-            >
-              <Eye className="h-5 w-5" />
-              استعراض العرض التنفيذي
-            </Link>
-          </div>
+          {user ? (
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                href={ROLES[user.primaryRole]?.homePath || '/'}
+                className="btn-gold px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-gold-900/20 flex items-center gap-2"
+              >
+                الانتقال إلى بوابتي
+                <ArrowLeft className="h-5 w-5" />
+              </Link>
+              <Link
+                href="/exec-access"
+                className="px-8 py-4 rounded-xl font-bold text-lg border-2 border-gold-400/50 text-gold-200 hover:bg-gold-400/10 hover:border-gold-300 transition-all flex items-center gap-2"
+              >
+                <Eye className="h-5 w-5" />
+                مركز العرض التنفيذي
+              </Link>
+            </div>
+          ) : (
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                href="/register"
+                className="btn-gold px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-gold-900/20 flex items-center gap-2"
+              >
+                ابدأ رحلتك القيادية
+                <ArrowLeft className="h-5 w-5" />
+              </Link>
+              <Link
+                href="/exec-access"
+                className="px-8 py-4 rounded-xl font-bold text-lg border-2 border-gold-400/50 text-gold-200 hover:bg-gold-400/10 hover:border-gold-300 transition-all flex items-center gap-2"
+              >
+                <Eye className="h-5 w-5" />
+                استعراض العرض التنفيذي
+              </Link>
+            </div>
+          )}
 
           {/* إحصائيات سريعة */}
           <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
