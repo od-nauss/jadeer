@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+﻿import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import {
   Target,
@@ -28,7 +28,7 @@ export const dynamic = 'force-dynamic';
 // ── رحلة الموظف — 7 مراحل ────────────────────────────────────────────────
 const JOURNEY_STEPS = [
   {
-    num: '١',
+    num: '1',
     title: 'الملف القيادي',
     desc: 'تعبئة بيانات المسيرة المهنية، الشهادات، الإنجازات، وسمات القيادة الذاتية.',
     icon: FileText,
@@ -37,7 +37,7 @@ const JOURNEY_STEPS = [
     border: 'border-primary-200',
   },
   {
-    num: '٢',
+    num: '2',
     title: 'المبادرات والإنجازات',
     desc: 'توثيق المشاريع التي قادها الموظف، تأثيرها على المنظمة، وشهادات داعمة.',
     icon: Lightbulb,
@@ -46,7 +46,7 @@ const JOURNEY_STEPS = [
     border: 'border-gold-200',
   },
   {
-    num: '٣',
+    num: '3',
     title: 'مؤشرات الأداء',
     desc: 'تحميل KPIs الموثقة وتقارير الأداء السنوية كأدلة قابلة للقياس.',
     icon: BarChart3,
@@ -55,7 +55,7 @@ const JOURNEY_STEPS = [
     border: 'border-blue-200',
   },
   {
-    num: '٤',
+    num: '4',
     title: 'الاختبارات الذكية',
     desc: 'اختبارات تكيفية تقيس التفكير الاستراتيجي، صنع القرار، واليقظة القيادية.',
     icon: Brain,
@@ -64,7 +64,7 @@ const JOURNEY_STEPS = [
     border: 'border-emerald-200',
   },
   {
-    num: '٥',
+    num: '5',
     title: 'دائرة الثقة — تقييم 360°',
     desc: 'تقييم سري من 15 مقيماً تختارهم اللجنة من مستويات مختلفة داخل المنظمة.',
     icon: Users,
@@ -73,7 +73,7 @@ const JOURNEY_STEPS = [
     border: 'border-rose-200',
   },
   {
-    num: '٦',
+    num: '6',
     title: 'البطاقة القيادية',
     desc: 'نتيجة موثقة تتضمن درجة الجاهزية، نوع القيادة، نقاط القوة، والفجوات.',
     icon: Award,
@@ -82,7 +82,7 @@ const JOURNEY_STEPS = [
     border: 'border-amber-200',
   },
   {
-    num: '٧',
+    num: '7',
     title: 'خطة التطوير',
     desc: 'خطة مخصصة لسد الفجوات وتسريع مسار القيادة بناءً على نتائج التقييم.',
     icon: TrendingUp,
@@ -319,10 +319,10 @@ export default async function HomePage() {
 
           <div className="grid md:grid-cols-4 gap-6">
             {[
-              { step: '١', title: 'التقديم', desc: 'يقدّم الموظف ملفه القيادي ومبادراته ومؤشرات أدائه عبر المنصة.', color: 'bg-primary-600' },
-              { step: '٢', title: 'التقييم', desc: 'اختبارات ذكية ودائرة 360° من 15 مقيماً معتمداً من مستويات مختلفة.', color: 'bg-gold-600' },
-              { step: '٣', title: 'التحليل', desc: 'تحليل ذكي شامل يصدر درجة الجاهزية، نوع القيادة، ونقاط القوة والفجوات.', color: 'bg-steelblue' },
-              { step: '٤', title: 'القرار', desc: 'لجنة الحوكمة تراجع وتعتمد التصنيف، وتصدر بطاقة قيادية موثقة رسمياً.', color: 'bg-sage' },
+              { step: '1', title: 'التقديم', desc: 'يقدّم الموظف ملفه القيادي ومبادراته ومؤشرات أدائه عبر المنصة.', color: 'bg-primary-600' },
+              { step: '2', title: 'التقييم', desc: 'اختبارات ذكية ودائرة 360° من 15 مقيماً معتمداً من مستويات مختلفة.', color: 'bg-gold-600' },
+              { step: '3', title: 'التحليل', desc: 'تحليل ذكي شامل يصدر درجة الجاهزية، نوع القيادة، ونقاط القوة والفجوات.', color: 'bg-steelblue' },
+              { step: '4', title: 'القرار', desc: 'لجنة الحوكمة تراجع وتعتمد التصنيف، وتصدر بطاقة قيادية موثقة رسمياً.', color: 'bg-sage' },
             ].map((phase, i) => (
               <div key={i} className="relative">
                 {i < 3 && (
@@ -356,7 +356,7 @@ export default async function HomePage() {
               رحلة الموظف
             </span>
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
-              ٧ مراحل نحو البطاقة القيادية
+              7 مراحل نحو البطاقة القيادية
             </h2>
             <p className="text-white/70 max-w-xl mx-auto">
               مسار متكامل يوثق كل جانب من جوانب قدراتك القيادية
