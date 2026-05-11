@@ -102,6 +102,7 @@ export const SIDEBAR_ITEMS: Record<RoleCode, SidebarItem[]> = {
     { label: 'مسارات التقييم', href: '/hr/evaluation-tracks', icon: Route },
     { label: 'خطط التطوير الفردية', href: '/hr/development-plans', icon: Target },
     { label: 'تقارير التطوير', href: '/hr/development-reports', icon: TrendingUp },
+    { label: 'تحليل احتياجات القيادة', href: '/hr/leadership-needs', icon: Briefcase },
     { label: 'إشعارات المتابعة', href: '/hr/notifications', icon: Bell },
     { label: 'ملاحظات الموارد البشرية', href: '/hr/notes', icon: StickyNote },
   ],
