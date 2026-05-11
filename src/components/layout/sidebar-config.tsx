@@ -66,6 +66,8 @@ export const SIDEBAR_ITEMS: Record<RoleCode, SidebarItem[]> = {
     { label: 'البطاقات القيادية', href: '/executive/candidates', icon: IdCard },
     { label: 'مقارنة المرشحين', href: '/executive/compare', icon: IdCard },
     { label: 'خريطة الملاءمة التنظيمية', href: '/organization/map', icon: MapIcon },
+    { label: 'الفجوات القيادية', href: '/organization/gaps', icon: AlertTriangle },
+    { label: 'خريطة التعاقب', href: '/organization/succession', icon: GitCompareArrows },
     { label: 'التقارير التنفيذية', href: '/executive/reports', icon: FileBarChart },
     { label: 'المسابقات الوظيفية', href: '/executive/competitions', icon: Trophy },
     { label: 'توصيات المنصة', href: '/executive/recommendations', icon: Lightbulb },
