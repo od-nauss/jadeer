@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { cookies, headers } from 'next/headers';
+import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { UniversityLogo } from '@/components/branding/Logo';
@@ -29,24 +29,12 @@ export default function ExecutiveCenterLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Read current pathname injected by middleware
-  const headersList = headers();
-  const pathname = headersList.get('x-pathname') ?? '';
+  const cookieStore = cookies();
+  const access = cookieStore.get('executive_center_access');
 
-  // Don't apply auth check to the login page itself
-  const isLoginPage = pathname === '/executive-center/login';
-
-  if (!isLoginPage) {
-    const cookieStore = cookies();
-    const access = cookieStore.get('executive_center_access');
-    if (!access || access.value !== 'granted') {
-      redirect('/executive-center/login');
-    }
-  }
-
-  // Login page renders without nav wrapper
-  if (isLoginPage) {
-    return <>{children}</>;
+  // Redirect to the standalone access page (outside this layout)
+  if (!access || access.value !== 'granted') {
+    redirect('/exec-access');
   }
 
   return (

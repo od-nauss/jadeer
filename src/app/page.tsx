@@ -190,7 +190,7 @@ export default async function HomePage() {
               <ArrowLeft className="h-5 w-5" />
             </Link>
             <Link
-              href="/executive-center/login"
+              href="/exec-access"
               className="px-8 py-4 rounded-xl font-bold text-lg border-2 border-gold-400/50 text-gold-200 hover:bg-gold-400/10 hover:border-gold-300 transition-all flex items-center gap-2"
             >
               <Eye className="h-5 w-5" />
@@ -512,7 +512,7 @@ export default async function HomePage() {
                 يشمل النماذج التجريبية، الحوكمة، والأسئلة الشائعة.
               </p>
               <Link
-                href="/executive-center/login"
+                href="/exec-access"
                 className="inline-flex items-center gap-3 btn-gold px-8 py-4 rounded-xl font-bold text-lg shadow-xl"
               >
                 <Eye className="h-5 w-5" />
