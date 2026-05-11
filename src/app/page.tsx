@@ -160,7 +160,9 @@ export default async function HomePage() {
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center">
           {/* شعار الجامعة */}
           <div className="flex justify-center mb-8">
-            <UniversityLogo size="lg" className="brightness-0 invert opacity-90" />
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-8 py-4 border border-white/20">
+              <UniversityLogo size="md" />
+            </div>
           </div>
 
           {/* اسم المنصة */}
@@ -594,7 +596,9 @@ export default async function HomePage() {
       ══════════════════════════════════════════════════════════════════ */}
       <section className="py-20 bg-gradient-to-br from-gold-50 via-ivory to-primary-50/30">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <UniversityLogo size="md" className="mx-auto mb-8 opacity-70" />
+          <div className="flex justify-center mb-8">
+            <UniversityLogo size="md" className="opacity-80" />
+          </div>
           <h2 className="text-3xl md:text-4xl font-bold text-primary-800 mb-4">
             هل أنت جاهز لإثبات جدارتك القيادية؟
           </h2>
