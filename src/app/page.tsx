@@ -237,7 +237,7 @@ export default async function HomePage() {
               <div className="gold-divider mb-4" />
               <p className="text-darkgray leading-relaxed text-sm">
                 أن تكون المرجع المؤسسي الأول في قياس الجاهزية القيادية،
-                وتمكين المنظمات من اكتشاف قادة المستقبل عبر منهجية علمية
+                وتمكين الجامعة من اكتشاف قادة المستقبل عبر منهجية علمية
                 موثوقة وشفافة تكشف القادة الظاهرين والمخفيين على حد سواء.
               </p>
             </div>
