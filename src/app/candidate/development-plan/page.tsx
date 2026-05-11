@@ -35,7 +35,7 @@ export default async function CandidateDevelopmentPlanPage() {
         title="خطة التطوير الفردية"
         description="خطة مولّدة من المنصة بناءً على فجواتك في البطاقة القيادية، تراجعها الموارد البشرية وتعتمدها اللجنة. تابع تنفيذها بانتظام."
         example="إذا كانت فجوتك 'إدارة الأزمات'، ستجد هنا برنامج 'القيادة في الأزمات' مع مدة 8 أسابيع وأولوية عالية."
-        icon={Target}
+        icon={<Target className="h-5 w-5" />}
       />
 
       {!plan ? (

@@ -30,7 +30,7 @@ export default async function Candidate360Page() {
         title="دائرة الثقة القيادية (تقييم 360)"
         description="اقترح 15 مقيماً يعرفون عملك من زوايا مختلفة (مدير، زملاء، مرؤوسون، أصحاب علاقة). لجنة الحوكمة ستعتمد 7-10 منهم، و60% على الأقل من اختيار اللجنة."
         example="نوّع: 1 مدير مباشر + 3 زملاء + 3 مرؤوسين + 2 أصحاب علاقة + 1 من خارج إدارتك. التنوع يرفع جودة التقييم."
-        icon={Users}
+        icon={<Users className="h-5 w-5" />}
       />
 
       <Card className="mb-6 bg-gold-50 border-r-4 border-gold-400">

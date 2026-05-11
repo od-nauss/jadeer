@@ -26,7 +26,7 @@ export default async function OrganizationMapPage() {
         title="خريطة الكفاءات في المنظمة"
         description="رؤية بانورامية للوحدات التنظيمية والكفاءات المتاحة. تستطيع رؤية الوحدات بدون بدائل قيادية بسرعة."
         example="إذا ظهرت وحدة بشارة 'بدون بدائل'، فهذا تنبيه مؤسسي لبدء تطوير صف ثاني فيها."
-        icon={Map}
+        icon={<Map className="h-5 w-5" />}
       />
 
       {units && units.length > 0 ? (

@@ -16,7 +16,7 @@ export default async function OrganizationSuccessionPage() {
         title="خريطة التعاقب الوظيفي"
         description="استدامة القيادة تتطلب وضوح الصف الثاني والثالث لكل منصب حساس. هذه الخريطة تجيب على سؤال: ماذا لو غادر القائد؟"
         example="لكل وحدة حرجة: من البديل المباشر؟ من الصف الثاني (سنة)؟ من الصف الثالث (3 سنوات)؟"
-        icon={Users}
+        icon={<Users className="h-5 w-5" />}
       />
 
       {succession && succession.length > 0 ? (

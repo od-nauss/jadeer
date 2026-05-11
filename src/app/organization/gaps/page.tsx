@@ -24,7 +24,7 @@ export default async function OrganizationGapsPage() {
         title="الفجوات القيادية"
         description="رصد الوحدات التي تحتاج اهتماماً قيادياً عاجلاً: شواغر، عدم وجود بدائل، إدارات حرجة."
         example="إذا ظهرت إدارة حرجة دون مرشحين بنسبة ملاءمة 70%+، فهذا تنبيه استراتيجي عاجل."
-        icon={AlertTriangle}
+        icon={<AlertTriangle className="h-5 w-5" />}
       />
 
       <div className="grid md:grid-cols-2 gap-5">

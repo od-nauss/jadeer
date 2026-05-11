@@ -135,12 +135,8 @@ const GOVERNANCE_FEATURES = [
 ];
 
 export default async function HomePage() {
-  // إذا كان المستخدم مسجلاً → وجّهه لصفحته مباشرة
+  // المستخدم المسجّل يرى الصفحة الرئيسية — يمكنه الانتقال لبوابته من الهيدر
   const user = await getCurrentUser();
-  if (user) {
-    const homePath = ROLES[user.primaryRole]?.homePath;
-    redirect(homePath ?? '/candidate/dashboard');
-  }
 
   return (
     <div className="min-h-screen bg-ivory" dir="rtl">

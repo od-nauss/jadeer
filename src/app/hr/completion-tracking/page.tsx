@@ -19,7 +19,7 @@ export default async function HRCompletionTrackingPage() {
         title="متابعة استكمال الملفات"
         description="المرشحون الذين بدأوا ولم يكتملوا. تستطيع تذكيرهم برسالة أو إشعار. مرتبة من الأقدم تحديثاً."
         example="إذا لم يدخل مرشح منذ أكثر من 14 يوماً وملفه أقل من 80% أكتمل، أرسل تذكيراً."
-        icon={Activity}
+        icon={<Activity className="h-5 w-5" />}
       />
 
       {profiles && profiles.length > 0 ? (

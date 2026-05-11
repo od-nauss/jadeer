@@ -19,7 +19,7 @@ export default async function GovernanceResultsPage() {
         title="اعتماد النتائج النهائية"
         description="بطاقات قيادية مولّدة بالذكاء الاصطناعي تنتظر اعتماد اللجنة. لا تُنشر للقيادة قبل الاعتماد."
         example="راجع البطاقة، عدّل التصنيف إذا رأت اللجنة ذلك ضرورياً، ووثّق سبب القرار قبل النشر."
-        icon={Award}
+        icon={<Award className="h-5 w-5" />}
       />
 
       {cards && cards.length > 0 ? (

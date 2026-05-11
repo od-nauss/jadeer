@@ -9,7 +9,7 @@ export default function AdvisorNotesPage() {
         title="ملاحظاتي"
         description="مساحة شخصية لتدوين ملاحظاتك على البطاقات القيادية. تشاركها مع الرئيس بطلبه."
         example="مثلاً: 'المرشح س قوي تشغيلياً لكن أرى أنه قد يستفيد من تجربة في الإدارة الاستراتيجية قبل التكليف الكامل.'"
-        icon={FileText}
+        icon={<FileText className="h-5 w-5" />}
       />
 
       <Card>

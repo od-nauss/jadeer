@@ -16,7 +16,7 @@ export default async function AdminPageContentPage() {
         title="إدارة محتوى الصفحات"
         description="تعديل محتوى الصفحات العامة (الصفحة الرئيسية، التعريف، لجنة الحوكمة، تواصل معنا)."
         example="يمكنك تحديث نص الرؤية والرسالة، أو تحديث معلومات التواصل دون الحاجة لتعديل الكود."
-        icon={FileText}
+        icon={<FileText className="h-5 w-5" />}
       />
 
       <Card>

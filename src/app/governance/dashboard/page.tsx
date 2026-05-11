@@ -21,7 +21,7 @@ export default async function GovernanceDashboard() {
         title="لوحة لجنة الحوكمة"
         description="مركز عمل اللجنة. من هنا تراجع الملفات، تعتمد المقيمين، تصدر القرارات، تعالج التظلمات. كل قرار يُسجَّل."
         example="ابدأ يومك بمراجعة 'الملفات بانتظار المراجعة'، ثم 'اعتماد المقيمين'، ثم 'التظلمات المفتوحة'."
-        icon={ShieldCheck}
+        icon={<ShieldCheck className="h-5 w-5" />}
       />
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">

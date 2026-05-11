@@ -18,7 +18,7 @@ export default async function GovernanceReviewsPage() {
         title="الملفات بانتظار المراجعة"
         description="جميع الملفات المرسلة من المرشحين والتي تنتظر مراجعة لجنة الحوكمة. الترتيب حسب الأقدمية لضمان العدالة في الانتظار."
         example="انقر على أي ملف لرؤية كل بياناته (الملف، المبادرات، المؤشرات، الاختبارات، 360) واتخاذ قرار."
-        icon={FileSearch}
+        icon={<FileSearch className="h-5 w-5" />}
       />
 
       {profiles && profiles.length > 0 ? (

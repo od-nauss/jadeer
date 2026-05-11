@@ -27,7 +27,7 @@ export default async function GovernanceAppealsPage() {
         title="التظلمات"
         description="جميع التظلمات المُقدَّمة من المرشحين. كل تظلم يخضع لتحليل ذكي ثم قرار اللجنة. القرار يُسجَّل في سجل التدقيق."
         example="أنواع التظلم: تحيز مقيم، عدم موافقة على التصنيف، طلب تصحيح بيانات، طلب إعادة تقييم، وغيرها."
-        icon={AlertTriangle}
+        icon={<AlertTriangle className="h-5 w-5" />}
       />
 
       {appeals && appeals.length > 0 ? (

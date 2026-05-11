@@ -17,7 +17,7 @@ export default async function AdminAuditLogsPage() {
         title="سجل التدقيق"
         description="سجل جميع العمليات الحساسة في المنصة. هذا السجل لا يقبل الحذف من الواجهة، وهو الضامن الأساسي للحوكمة والمساءلة."
         example="تستطيع تصفية السجل حسب الدور، نوع العملية، أو الفترة الزمنية."
-        icon={ScrollText}
+        icon={<ScrollText className="h-5 w-5" />}
       />
 
       <Card>

@@ -27,7 +27,7 @@ export default async function CandidateInitiativesPage() {
         title="المبادرات والإنجازات"
         description="وثّق المبادرات التي قدتها أو شاركت فيها. كل مبادرة تحتاج: العنوان، دورك الفعلي، الأثر، الشواهد، والشهود."
         example="مثلاً: 'مشروع رقمنة الإجراءات' - دوري: قائد المشروع - الأثر: تقليل الوقت 40% - الشواهد: تقرير المشروع - الشهود: مدير الإدارة + 3 من الفريق."
-        icon={Briefcase}
+        icon={<Briefcase className="h-5 w-5" />}
       />
 
       <div className="mb-4">

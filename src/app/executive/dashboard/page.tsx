@@ -39,7 +39,7 @@ export default async function ExecutiveDashboard() {
         title="لوحة القيادة العليا"
         description="نظرة شاملة على جاهزية الكفاءات في المنظمة. هذه اللوحة تساعدك على رؤية الكفاءات الجاهزة، الواعدة، والمخفية بنظرة واحدة."
         example="انقر على 'بطاقات المرشحين' لرؤية البطاقات الكاملة المعتمدة من لجنة الحوكمة."
-        icon={LayoutDashboard}
+        icon={<LayoutDashboard className="h-5 w-5" />}
       />
 
       {/* المؤشرات */}

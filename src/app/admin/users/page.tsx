@@ -17,7 +17,7 @@ export default async function AdminUsersPage() {
         title="إدارة المستخدمين"
         description="إدارة جميع مستخدمي المنصة: إضافة، تعديل، تعطيل، تغيير الأدوار، إعادة تعيين كلمات المرور."
         example="يمكنك تعطيل مستخدم لمنعه من الدخول دون حذف بياناته، أو تغيير دوره ليعرض البوابة المناسبة."
-        icon={Users}
+        icon={<Users className="h-5 w-5" />}
       />
 
       <Card>

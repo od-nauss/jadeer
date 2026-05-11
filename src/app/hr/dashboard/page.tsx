@@ -19,7 +19,7 @@ export default async function HRDashboard() {
         title="لوحة الموارد البشرية"
         description="مركز عمل الموارد البشرية: متابعة المرشحين، إدارة المسابقات، خطط التطوير، تقارير الفجوات القيادية."
         example="ابدأ يومك بمتابعة المرشحين الذين توقفوا عن إكمال ملفاتهم، ثم خطط التطوير التي تحتاج مراجعة."
-        icon={GraduationCap}
+        icon={<GraduationCap className="h-5 w-5" />}
       />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">

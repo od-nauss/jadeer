@@ -19,7 +19,7 @@ export default async function ExecutiveCandidatesPage() {
         title="المرشحون"
         description="جميع المرشحين الذين اعتمدت لجنة الحوكمة بطاقاتهم القيادية. الترتيب بالدرجة الكلية."
         example="انقر على أي مرشح لرؤية بطاقته الكاملة: نقاط القوة، الفجوات، الملاءمة التنظيمية، التوصية."
-        icon={Users}
+        icon={<Users className="h-5 w-5" />}
       />
 
       {cards && cards.length > 0 ? (

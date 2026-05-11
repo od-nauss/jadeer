@@ -38,7 +38,7 @@ export default async function CandidateAppealsPage() {
         title="تظلماتي"
         description="حقّك في التظلم على أي قرار جزء من ضمانات العدالة في منصة جدير. كل تظلم يُحلَّل بالذكاء الاصطناعي ثم تنظر فيه لجنة الحوكمة."
         example="ثمانية أنواع من التظلمات: تحيز مقيم، عدم موافقة على التصنيف، طلب تصحيح بيانات، طلب إعادة تقييم، وغيرها."
-        icon={AlertTriangle}
+        icon={<AlertTriangle className="h-5 w-5" />}
       />
 
       <div className="mb-4">

@@ -16,7 +16,7 @@ export default async function HRCompetitionsPage() {
         title="المسابقات الوظيفية"
         description="إنشاء وإدارة المسابقات الوظيفية. كل مسابقة تربط بشاغر محدد ومعايير ملاءمة معينة."
         example="مسابقة 'مدير وحدة دعم الفرق' للمرشحين بتصنيف 'قائد إنساني' وجاهزية 70%+."
-        icon={Trophy}
+        icon={<Trophy className="h-5 w-5" />}
       />
 
       <div className="mb-4">

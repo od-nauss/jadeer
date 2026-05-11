@@ -17,7 +17,7 @@ export default async function AdminOrganizationPage() {
         title="إدارة الهيكل التنظيمي"
         description="بناء وإدارة الهيكل التنظيمي للمنظمة. يستخدم الهيكل لقياس الملاءمة التنظيمية فقط، ولا يستخدم كأساس للتصنيف القيادي."
         example="يمكنك إضافة قطاعات، وكالات، إدارات، أقسام، وحدات، لجان، ومشاريع استراتيجية."
-        icon={Building2}
+        icon={<Building2 className="h-5 w-5" />}
       />
 
       {units && units.length > 0 ? (

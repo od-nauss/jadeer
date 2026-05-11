@@ -17,7 +17,7 @@ export default async function HRDevelopmentPlansPage() {
         title="خطط التطوير الفردية"
         description="خطط التطوير المُولَّدة بالذكاء الاصطناعي والمراجعة من الموارد. كل خطة مرتبطة ببطاقة قيادية."
         example="الخطة تتضمن: المهارة المستهدفة، البرنامج المقترح، المدة، المتابعة الدورية."
-        icon={Target}
+        icon={<Target className="h-5 w-5" />}
       />
 
       {plans && plans.length > 0 ? (

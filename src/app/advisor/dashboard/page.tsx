@@ -18,7 +18,7 @@ export default async function AdvisorDashboard() {
         title="لوحة المستشار"
         description="عرض البطاقات القيادية المعتمدة. صلاحيتك للقراءة فقط، ولا يمكنك تعديل أي قرار. كل اطلاع يُسجَّل."
         example="استخدم 'الملاحظات' لتدوين تحليلاتك ومشاركتها مع الرئيس عند طلبه."
-        icon={Eye}
+        icon={<Eye className="h-5 w-5" />}
       />
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-8">

@@ -27,7 +27,7 @@ export default async function CandidateKPIsPage() {
         title="مؤشرات الأداء"
         description="ما المؤشرات التي استخدمتها لقياس عملك؟ نضج المؤشر يدل على نضج القائد. اذكر المؤشر، المستهدف، المحقق، ومصدر التحقق."
         example="مثلاً: مؤشر 'وقت معالجة الطلب' - مستهدف: 3 أيام - محقق: 2.4 يوم - المصدر: تقارير النظام الشهرية."
-        icon={Activity}
+        icon={<Activity className="h-5 w-5" />}
       />
 
       <div className="mb-4">

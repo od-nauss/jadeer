@@ -17,7 +17,7 @@ export default async function ExecutiveAdvisorsPage() {
         title="المستشارون"
         description="قائمة المستشارين الذين منحتهم صلاحية الاطلاع على البطاقات القيادية. كل صلاحية موثقة في سجل التدقيق."
         example="المستشار يرى البطاقات والتقارير لكنه لا يستطيع تعديل أي قرار."
-        icon={Users}
+        icon={<Users className="h-5 w-5" />}
       />
 
       {advisors && advisors.length > 0 ? (

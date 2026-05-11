@@ -16,7 +16,7 @@ export default async function AdminCompetitionsPage() {
         title="المسابقات الوظيفية"
         description="عرض جميع المسابقات الوظيفية في المنظمة وحالتها. المسابقة قناة منظمة لاكتشاف الكفاءات لشاغر محدد."
         example="مسابقة لشاغر 'مدير إدارة العمليات' تُفتح للموظفين ذوي الجاهزية 75%+ في تصنيف 'قائد تشغيلي'."
-        icon={Trophy}
+        icon={<Trophy className="h-5 w-5" />}
       />
 
       {competitions && competitions.length > 0 ? (
