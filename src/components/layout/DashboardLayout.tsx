@@ -13,25 +13,32 @@ export async function DashboardLayout({
   children,
   expectedRole,
 }: DashboardLayoutProps) {
-  const user = await getCurrentUser();
+  let user;
+  try {
+    user = await getCurrentUser();
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    return (
+      <div className="p-8 font-mono text-sm">
+        <p className="text-red-700 font-bold">خطأ في getCurrentUser:</p>
+        <pre className="bg-red-50 p-4 rounded mt-2 whitespace-pre-wrap">{msg}</pre>
+      </div>
+    );
+  }
 
   if (!user) {
     redirect('/login');
   }
 
-  // مدير النظام مسموح له بالوصول لأي دور (للمعاينة)
-  // غير ذلك: تأكد من تطابق الدور
   if (!user.isAdmin && !user.roles.includes(expectedRole)) {
     redirect('/unauthorized');
   }
 
-  // الدور المعروض في السايدبار = الدور المتوقع للصفحة
   const displayRole = expectedRole;
 
   return (
     <div className="min-h-screen institutional-bg">
       <Sidebar role={displayRole} />
-
       <div className="md:mr-72">
         <Topbar
           fullName={user.full_name}
@@ -39,10 +46,7 @@ export async function DashboardLayout({
           role={displayRole}
           isAdmin={user.isAdmin}
         />
-
         <main className="p-4 md:p-6 lg:p-8">{children}</main>
-
-        {/* Footer */}
         <footer className="px-4 md:px-8 py-6 text-center text-xs text-darkgray border-t border-gold-200 mt-12">
           © 2026 جامعة نايف العربية للعلوم الأمنية - منصة جدير
         </footer>
