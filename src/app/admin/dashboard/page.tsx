@@ -1,10 +1,17 @@
+import { PageHeader } from '@/components/ui';
+import { LayoutDashboard } from 'lucide-react';
+
 export const dynamic = 'force-dynamic';
 
 export default async function AdminDashboard() {
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold text-primary-700">لوحة النظام</h1>
-      <p className="text-darkgray mt-2">مرحباً بك في لوحة إدارة منصة جدير.</p>
+    <div>
+      <PageHeader
+        title="لوحة النظام"
+        description="مرحباً بك في لوحة إدارة منصة جدير."
+        icon={LayoutDashboard}
+      />
+      <p className="text-darkgray p-4">النظام يعمل بشكل صحيح.</p>
     </div>
   );
 }
