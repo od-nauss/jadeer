@@ -1,4 +1,4 @@
-import { Award, AlertCircle } from 'lucide-react';
+﻿import { Award, AlertCircle } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { PageHeader, Card } from '@/components/ui';
@@ -28,7 +28,7 @@ export default async function CandidateResultPage() {
         <PageHeader
           title="النتيجة والبطاقة القيادية"
           description="ستظهر بطاقتك القيادية هنا بعد اعتماد لجنة الحوكمة."
-          icon={<Award className="h-5 w-5" />}
+          icon={Award}
         />
 
         <Card>
@@ -56,7 +56,7 @@ export default async function CandidateResultPage() {
       <PageHeader
         title="بطاقتك القيادية"
         description="هذه نتيجتك المعتمدة من لجنة الحوكمة. تستطيع طلب تظلم إذا كان لديك ملاحظة جوهرية."
-        icon={<Award className="h-5 w-5" />}
+        icon={Award}
       />
 
       <div className="bg-gradient-to-l from-primary-700 to-primary-800 text-white rounded-2xl p-6 mb-6 shadow-xl">

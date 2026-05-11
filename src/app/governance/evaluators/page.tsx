@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import { Users, ArrowLeft, AlertCircle } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
@@ -19,7 +19,7 @@ export default async function GovernanceEvaluatorsPage() {
         title="اعتماد المقيمين"
         description="مراجعة قوائم المقيمين المقترحة من المرشحين. اعتمد 7-10 مقيمين، مع ضمان أن 60% على الأقل من اختيار اللجنة."
         example="اضغط على اسم المرشح لرؤية قائمته الكاملة (15 مقيماً) ثم اعتمد، استبعد، أو أضف من جهتك."
-        icon={<Users className="h-5 w-5" />}
+        icon={Users}
       />
 
       <div className="institutional-card p-5 bg-gold-50 border-r-4 border-gold-400 mb-6 flex items-start gap-3">
@@ -58,7 +58,7 @@ export default async function GovernanceEvaluatorsPage() {
         </Card>
       ) : (
         <EmptyState
-          icon={<Users className="h-5 w-5" />}
+          icon={Users}
           title="لا توجد قوائم بانتظار الاعتماد"
           description="ستظهر القوائم هنا فور إرسال المرشحين لمقترحاتهم."
         />

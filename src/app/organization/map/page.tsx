@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import { Map, ArrowLeft, Users } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, EmptyState, Badge } from '@/components/ui';
@@ -26,7 +26,7 @@ export default async function OrganizationMapPage() {
         title="خريطة الكفاءات في المنظمة"
         description="رؤية بانورامية للوحدات التنظيمية والكفاءات المتاحة. تستطيع رؤية الوحدات بدون بدائل قيادية بسرعة."
         example="إذا ظهرت وحدة بشارة 'بدون بدائل'، فهذا تنبيه مؤسسي لبدء تطوير صف ثاني فيها."
-        icon={<Map className="h-5 w-5" />}
+        icon={Map}
       />
 
       {units && units.length > 0 ? (
@@ -68,7 +68,7 @@ export default async function OrganizationMapPage() {
           })}
         </div>
       ) : (
-        <EmptyState icon={<Map className="h-5 w-5" />} title="لا توجد وحدات" description="شغّل seed لإنشاء الهيكل التجريبي." />
+        <EmptyState icon={Map} title="لا توجد وحدات" description="شغّل seed لإنشاء الهيكل التجريبي." />
       )}
     </div>
   );

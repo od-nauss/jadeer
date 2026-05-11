@@ -1,4 +1,4 @@
-import { ScrollText } from 'lucide-react';
+﻿import { ScrollText } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
@@ -16,7 +16,7 @@ export default async function GovernanceAuditPage() {
       <PageHeader
         title="سجل قرارات اللجنة"
         description="جميع القرارات الحوكمية الصادرة. هذا السجل لا يقبل الحذف من الواجهة، وهو الضامن المؤسسي للمساءلة."
-        icon={<ScrollText className="h-5 w-5" />}
+        icon={ScrollText}
       />
 
       {decisions && decisions.length > 0 ? (
@@ -58,7 +58,7 @@ export default async function GovernanceAuditPage() {
           </div>
         </Card>
       ) : (
-        <EmptyState icon={<ScrollText className="h-5 w-5" />} title="لا توجد قرارات مسجلة بعد" description="ستظهر هنا أول قرار حوكمي." />
+        <EmptyState icon={ScrollText} title="لا توجد قرارات مسجلة بعد" description="ستظهر هنا أول قرار حوكمي." />
       )}
     </div>
   );

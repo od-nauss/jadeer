@@ -1,4 +1,4 @@
-import { Link2 } from 'lucide-react';
+﻿import { Link2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
@@ -16,7 +16,7 @@ export default async function GovernanceLinksPage() {
       <PageHeader
         title="روابط تقييم 360"
         description="جميع روابط التقييم المُصدَرة. كل رابط فردي ويستخدم مرة واحدة فقط، ومرتبط بمقيم واحد ومرشح واحد."
-        icon={<Link2 className="h-5 w-5" />}
+        icon={Link2}
       />
 
       {links && links.length > 0 ? (
@@ -63,7 +63,7 @@ export default async function GovernanceLinksPage() {
           </div>
         </Card>
       ) : (
-        <EmptyState icon={<Link2 className="h-5 w-5" />} title="لا توجد روابط مُصدَرة" description="سيتم إصدار الروابط فور اعتماد قوائم المقيمين." />
+        <EmptyState icon={Link2} title="لا توجد روابط مُصدَرة" description="سيتم إصدار الروابط فور اعتماد قوائم المقيمين." />
       )}
     </div>
   );

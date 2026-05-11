@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import { Users, ArrowLeft, Filter } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
@@ -19,7 +19,7 @@ export default async function ExecutiveCandidatesPage() {
         title="المرشحون"
         description="جميع المرشحين الذين اعتمدت لجنة الحوكمة بطاقاتهم القيادية. الترتيب بالدرجة الكلية."
         example="انقر على أي مرشح لرؤية بطاقته الكاملة: نقاط القوة، الفجوات، الملاءمة التنظيمية، التوصية."
-        icon={<Users className="h-5 w-5" />}
+        icon={Users}
       />
 
       {cards && cards.length > 0 ? (
@@ -84,7 +84,7 @@ export default async function ExecutiveCandidatesPage() {
         </div>
       ) : (
         <EmptyState
-          icon={<Users className="h-5 w-5" />}
+          icon={Users}
           title="لا توجد بطاقات معتمدة"
           description="ستظهر البطاقات هنا فور اعتماد لجنة الحوكمة."
         />

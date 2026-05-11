@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import {
   User,
   Briefcase,
@@ -65,7 +65,7 @@ export default async function CandidateDashboard() {
         title={`مرحباً ${user.full_name?.split(' ')[0] || ''}`}
         description="هذه رحلتك في مسار الجاهزية القيادية. اكمل المراحل بترتيبها لتحصل على بطاقتك القيادية المعتمدة من لجنة الحوكمة."
         example="ابدأ بإكمال الملف القيادي، ثم انتقل للمبادرات والمؤشرات، فالاختبارات، ثم اقترح دائرة الثقة."
-        icon={<Sparkles className="h-5 w-5" />}
+        icon={Sparkles}
       />
 
       {/* مؤشر التقدم العام */}

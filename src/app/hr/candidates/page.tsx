@@ -1,4 +1,4 @@
-import { Users } from 'lucide-react';
+﻿import { Users } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
@@ -15,7 +15,7 @@ export default async function HRCandidatesPage() {
       <PageHeader
         title="المرشحون"
         description="جميع المرشحين في المنصة. يمكنك متابعة حالة كل مرشح واكتمال ملفه."
-        icon={<Users className="h-5 w-5" />}
+        icon={Users}
       />
 
       {profiles && profiles.length > 0 ? (
@@ -62,7 +62,7 @@ export default async function HRCandidatesPage() {
           </div>
         </Card>
       ) : (
-        <EmptyState icon={<Users className="h-5 w-5" />} title="لا يوجد مرشحون" description="ستظهر المرشحين هنا فور تسجيلهم." />
+        <EmptyState icon={Users} title="لا يوجد مرشحون" description="ستظهر المرشحين هنا فور تسجيلهم." />
       )}
     </div>
   );

@@ -1,4 +1,4 @@
-import { AlertTriangle } from 'lucide-react';
+﻿import { AlertTriangle } from 'lucide-react';
 import { PageHeader, Card } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
@@ -9,7 +9,7 @@ export default function GovernanceConflictsPage() {
         title="مراجعة التحيز وتضارب المصالح"
         description="عرض الحالات المرشَّحة من المنصة لمراجعة التحيز أو احتمال تضارب المصالح."
         example="مثلاً: مقيم أعطى درجة شاذة جداً مقارنة بالباقي، أو علاقة قرابة محتملة بين المقيم والمرشح."
-        icon={<AlertTriangle className="h-5 w-5" />}
+        icon={AlertTriangle}
       />
 
       <Card title="مؤشرات التحيز التلقائية" subtitle="ما يكشفه النظام تلقائياً">

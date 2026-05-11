@@ -1,4 +1,4 @@
-import { Users } from 'lucide-react';
+﻿import { Users } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge } from '@/components/ui';
 
@@ -15,7 +15,7 @@ export default async function ExecutiveUsersPage() {
       <PageHeader
         title="مستخدمو المنصة"
         description="عرض جميع مستخدمي المنصة. يمكنك مراقبة من يستخدم النظام وأدوارهم."
-        icon={<Users className="h-5 w-5" />}
+        icon={Users}
       />
 
       <Card>

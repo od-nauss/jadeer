@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import { Award, ArrowLeft } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, EmptyState } from '@/components/ui';
@@ -18,7 +18,7 @@ export default async function AdvisorCardsPage() {
       <PageHeader
         title="البطاقات القيادية"
         description="عرض كافة البطاقات القيادية المعتمدة. لا يمكنك التعديل، فقط المراجعة والملاحظات."
-        icon={<Award className="h-5 w-5" />}
+        icon={Award}
       />
 
       {cards && cards.length > 0 ? (
@@ -66,7 +66,7 @@ export default async function AdvisorCardsPage() {
           </div>
         </Card>
       ) : (
-        <EmptyState icon={<Award className="h-5 w-5" />} title="لا توجد بطاقات معتمدة" description="ستظهر البطاقات هنا بعد الاعتماد." />
+        <EmptyState icon={Award} title="لا توجد بطاقات معتمدة" description="ستظهر البطاقات هنا بعد الاعتماد." />
       )}
     </div>
   );

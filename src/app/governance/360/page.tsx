@@ -1,4 +1,4 @@
-import { Eye } from 'lucide-react';
+﻿import { Eye } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, EmptyState } from '@/components/ui';
 
@@ -17,7 +17,7 @@ export default async function Governance360Page() {
       <PageHeader
         title="متابعة تقييم 360"
         description="نسبة اكتمال تقييم 360 لكل مرشح. تستطيع تمديد الروابط أو إغلاق التقييم كمراجعة مشروطة."
-        icon={<Eye className="h-5 w-5" />}
+        icon={Eye}
       />
 
       {profiles && profiles.length > 0 ? (
@@ -65,7 +65,7 @@ export default async function Governance360Page() {
         </div>
       ) : (
         <EmptyState
-          icon={<Eye className="h-5 w-5" />}
+          icon={Eye}
           title="لا توجد تقييمات 360 جارية"
           description="ستظهر هنا التقييمات النشطة فور اعتماد قوائم المقيمين."
         />

@@ -1,4 +1,4 @@
-import { AlertTriangle, Plus } from 'lucide-react';
+﻿import { AlertTriangle, Plus } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
@@ -38,7 +38,7 @@ export default async function CandidateAppealsPage() {
         title="تظلماتي"
         description="حقّك في التظلم على أي قرار جزء من ضمانات العدالة في منصة جدير. كل تظلم يُحلَّل بالذكاء الاصطناعي ثم تنظر فيه لجنة الحوكمة."
         example="ثمانية أنواع من التظلمات: تحيز مقيم، عدم موافقة على التصنيف، طلب تصحيح بيانات، طلب إعادة تقييم، وغيرها."
-        icon={<AlertTriangle className="h-5 w-5" />}
+        icon={AlertTriangle}
       />
 
       <div className="mb-4">
@@ -76,7 +76,7 @@ export default async function CandidateAppealsPage() {
           ))}
         </div>
       ) : (
-        <EmptyState icon={<AlertTriangle className="h-5 w-5" />} title="لا توجد تظلمات" description="ستظهر تظلماتك هنا فور تقديمها." />
+        <EmptyState icon={AlertTriangle} title="لا توجد تظلمات" description="ستظهر تظلماتك هنا فور تقديمها." />
       )}
     </div>
   );

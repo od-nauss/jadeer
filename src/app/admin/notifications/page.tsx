@@ -1,4 +1,4 @@
-import { Bell } from 'lucide-react';
+﻿import { Bell } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
@@ -16,7 +16,7 @@ export default async function AdminNotificationsPage() {
       <PageHeader
         title="الإشعارات الذكية"
         description="جميع الإشعارات المرسلة في المنصة. هذه الإشعارات موجهة حسب الدور وتساعد القيادة على عدم تفويت أي حدث مهم."
-        icon={<Bell className="h-5 w-5" />}
+        icon={Bell}
       />
 
       {notifications && notifications.length > 0 ? (
@@ -46,7 +46,7 @@ export default async function AdminNotificationsPage() {
           </div>
         </Card>
       ) : (
-        <EmptyState icon={<Bell className="h-5 w-5" />} title="لا توجد إشعارات بعد" description="ستظهر الإشعارات الذكية هنا تلقائياً." />
+        <EmptyState icon={Bell} title="لا توجد إشعارات بعد" description="ستظهر الإشعارات الذكية هنا تلقائياً." />
       )}
     </div>
   );

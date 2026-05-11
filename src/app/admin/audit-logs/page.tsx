@@ -1,4 +1,4 @@
-import { ScrollText, Filter } from 'lucide-react';
+﻿import { ScrollText, Filter } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
@@ -17,7 +17,7 @@ export default async function AdminAuditLogsPage() {
         title="سجل التدقيق"
         description="سجل جميع العمليات الحساسة في المنصة. هذا السجل لا يقبل الحذف من الواجهة، وهو الضامن الأساسي للحوكمة والمساءلة."
         example="تستطيع تصفية السجل حسب الدور، نوع العملية، أو الفترة الزمنية."
-        icon={<ScrollText className="h-5 w-5" />}
+        icon={ScrollText}
       />
 
       <Card>
@@ -79,7 +79,7 @@ export default async function AdminAuditLogsPage() {
           </div>
         ) : (
           <EmptyState
-            icon={<ScrollText className="h-5 w-5" />}
+            icon={ScrollText}
             title="لا توجد عمليات مسجلة"
             description="ستظهر هنا أول عملية حساسة فور تنفيذها."
           />

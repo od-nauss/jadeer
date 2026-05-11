@@ -1,4 +1,4 @@
-import { FileText, BarChart3 } from 'lucide-react';
+﻿import { FileText, BarChart3 } from 'lucide-react';
 import { PageHeader, Card } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
@@ -8,7 +8,7 @@ export default function HRDevelopmentReportsPage() {
       <PageHeader
         title="تقارير التطوير"
         description="تقارير شاملة عن نشاطات التطوير في المنظمة: الفجوات الأكثر تكراراً، البرامج الأكثر طلباً، أثر التطوير."
-        icon={<FileText className="h-5 w-5" />}
+        icon={FileText}
       />
 
       <div className="grid md:grid-cols-2 gap-3">

@@ -29,24 +29,23 @@ export default async function AdminDashboard() {
     <div>
       <PageHeader
         title="لوحة النظام"
-        description="نظرة شاملة على حالة منصة جدير: عدد المستخدمين، الملفات، التقييمات، والمسابقات. تستطيع من هنا الوصول السريع إلى كل أقسام الإدارة."
-        example="إذا أردت رؤية حالة البيانات التجريبية، توجه إلى قسم 'إدارة البيانات التجريبية' من السايدبار."
-        icon={<LayoutDashboard className="h-5 w-5" />}
+        description="نظرة شاملة على حالة منصة جدير: عدد المستخدمين، الملفات، التقييمات، والمسابقات."
+        icon={LayoutDashboard}
       />
 
       {/* المؤشرات الرئيسية */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <StatCard label="المستخدمون" value={usersCount.count || 0} icon={<Users className="h-5 w-5" />} variant="primary" />
-        <StatCard label="المرشحون" value={candidatesCount.count || 0} icon={<FileText className="h-5 w-5" />} variant="gold" />
-        <StatCard label="الملفات المكتملة" value={completedProfiles.count || 0} icon={<Activity className="h-5 w-5" />} variant="sage" />
-        <StatCard label="المقيمون" value={evaluators.count || 0} icon={<Users className="h-5 w-5" />} variant="steelblue" />
-        <StatCard label="التقييمات المكتملة" value={evaluations.count || 0} icon={<Activity className="h-5 w-5" />} variant="primary" />
-        <StatCard label="التظلمات" value={appeals.count || 0} icon={<Bell className="h-5 w-5" />} variant="wine" />
-        <StatCard label="المسابقات الوظيفية" value={competitions.count || 0} icon={<Trophy className="h-5 w-5" />} variant="gold" />
+        <StatCard label="المستخدمون" value={usersCount.count ?? 0} icon={Users} variant="primary" />
+        <StatCard label="المرشحون" value={candidatesCount.count ?? 0} icon={FileText} variant="gold" />
+        <StatCard label="الملفات المكتملة" value={completedProfiles.count ?? 0} icon={Activity} variant="sage" />
+        <StatCard label="المقيمون" value={evaluators.count ?? 0} icon={Users} variant="steelblue" />
+        <StatCard label="التقييمات المكتملة" value={evaluations.count ?? 0} icon={Activity} variant="primary" />
+        <StatCard label="التظلمات" value={appeals.count ?? 0} icon={Bell} variant="wine" />
+        <StatCard label="المسابقات الوظيفية" value={competitions.count ?? 0} icon={Trophy} variant="gold" />
         <StatCard
           label="حالة البيانات التجريبية"
           value={demoFlag.data?.is_demo_active ? 'مفعّلة' : 'مُحذوفة'}
-          icon={<Database className="h-5 w-5" />}
+          icon={Database}
           variant={demoFlag.data?.is_demo_active ? 'gold' : 'sage'}
         />
       </div>

@@ -1,4 +1,4 @@
-import { Settings, Lock, Bell, Globe, Database, Cpu } from 'lucide-react';
+﻿import { Settings, Lock, Bell, Globe, Database, Cpu } from 'lucide-react';
 import { PageHeader, Card } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
@@ -60,7 +60,7 @@ export default function AdminSettingsPage() {
       <PageHeader
         title="إعدادات النظام"
         description="إعدادات النظام الشاملة. التعديلات الحساسة تتطلب موافقة لجنة الحوكمة وتُسجَّل في سجل التدقيق."
-        icon={<Settings className="h-5 w-5" />}
+        icon={Settings}
       />
 
       <div className="space-y-6">

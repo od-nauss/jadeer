@@ -1,4 +1,4 @@
-import { Activity, Plus } from 'lucide-react';
+﻿import { Activity, Plus } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
@@ -27,7 +27,7 @@ export default async function CandidateKPIsPage() {
         title="مؤشرات الأداء"
         description="ما المؤشرات التي استخدمتها لقياس عملك؟ نضج المؤشر يدل على نضج القائد. اذكر المؤشر، المستهدف، المحقق، ومصدر التحقق."
         example="مثلاً: مؤشر 'وقت معالجة الطلب' - مستهدف: 3 أيام - محقق: 2.4 يوم - المصدر: تقارير النظام الشهرية."
-        icon={<Activity className="h-5 w-5" />}
+        icon={Activity}
       />
 
       <div className="mb-4">
@@ -69,7 +69,7 @@ export default async function CandidateKPIsPage() {
           ))}
         </div>
       ) : (
-        <EmptyState icon={<Activity className="h-5 w-5" />} title="لا توجد مؤشرات" description="أضف أول مؤشر استخدمته في عملك." />
+        <EmptyState icon={Activity} title="لا توجد مؤشرات" description="أضف أول مؤشر استخدمته في عملك." />
       )}
     </div>
   );

@@ -1,4 +1,4 @@
-import { Target, ArrowLeft } from 'lucide-react';
+﻿import { Target, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
@@ -17,7 +17,7 @@ export default async function HRDevelopmentPlansPage() {
         title="خطط التطوير الفردية"
         description="خطط التطوير المُولَّدة بالذكاء الاصطناعي والمراجعة من الموارد. كل خطة مرتبطة ببطاقة قيادية."
         example="الخطة تتضمن: المهارة المستهدفة، البرنامج المقترح، المدة، المتابعة الدورية."
-        icon={<Target className="h-5 w-5" />}
+        icon={Target}
       />
 
       {plans && plans.length > 0 ? (
@@ -58,7 +58,7 @@ export default async function HRDevelopmentPlansPage() {
           })}
         </div>
       ) : (
-        <EmptyState icon={<Target className="h-5 w-5" />} title="لا توجد خطط تطوير" description="ستظهر الخطط بعد اعتماد البطاقات القيادية." />
+        <EmptyState icon={Target} title="لا توجد خطط تطوير" description="ستظهر الخطط بعد اعتماد البطاقات القيادية." />
       )}
     </div>
   );

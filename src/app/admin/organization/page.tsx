@@ -1,4 +1,4 @@
-import { Building2 } from 'lucide-react';
+﻿import { Building2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
@@ -17,7 +17,7 @@ export default async function AdminOrganizationPage() {
         title="إدارة الهيكل التنظيمي"
         description="بناء وإدارة الهيكل التنظيمي للمنظمة. يستخدم الهيكل لقياس الملاءمة التنظيمية فقط، ولا يستخدم كأساس للتصنيف القيادي."
         example="يمكنك إضافة قطاعات، وكالات، إدارات، أقسام، وحدات، لجان، ومشاريع استراتيجية."
-        icon={<Building2 className="h-5 w-5" />}
+        icon={Building2}
       />
 
       {units && units.length > 0 ? (
@@ -64,7 +64,7 @@ export default async function AdminOrganizationPage() {
         </Card>
       ) : (
         <EmptyState
-          icon={<Building2 className="h-5 w-5" />}
+          icon={Building2}
           title="لا توجد وحدات تنظيمية"
           description="شغّل ملف seed لإنشاء الهيكل التنظيمي التجريبي."
         />

@@ -1,4 +1,4 @@
-import { Target, AlertCircle } from 'lucide-react';
+﻿import { Target, AlertCircle } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
@@ -35,7 +35,7 @@ export default async function CandidateDevelopmentPlanPage() {
         title="خطة التطوير الفردية"
         description="خطة مولّدة من المنصة بناءً على فجواتك في البطاقة القيادية، تراجعها الموارد البشرية وتعتمدها اللجنة. تابع تنفيذها بانتظام."
         example="إذا كانت فجوتك 'إدارة الأزمات'، ستجد هنا برنامج 'القيادة في الأزمات' مع مدة 8 أسابيع وأولوية عالية."
-        icon={<Target className="h-5 w-5" />}
+        icon={Target}
       />
 
       {!plan ? (
@@ -89,7 +89,7 @@ export default async function CandidateDevelopmentPlanPage() {
             </div>
           ) : (
             <EmptyState
-              icon={<Target className="h-5 w-5" />}
+              icon={Target}
               title="الخطة لا تحتوي على بنود بعد"
               description="ستضاف بنود التطوير من فريق الموارد البشرية."
             />

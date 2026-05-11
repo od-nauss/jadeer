@@ -1,4 +1,4 @@
-import { FileText } from 'lucide-react';
+﻿import { FileText } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge } from '@/components/ui';
 
@@ -16,7 +16,7 @@ export default async function AdminPageContentPage() {
         title="إدارة محتوى الصفحات"
         description="تعديل محتوى الصفحات العامة (الصفحة الرئيسية، التعريف، لجنة الحوكمة، تواصل معنا)."
         example="يمكنك تحديث نص الرؤية والرسالة، أو تحديث معلومات التواصل دون الحاجة لتعديل الكود."
-        icon={<FileText className="h-5 w-5" />}
+        icon={FileText}
       />
 
       <Card>

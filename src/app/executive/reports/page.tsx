@@ -1,4 +1,4 @@
-import { FileText, BarChart3, PieChart, TrendingUp, Users, Eye } from 'lucide-react';
+﻿import { FileText, BarChart3, PieChart, TrendingUp, Users, Eye } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, StatCard } from '@/components/ui';
 
@@ -48,14 +48,14 @@ export default async function ExecutiveReportsPage() {
       <PageHeader
         title="التقارير القيادية"
         description="تقارير تنفيذية مختصرة جاهزة للعرض على مجلس الإدارة. كل تقرير قابل للتصدير PDF."
-        icon={<FileText className="h-5 w-5" />}
+        icon={FileText}
       />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-        <StatCard label="إجمالي البطاقات" value={allCards.length} icon={<Users className="h-5 w-5" />} variant="primary" />
-        <StatCard label="متوسط الجاهزية" value={`${avgScore}%`} icon={<TrendingUp className="h-5 w-5" />} variant="gold" />
-        <StatCard label="متوسط الثقة" value={`${avgTrust}%`} icon={<BarChart3 className="h-5 w-5" />} variant="sage" />
-        <StatCard label="قيادات مخفية" value={hiddenLeaders} icon={<Eye className="h-5 w-5" />} variant="primary" />
+        <StatCard label="إجمالي البطاقات" value={allCards.length} icon={Users} variant="primary" />
+        <StatCard label="متوسط الجاهزية" value={`${avgScore}%`} icon={TrendingUp} variant="gold" />
+        <StatCard label="متوسط الثقة" value={`${avgTrust}%`} icon={BarChart3} variant="sage" />
+        <StatCard label="قيادات مخفية" value={hiddenLeaders} icon={Eye} variant="primary" />
       </div>
 
       <Card title="توزيع التصنيفات" subtitle="نسبة كل تصنيف من إجمالي البطاقات المعتمدة">

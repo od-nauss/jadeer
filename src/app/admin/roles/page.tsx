@@ -1,4 +1,4 @@
-import { Shield } from 'lucide-react';
+﻿import { Shield } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge } from '@/components/ui';
 
@@ -12,7 +12,7 @@ export default async function AdminRolesPage() {
       <PageHeader
         title="الأدوار والصلاحيات"
         description="عرض وإدارة الأدوار الستة الأساسية في منصة جدير وصلاحيات كل دور."
-        icon={<Shield className="h-5 w-5" />}
+        icon={Shield}
       />
 
       <div className="grid md:grid-cols-2 gap-4">

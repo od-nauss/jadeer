@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import { GraduationCap, Users, Trophy, Activity, Target, Bell, FileText, ArrowLeft } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, StatCard, Card } from '@/components/ui';
@@ -19,14 +19,14 @@ export default async function HRDashboard() {
         title="لوحة الموارد البشرية"
         description="مركز عمل الموارد البشرية: متابعة المرشحين، إدارة المسابقات، خطط التطوير، تقارير الفجوات القيادية."
         example="ابدأ يومك بمتابعة المرشحين الذين توقفوا عن إكمال ملفاتهم، ثم خطط التطوير التي تحتاج مراجعة."
-        icon={<GraduationCap className="h-5 w-5" />}
+        icon={GraduationCap}
       />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-        <StatCard label="إجمالي المرشحين" value={candidates.count || 0} icon={<Users className="h-5 w-5" />} variant="primary" />
-        <StatCard label="ملفات مكتملة" value={completed.count || 0} icon={<Activity className="h-5 w-5" />} variant="sage" />
-        <StatCard label="خطط تطوير نشطة" value={plans.count || 0} icon={<Target className="h-5 w-5" />} variant="gold" />
-        <StatCard label="مسابقات مفتوحة" value={competitions.count || 0} icon={<Trophy className="h-5 w-5" />} variant="steelblue" />
+        <StatCard label="إجمالي المرشحين" value={candidates.count || 0} icon={Users} variant="primary" />
+        <StatCard label="ملفات مكتملة" value={completed.count || 0} icon={Activity} variant="sage" />
+        <StatCard label="خطط تطوير نشطة" value={plans.count || 0} icon={Target} variant="gold" />
+        <StatCard label="مسابقات مفتوحة" value={competitions.count || 0} icon={Trophy} variant="steelblue" />
       </div>
 
       <Card title="أدوات سريعة">

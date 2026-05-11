@@ -1,4 +1,4 @@
-import { Database } from 'lucide-react';
+﻿import { Database } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge } from '@/components/ui';
 import { DemoDataActions } from './demo-actions';
@@ -25,7 +25,7 @@ export default async function AdminDemoDataPage() {
         title="إدارة البيانات التجريبية"
         description="عرض ومتابعة البيانات التجريبية في المنصة. تستطيع حذف كامل البيانات التجريبية بنقرة واحدة بعد تأكيد مزدوج."
         example="عند الانتقال للإنتاج، احذف البيانات التجريبية لتبدأ بنظام نظيف."
-        icon={<Database className="h-5 w-5" />}
+        icon={Database}
       />
 
       <Card title="ملخص البيانات التجريبية" subtitle="جميع السجلات المعلّمة كبيانات تجريبية">

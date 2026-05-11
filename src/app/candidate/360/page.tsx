@@ -1,4 +1,4 @@
-import { Users, Plus, AlertCircle } from 'lucide-react';
+﻿import { Users, Plus, AlertCircle } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
@@ -30,7 +30,7 @@ export default async function Candidate360Page() {
         title="دائرة الثقة القيادية (تقييم 360)"
         description="اقترح 15 مقيماً يعرفون عملك من زوايا مختلفة (مدير، زملاء، مرؤوسون، أصحاب علاقة). لجنة الحوكمة ستعتمد 7-10 منهم، و60% على الأقل من اختيار اللجنة."
         example="نوّع: 1 مدير مباشر + 3 زملاء + 3 مرؤوسين + 2 أصحاب علاقة + 1 من خارج إدارتك. التنوع يرفع جودة التقييم."
-        icon={<Users className="h-5 w-5" />}
+        icon={Users}
       />
 
       <Card className="mb-6 bg-gold-50 border-r-4 border-gold-400">
@@ -87,7 +87,7 @@ export default async function Candidate360Page() {
           ))}
         </div>
       ) : (
-        <EmptyState icon={<Users className="h-5 w-5" />} title="لم تقترح مقيمين بعد" description="ابدأ بإضافة 15 اسماً." />
+        <EmptyState icon={Users} title="لم تقترح مقيمين بعد" description="ابدأ بإضافة 15 اسماً." />
       )}
     </div>
   );

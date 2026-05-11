@@ -1,4 +1,4 @@
-import { AlertTriangle } from 'lucide-react';
+﻿import { AlertTriangle } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
@@ -27,7 +27,7 @@ export default async function GovernanceAppealsPage() {
         title="التظلمات"
         description="جميع التظلمات المُقدَّمة من المرشحين. كل تظلم يخضع لتحليل ذكي ثم قرار اللجنة. القرار يُسجَّل في سجل التدقيق."
         example="أنواع التظلم: تحيز مقيم، عدم موافقة على التصنيف، طلب تصحيح بيانات، طلب إعادة تقييم، وغيرها."
-        icon={<AlertTriangle className="h-5 w-5" />}
+        icon={AlertTriangle}
       />
 
       {appeals && appeals.length > 0 ? (
@@ -57,7 +57,7 @@ export default async function GovernanceAppealsPage() {
           })}
         </div>
       ) : (
-        <EmptyState icon={<AlertTriangle className="h-5 w-5" />} title="لا توجد تظلمات حالياً" description="ستظهر التظلمات هنا فور تقديمها." />
+        <EmptyState icon={AlertTriangle} title="لا توجد تظلمات حالياً" description="ستظهر التظلمات هنا فور تقديمها." />
       )}
     </div>
   );

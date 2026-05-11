@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import { Award, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
@@ -19,7 +19,7 @@ export default async function GovernanceResultsPage() {
         title="اعتماد النتائج النهائية"
         description="بطاقات قيادية مولّدة بالذكاء الاصطناعي تنتظر اعتماد اللجنة. لا تُنشر للقيادة قبل الاعتماد."
         example="راجع البطاقة، عدّل التصنيف إذا رأت اللجنة ذلك ضرورياً، ووثّق سبب القرار قبل النشر."
-        icon={<Award className="h-5 w-5" />}
+        icon={Award}
       />
 
       {cards && cards.length > 0 ? (
@@ -66,7 +66,7 @@ export default async function GovernanceResultsPage() {
           })}
         </div>
       ) : (
-        <EmptyState icon={<Award className="h-5 w-5" />} title="لا توجد بطاقات بانتظار الاعتماد" description="ستظهر البطاقات هنا فور اكتمال التحليل." />
+        <EmptyState icon={Award} title="لا توجد بطاقات بانتظار الاعتماد" description="ستظهر البطاقات هنا فور اكتمال التحليل." />
       )}
     </div>
   );

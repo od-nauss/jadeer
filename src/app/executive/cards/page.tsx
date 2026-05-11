@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import { Award, ArrowLeft } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
@@ -18,7 +18,7 @@ export default async function ExecutiveCardsPage() {
       <PageHeader
         title="البطاقات القيادية"
         description="جميع البطاقات القيادية المعتمدة من لجنة الحوكمة. كل بطاقة تحوي: درجة الجاهزية، نوع القيادة، نقاط القوة، الفجوات، التوصية."
-        icon={<Award className="h-5 w-5" />}
+        icon={Award}
       />
 
       {cards && cards.length > 0 ? (
@@ -85,7 +85,7 @@ export default async function ExecutiveCardsPage() {
         </Card>
       ) : (
         <EmptyState
-          icon={<Award className="h-5 w-5" />}
+          icon={Award}
           title="لا توجد بطاقات قيادية معتمدة بعد"
           description="ستظهر هنا فور اعتماد لجنة الحوكمة."
         />

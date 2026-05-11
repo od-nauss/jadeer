@@ -1,4 +1,4 @@
-import { Users, Award } from 'lucide-react';
+﻿import { Users, Award } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
@@ -16,7 +16,7 @@ export default async function OrganizationSuccessionPage() {
         title="خريطة التعاقب الوظيفي"
         description="استدامة القيادة تتطلب وضوح الصف الثاني والثالث لكل منصب حساس. هذه الخريطة تجيب على سؤال: ماذا لو غادر القائد؟"
         example="لكل وحدة حرجة: من البديل المباشر؟ من الصف الثاني (سنة)؟ من الصف الثالث (3 سنوات)؟"
-        icon={<Users className="h-5 w-5" />}
+        icon={Users}
       />
 
       {succession && succession.length > 0 ? (
@@ -65,7 +65,7 @@ export default async function OrganizationSuccessionPage() {
           })}
         </div>
       ) : (
-        <EmptyState icon={<Users className="h-5 w-5" />} title="لا توجد خريطة تعاقب" description="ستُبنى الخريطة بعد اعتماد البطاقات." />
+        <EmptyState icon={Users} title="لا توجد خريطة تعاقب" description="ستُبنى الخريطة بعد اعتماد البطاقات." />
       )}
     </div>
   );

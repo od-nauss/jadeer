@@ -1,4 +1,4 @@
-import { Users } from 'lucide-react';
+﻿import { Users } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
@@ -17,7 +17,7 @@ export default async function AdminUsersPage() {
         title="إدارة المستخدمين"
         description="إدارة جميع مستخدمي المنصة: إضافة، تعديل، تعطيل، تغيير الأدوار، إعادة تعيين كلمات المرور."
         example="يمكنك تعطيل مستخدم لمنعه من الدخول دون حذف بياناته، أو تغيير دوره ليعرض البوابة المناسبة."
-        icon={<Users className="h-5 w-5" />}
+        icon={Users}
       />
 
       <Card>
@@ -63,7 +63,7 @@ export default async function AdminUsersPage() {
             </table>
           </div>
         ) : (
-          <EmptyState icon={<Users className="h-5 w-5" />} title="لا توجد مستخدمون" description="ابدأ بتشغيل seed لإنشاء الحسابات التجريبية." />
+          <EmptyState icon={Users} title="لا توجد مستخدمون" description="ابدأ بتشغيل seed لإنشاء الحسابات التجريبية." />
         )}
       </Card>
     </div>

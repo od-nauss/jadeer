@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import { Users, ArrowLeft } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, EmptyState } from '@/components/ui';
@@ -18,7 +18,7 @@ export default async function AdvisorCandidatesPage() {
       <PageHeader
         title="المرشحون"
         description="جميع المرشحين بالبطاقات المعتمدة. للقراءة فقط."
-        icon={<Users className="h-5 w-5" />}
+        icon={Users}
       />
 
       {cards && cards.length > 0 ? (
@@ -57,7 +57,7 @@ export default async function AdvisorCandidatesPage() {
           })}
         </div>
       ) : (
-        <EmptyState icon={<Users className="h-5 w-5" />} title="لا توجد بطاقات" description="ستظهر البطاقات بعد اعتماد اللجنة." />
+        <EmptyState icon={Users} title="لا توجد بطاقات" description="ستظهر البطاقات بعد اعتماد اللجنة." />
       )}
     </div>
   );

@@ -1,4 +1,4 @@
-import { Bell } from 'lucide-react';
+﻿import { Bell } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
@@ -21,7 +21,7 @@ export default async function CandidateNotificationsPage() {
       <PageHeader
         title="الإشعارات"
         description="جميع الإشعارات الخاصة بك. تذكيرات إكمال الملف، حالة المراجعة، اعتماد البطاقة، وأي مستجدات."
-        icon={<Bell className="h-5 w-5" />}
+        icon={Bell}
       />
 
       {notifications && notifications.length > 0 ? (
@@ -55,7 +55,7 @@ export default async function CandidateNotificationsPage() {
           </div>
         </Card>
       ) : (
-        <EmptyState icon={<Bell className="h-5 w-5" />} title="لا توجد إشعارات" description="ستظهر إشعاراتك هنا تلقائياً." />
+        <EmptyState icon={Bell} title="لا توجد إشعارات" description="ستظهر إشعاراتك هنا تلقائياً." />
       )}
     </div>
   );
