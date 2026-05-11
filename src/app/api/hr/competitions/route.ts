@@ -5,7 +5,7 @@ import { getCurrentUser } from '@/lib/auth/current-user';
 export async function POST(req: NextRequest) {
   try {
     const user = await getCurrentUser();
-    if (!user || (!user.isAdmin && !user.primaryRoles.includes('hr'))) {
+    if (!user || (!user.isAdmin && !user.primaryRole.includes('hr'))) {
       return NextResponse.json({ error: 'غير مصرح' }, { status: 403 });
     }
     const body = await req.json();

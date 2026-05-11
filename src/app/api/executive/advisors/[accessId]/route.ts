@@ -5,7 +5,7 @@ import { getCurrentUser } from '@/lib/auth/current-user';
 export async function POST(req: NextRequest) {
   try {
     const user = await getCurrentUser();
-    if (!user || (!user.isAdmin && !user.primaryRoles.includes('president'))) {
+    if (!user || (!user.isAdmin && !user.primaryRole.includes('president'))) {
       return NextResponse.json({ error: 'غير مصرح — هذه الصلاحية للرئيس فقط' }, { status: 403 });
     }
 

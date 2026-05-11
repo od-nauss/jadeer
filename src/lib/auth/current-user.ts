@@ -109,8 +109,8 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
       .eq('user_id', userData.id);
 
     const roles = (rolesData || [])
-      .map((r) => (r as { roles: { code: string } }).roles.code as RoleCode)
-      .filter((code) => getRoleInfo(code) !== null);
+      .map((r) => ((r as unknown as { roles: { code: string } }).roles?.code ?? '') as RoleCode)
+      .filter((code) => !!code && getRoleInfo(code) !== null);
 
     if (roles.length === 0) return null;
 

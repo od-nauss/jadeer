@@ -15,7 +15,7 @@ const REMINDER_MESSAGES: Record<string, string> = {
 export async function POST(req: NextRequest) {
   try {
     const user = await getCurrentUser();
-    if (!user || (!user.isAdmin && !user.primaryRoles.includes('hr'))) return NextResponse.json({ error: 'غير مصرح' }, { status: 403 });
+    if (!user || (!user.isAdmin && !user.primaryRole.includes('hr'))) return NextResponse.json({ error: 'غير مصرح' }, { status: 403 });
     const { candidate_profile_id, reminder_type = 'general', custom_message } = await req.json();
 
     const supabase = createServiceClient();

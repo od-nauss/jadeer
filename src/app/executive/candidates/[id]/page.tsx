@@ -71,7 +71,10 @@ export default async function ExecutiveCandidateCardPage({
 
   // أعد الاستعلامات بالـ profile id
   const profileId = (card as any).candidate_profiles?.id || '';
-  const [inisReal, kpisReal, evalsReal, decisionsReal, devPlanReal, fitReal, evalLinksReal] = await Promise.all([
+  const [
+    { data: inisReal }, { data: kpisReal }, { data: evalsReal },
+    { data: decisionsReal }, { data: devPlanReal }, { data: fitReal }, { data: evalLinksReal },
+  ] = await Promise.all([
     supabase.from('initiatives').select('name, initiative_type, achieved_impact, impact_metrics, ai_score, evidence').eq('candidate_profile_id', profileId).order('created_at').limit(5),
     supabase.from('kpis').select('name, kpi_type, target_value, actual_value, ai_score').eq('candidate_profile_id', profileId).limit(5),
     supabase.from('evaluations_360').select('overall_score, trust_score, scores_json').eq('candidate_profile_id', profileId),

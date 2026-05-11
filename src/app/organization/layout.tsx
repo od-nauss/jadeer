@@ -17,13 +17,9 @@ export default async function OrganizationLayout({
   if (!hasAccess) redirect('/unauthorized');
 
   // اختر دور بأولوية لتخصيص السايدبار
-  const priority = ['admin', 'president', 'governance', 'hr', 'advisor'];
-  const primaryRole = (priority.find((r) => user.roles.includes(r)) || 'president') as
-    | 'admin'
-    | 'president'
-    | 'governance'
-    | 'hr'
-    | 'advisor';
+  const priority = ['admin', 'president', 'governance', 'hr', 'advisor'] as const;
+  type OrgRole = typeof priority[number];
+  const primaryRole = (priority.find((r) => user.roles.includes(r as typeof user.roles[number])) ?? 'president') as OrgRole;
 
   return <DashboardLayout expectedRole={primaryRole}>{children}</DashboardLayout>;
 }

@@ -32,7 +32,7 @@ export default async function ExecutiveUsersPage() {
             <tbody>
               {(users || []).map((u) => {
                 type RoleRow = { roles: { code: string; name_ar: string } };
-                const userRoles = (u.user_roles || []) as RoleRow[];
+                const userRoles = (u.user_roles || []) as unknown as RoleRow[];
                 return (
                   <tr key={u.id} className="border-b border-gold-100 hover:bg-gold-50">
                     <td className="py-3 px-3 font-medium text-primary-800">{u.full_name}</td>

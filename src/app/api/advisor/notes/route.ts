@@ -6,7 +6,7 @@ import { getAdvisorPermissions } from '@/lib/auth/advisor-access';
 export async function POST(req: NextRequest) {
   try {
     const user = await getCurrentUser();
-    if (!user || !user.primaryRoles.includes('advisor')) {
+    if (!user || !user.primaryRole.includes('advisor')) {
       return NextResponse.json({ error: 'غير مصرح' }, { status: 403 });
     }
 
@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const user = await getCurrentUser();
-    if (!user || !user.primaryRoles.includes('advisor')) return NextResponse.json({ error: 'غير مصرح' }, { status: 403 });
+    if (!user || !user.primaryRole.includes('advisor')) return NextResponse.json({ error: 'غير مصرح' }, { status: 403 });
     const { id } = await req.json();
     const supabase = createServiceClient();
     await supabase.from('advisor_notes').delete().eq('id', id).eq('advisor_user_id', user.id);

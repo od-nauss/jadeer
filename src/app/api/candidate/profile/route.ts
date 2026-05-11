@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
         .select('id')
         .single();
       if (error) throw error;
-      profile = newProfile;
+      profile = { id: (newProfile as any)?.id, completion_score: completion };
     } else {
       await supabase
         .from('candidate_profiles')

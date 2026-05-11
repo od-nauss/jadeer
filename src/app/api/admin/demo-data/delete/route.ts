@@ -4,7 +4,7 @@ import { getCurrentUser, logAudit } from '@/lib/auth/current-user';
 
 export async function POST() {
   const user = await getCurrentUser();
-  if (!user || !user.primaryRoles.includes('admin')) {
+  if (!user || !user.primaryRole.includes('admin')) {
     return NextResponse.json({ error: 'غير مصرح' }, { status: 403 });
   }
 
@@ -72,14 +72,13 @@ export async function POST() {
 
     // سجل التدقيق
     await logAudit({
-      operationType: 'demo_data_deleted',
+      operation_type: 'demo_data_deleted',
       description: `حذف البيانات التجريبية بالكامل (${Object.values(stats).reduce(
         (a, b) => a + b,
         0
       )} سجل)`,
       sensitivity: 'critical',
-      affectedEntityType: 'system',
-      newValue: stats,
+      affected_entity: 'system',
     });
 
     return NextResponse.json({ success: true, stats });
