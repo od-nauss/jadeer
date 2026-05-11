@@ -78,7 +78,7 @@ function LoginForm() {
       <div className="max-w-md w-full">
         {/* Logo */}
         <div className="text-center mb-8">
-          <UniversityLogo size="md" className="mx-auto" />
+          <UniversityLogo size="lg" className="mx-auto" />
           <h1 className="text-3xl font-bold text-primary-700 mt-6">
             منصة <span className="text-gold-600">جدير</span>
           </h1>

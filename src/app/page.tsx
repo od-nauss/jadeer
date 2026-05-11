@@ -155,8 +155,8 @@ export default async function HomePage() {
 
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16 md:pt-14 md:pb-24 text-center">
           {/* شعار الجامعة */}
-          <div className="flex justify-center mb-5">
-            <UniversityLogo size="md" />
+          <div className="flex justify-center mb-6">
+            <UniversityLogo size="xl" />
           </div>
 
           {/* اسم المنصة */}
