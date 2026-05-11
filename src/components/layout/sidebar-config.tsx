@@ -59,6 +59,7 @@ export const SIDEBAR_ITEMS: Record<RoleCode, SidebarItem[]> = {
     { label: 'النصوص التعريفية', href: '/admin/page-content', icon: FileText },
     { label: 'سجل التدقيق', href: '/admin/audit-logs', icon: ScrollText },
     { label: 'إعدادات المنصة', href: '/admin/settings', icon: Settings },
+    { label: 'صحة النظام', href: '/admin/system-health', icon: Activity },
   ],
   president: [
     { label: 'لوحة القيادة العليا', href: '/executive/dashboard', icon: LayoutDashboard },

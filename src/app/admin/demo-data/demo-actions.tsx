@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { AlertTriangle, Trash2, Loader2, X, CheckCircle2 } from 'lucide-react';
+import { AlertTriangle, Trash2, Loader2, X, CheckCircle2, Database, Play } from 'lucide-react';
 
 const REQUIRED_TEXT = 'حذف البيانات التجريبية';
 
@@ -14,7 +14,19 @@ export function DemoDataActions({
   isActive: boolean;
 }) {
   const router = useRouter();
+  const [seeding, setSeeding] = useState(false);
+  const [seedResult, setSeedResult] = useState<string[] | null>(null);
   const [showModal, setShowModal] = useState(false);
+
+  async function handleSeed() {
+    setSeeding(true);
+    setSeedResult(null);
+    const res = await fetch('/api/admin/seed-demo', { method: 'POST' });
+    const data = await res.json();
+    setSeedResult(data.results || [data.error || 'خطأ غير متوقع']);
+    setSeeding(false);
+    setTimeout(() => router.refresh(), 1500);
+  }
   const [confirmText, setConfirmText] = useState('');
   const [stage, setStage] = useState<1 | 2>(1);
   const [loading, setLoading] = useState(false);
@@ -67,6 +79,31 @@ export function DemoDataActions({
 
   return (
     <>
+      {/* زر إنشاء البيانات التجريبية */}
+      <div className="institutional-card p-6 border-2 border-primary-200 bg-primary-50/30 mb-4">
+        <div className="flex items-start gap-4">
+          <div className="h-12 w-12 rounded-lg bg-primary-600/15 flex items-center justify-center flex-shrink-0">
+            <Database className="h-6 w-6 text-primary-600" />
+          </div>
+          <div className="flex-1">
+            <h3 className="text-lg font-bold text-primary-700 mb-1">إنشاء البيانات التجريبية</h3>
+            <p className="text-sm text-darkgray mb-3 leading-relaxed">
+              ينشئ 5 مرشحين تجريبيين كاملين مع مبادراتهم، مؤشرات أدائهم، بطاقاتهم القيادية، وخطط تطويرهم.
+            </p>
+            {seedResult && (
+              <div className="mb-3 space-y-1">
+                {seedResult.map((r, i) => <div key={i} className="text-xs font-mono">{r}</div>)}
+              </div>
+            )}
+            <button onClick={handleSeed} disabled={seeding}
+              className="inline-flex items-center gap-2 bg-primary-700 hover:bg-primary-800 text-white px-5 py-2.5 rounded-lg font-bold transition disabled:opacity-60">
+              {seeding ? <Loader2 className="h-4 w-4 animate-spin" /> : <Play className="h-4 w-4" />}
+              {seeding ? 'جارٍ الإنشاء...' : 'إنشاء البيانات التجريبية الخمسة'}
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div className="institutional-card p-6 border-2 border-rose-200 bg-rose-50/30">
         <div className="flex items-start gap-4">
           <div className="h-12 w-12 rounded-lg bg-wine/15 flex items-center justify-center flex-shrink-0">
