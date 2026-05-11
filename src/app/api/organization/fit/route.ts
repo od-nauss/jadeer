@@ -1,9 +1,9 @@
-// POST /api/organization/fit
-// يحسب درجة الملاءمة بين جميع المرشحين المعتمدين وجميع الوحدات التنظيمية
-// أو وحدة واحدة إذا أُرسل unitId
+﻿// POST /api/organization/fit
+// ظٹط­ط³ط¨ ط¯ط±ط¬ط© ط§ظ„ظ…ظ„ط§ط،ظ…ط© ط¨ظٹظ† ط¬ظ…ظٹط¹ ط§ظ„ظ…ط±ط´ط­ظٹظ† ط§ظ„ظ…ط¹طھظ…ط¯ظٹظ† ظˆط¬ظ…ظٹط¹ ط§ظ„ظˆط­ط¯ط§طھ ط§ظ„طھظ†ط¸ظٹظ…ظٹط©
+// ط£ظˆ ظˆط­ط¯ط© ظˆط§ط­ط¯ط© ط¥ط°ط§ ط£ظڈط±ط³ظ„ unitId
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createServiceClient } from '@/lib/supabase/service';
+import { createServiceClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { computeFitScore } from '@/lib/ai/analyzerFit';
 
@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
 
   const service = createServiceClient();
 
-  // جلب البطاقات القيادية المعتمدة
+  // ط¬ظ„ط¨ ط§ظ„ط¨ط·ط§ظ‚ط§طھ ط§ظ„ظ‚ظٹط§ط¯ظٹط© ط§ظ„ظ…ط¹طھظ…ط¯ط©
   let cardQuery = service
     .from('leadership_cards')
     .select('id, candidate_profile_id, readiness_level, leadership_type, total_score, trust_score, axis_scores, primary_strengths, development_gaps, candidate_profiles(id, status, completion_score, users(department))')
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
   if (candidateId) cardQuery = cardQuery.eq('candidate_profile_id', candidateId);
   const { data: cards } = await cardQuery;
 
-  // جلب الوحدات التنظيمية
+  // ط¬ظ„ط¨ ط§ظ„ظˆط­ط¯ط§طھ ط§ظ„طھظ†ط¸ظٹظ…ظٹط©
   let unitQuery = service
     .from('organization_units')
     .select('*, organization_unit_requirements(*)')

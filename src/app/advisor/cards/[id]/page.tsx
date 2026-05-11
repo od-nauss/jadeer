@@ -74,7 +74,7 @@ export default async function LeadershipCardDetailPage({
       };
     };
   };
-  const user = (card as unknown as CardData).candidate_profiles?.users;
+  const candidateUser = (card as unknown as CardData).candidate_profiles?.users;
   const level = READINESS_LEVELS[card.readiness_level as keyof typeof READINESS_LEVELS];
   const strengths = (card.primary_strengths as string[] | null) || [];
   const gaps = (card.development_gaps as string[] | null) || [];
@@ -96,15 +96,15 @@ export default async function LeadershipCardDetailPage({
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <div className="h-16 w-16 rounded-full bg-gold-500 flex items-center justify-center text-primary-900 font-bold text-2xl flex-shrink-0">
-              {user?.full_name?.charAt(0)}
+              {candidateUser?.full_name?.charAt(0)}
             </div>
             <div>
-              <h1 className="text-2xl font-bold">{user?.full_name}</h1>
+              <h1 className="text-2xl font-bold">{candidateUser?.full_name}</h1>
               <p className="text-gold-200">
-                {user?.job_title} {user?.department && `· ${user.department}`}
+                {candidateUser?.job_title} {candidateUser?.department && `· ${candidateUser.department}`}
               </p>
-              {user?.employee_number && (
-                <p className="text-xs text-gold-200/70 mt-1">رقم الموظف: {user.employee_number}</p>
+              {candidateUser?.employee_number && (
+                <p className="text-xs text-gold-200/70 mt-1">رقم الموظف: {candidateUser.employee_number}</p>
               )}
             </div>
           </div>
