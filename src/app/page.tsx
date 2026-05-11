@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import {
   User,
@@ -14,13 +15,18 @@ import {
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
+import { ROLES } from '@/lib/auth/roles';
 import { PageHeader, Card } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
 
 export default async function CandidateDashboard() {
   const user = await getCurrentUser();
-  if (!user) return null;
+  if (!user) redirect('/login');
+
+  // توجيه المستخدم لصفحته الرئيسية حسب دوره
+  const homePath = ROLES[user.primaryRole]?.homePath;
+  if (homePath && homePath !== '/') redirect(homePath);
 
   const supabase = createClient();
 
