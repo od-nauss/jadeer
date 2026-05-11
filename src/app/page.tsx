@@ -227,26 +227,13 @@ export default async function HomePage() {
       ══════════════════════════════════════════════════════════════════ */}
       <section className="py-20 bg-gradient-to-b from-primary-50/50 to-ivory">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <span className="inline-block text-xs font-bold tracking-widest text-gold-600 bg-gold-50 border border-gold-200 px-4 py-1.5 rounded-full mb-4">
-              منصة جدير
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-primary-800">
-              رؤيتنا ورسالتنا وقيمنا
-            </h2>
-            <p className="text-darkgray mt-3 max-w-xl mx-auto text-sm">
-              المبادئ التأسيسية التي تقوم عليها منصة جدير وتوجّه كل قرار فيها
-            </p>
-          </div>
-
           <div className="grid md:grid-cols-3 gap-8">
             {/* الرؤية */}
             <div className="institutional-card p-8 text-center hover:shadow-lg transition-shadow">
               <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-100 mb-5 mx-auto">
                 <Eye className="h-8 w-8 text-primary-700" />
               </div>
-              <h3 className="text-xl font-bold text-primary-800 mb-1">رؤية المنصة</h3>
-              <p className="text-xs text-gold-600 font-medium mb-3">ما الذي تطمح إليه جدير؟</p>
+              <h3 className="text-xl font-bold text-primary-800 mb-3">الرؤية</h3>
               <div className="gold-divider mb-4" />
               <p className="text-darkgray leading-relaxed text-sm">
                 أن تكون المرجع المؤسسي الأول في قياس الجاهزية القيادية،
@@ -260,8 +247,7 @@ export default async function HomePage() {
               <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gold-100 mb-5 mx-auto">
                 <Target className="h-8 w-8 text-gold-700" />
               </div>
-              <h3 className="text-xl font-bold text-primary-800 mb-1">رسالة المنصة</h3>
-              <p className="text-xs text-gold-600 font-medium mb-3">ما الذي تؤديه جدير يومياً؟</p>
+              <h3 className="text-xl font-bold text-primary-800 mb-3">الرسالة</h3>
               <div className="gold-divider mb-4" />
               <p className="text-darkgray leading-relaxed text-sm">
                 تمكين كل موظف من إثبات جاهزيته القيادية بطريقة عادلة وشفافة،
@@ -275,8 +261,7 @@ export default async function HomePage() {
               <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-sage/15 mb-5 mx-auto">
                 <ShieldCheck className="h-8 w-8 text-sage" />
               </div>
-              <h3 className="text-xl font-bold text-primary-800 mb-1">قيم المنصة</h3>
-              <p className="text-xs text-gold-600 font-medium mb-3">ما الذي لا تتنازل عنه جدير؟</p>
+              <h3 className="text-xl font-bold text-primary-800 mb-3">القيم</h3>
               <div className="gold-divider mb-4" />
               <ul className="text-darkgray text-sm space-y-2 text-right">
                 {['العدالة والشفافية', 'الموضوعية والبيانات', 'الحوكمة والمساءلة', 'تكافؤ الفرص'].map(v => (
@@ -522,12 +507,9 @@ export default async function HomePage() {
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
                 مركز العرض <span className="text-gold-400">التنفيذي</span>
               </h2>
-              <p className="text-white/80 text-lg max-w-2xl mx-auto mb-3">
-                عرض تفصيلي مخصص للقيادات — يشمل الفكرة، المنهجية، النماذج التجريبية،
-                الحوكمة، والأسئلة المتوقعة في ١٥ قسماً شاملاً.
-              </p>
-              <p className="text-gold-300 text-sm mb-8 font-medium">
-                محمي بكلمة مرور — للقيادات العليا فقط
+              <p className="text-white/80 text-lg max-w-2xl mx-auto mb-8">
+                استعرض فكرة المنصة وأهدافها ومنهجيتها في 15 قسماً تفاعلياً —
+                يشمل النماذج التجريبية، الحوكمة، والأسئلة الشائعة.
               </p>
               <Link
                 href="/executive-center/login"
