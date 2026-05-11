@@ -7,21 +7,26 @@ import { UniversityLogo } from '@/components/branding/Logo';
 export const dynamic = 'force-dynamic';
 
 const EXEC_PAGES = [
-  { slug: 'overview',          title: 'نظرة عامة' },
-  { slug: 'why',               title: 'لماذا نحتاج المنصة' },
-  { slug: 'beneficiaries',     title: 'المستفيدون' },
-  { slug: 'how-it-works',      title: 'كيف تعمل المنصة' },
-  { slug: 'methodology',       title: 'منهجية التقييم' },
-  { slug: 'anti-bias',         title: 'منع التحيز' },
-  { slug: 'system-preview',    title: 'لقطات من النظام' },
-  { slug: 'critical-points',   title: 'النقاط الحرجة' },
-  { slug: 'faq-leadership',    title: 'الأسئلة المتوقعة' },
-  { slug: 'urgency',           title: 'القيمة العاجلة' },
-  { slug: 'smart-alerts',      title: 'الإشعارات الذكية' },
-  { slug: 'organization-fit',  title: 'الملاءمة التنظيمية' },
-  { slug: 'demo-models',       title: 'النماذج التجريبية' },
-  { slug: 'decision',          title: 'القرار المطلوب' },
-  { slug: 'export',            title: 'تصدير العرض' },
+  // المرحلة الأولى — الشد
+  { slug: 'overview',          title: '١ · نظرة عامة' },
+  { slug: 'why',               title: '٢ · لماذا جدير' },
+  { slug: 'urgency',           title: '٣ · البطاقة القيادية' },
+  { slug: 'organization-fit',  title: '٤ · الخريطة التنظيمية' },
+  // المرحلة الثانية — الكيف
+  { slug: 'methodology',       title: '٥ · آلية الاحتساب' },
+  { slug: 'smart-alerts',      title: '٦ · الذكاء الاصطناعي' },
+  { slug: 'system-preview',    title: '٧ · لقطات النظام' },
+  // المرحلة الثالثة — المسار
+  { slug: 'how-it-works',      title: '٨ · كيف تعمل المنصة' },
+  { slug: 'demo-models',       title: '٩ · النماذج التجريبية' },
+  { slug: 'critical-points',   title: '١٠ · خطة التطوير' },
+  // المرحلة الرابعة — الضمانات
+  { slug: 'beneficiaries',     title: '١١ · المستفيدون' },
+  { slug: 'anti-bias',         title: '١٢ · الحوكمة والعدالة' },
+  { slug: 'faq-leadership',    title: '١٣ · الأسئلة المتوقعة' },
+  // الخاتمة
+  { slug: 'decision',          title: '١٤ · القرار المطلوب' },
+  { slug: 'export',            title: '١٥ · تصدير العرض' },
 ];
 
 export default function ExecutiveCenterLayout({

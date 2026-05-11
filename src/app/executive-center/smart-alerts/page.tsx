@@ -1,135 +1,149 @@
-import { Bell, AlertTriangle, TrendingUp, Eye } from 'lucide-react';
+import Link from 'next/link';
+import { Brain, Zap, Shield, Eye, TrendingUp, ChevronLeft, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
-const ALERTS = [
-  {
-    type: 'مرشح تجاوز 85٪',
-    receivers: 'الرئيس + الموارد البشرية',
-    why: 'مرشح يستحق التكليف الفوري',
-    action: 'مراجعة البطاقة + خريطة الملاءمة',
-    priority: 'عالية',
-    color: 'sage',
-  },
-  {
-    type: 'قيادة مخفية محتملة',
-    receivers: 'الرئيس + اللجنة',
-    why: 'موظف بمسمى غير قيادي يظهر مؤشرات قيادة قوية',
-    action: 'مراجعة الملف ووضعه في خريطة التعاقب',
-    priority: 'عالية',
-    color: 'gold',
-  },
-  {
-    type: 'مرشح عالي الأداء منخفض الرضا',
-    receivers: 'الرئيس + الموارد + اللجنة',
-    why: 'منجز قوي لا يناسب القيادة المباشرة',
-    action: 'برنامج قيادة إنسانية قبل التكليف',
-    priority: 'عالية',
-    color: 'wine',
-  },
-  {
-    type: 'مرشح مناسب لإدارة تشغيلية',
-    receivers: 'الرئيس',
-    why: 'ملاءمة عالية لمنصب شاغر',
-    action: 'مراجعة ملاءمة الوحدة',
-    priority: 'متوسطة',
-    color: 'primary',
-  },
-  {
-    type: 'وحدة تنظيمية بلا بديل قيادي',
-    receivers: 'الرئيس + الموارد',
-    why: 'مخاطر فراغ قيادي',
-    action: 'مسابقة وظيفية أو خطة تطوير عاجلة',
-    priority: 'عالية',
-    color: 'wine',
-  },
-  {
-    type: 'تقييم 360 ناقص',
-    receivers: 'لجنة الحوكمة',
-    why: 'التقييم لم يكتمل في الوقت المحدد',
-    action: 'تمديد الروابط أو إغلاق مشروط',
-    priority: 'متوسطة',
-    color: 'gold',
-  },
-  {
-    type: 'تقييم متطرف',
-    receivers: 'لجنة الحوكمة',
-    why: 'احتمال تحيز أو تضارب مصالح',
-    action: 'مراجعة المقيم والتعليقات',
-    priority: 'عالية',
-    color: 'wine',
-  },
-  {
-    type: 'تظلم جديد',
-    receivers: 'لجنة الحوكمة',
-    why: 'مرشح يطلب إعادة نظر',
-    action: 'تحليل التظلم وإصدار قرار',
-    priority: 'عالية',
-    color: 'wine',
-  },
-  {
-    type: 'خطة تطوير متأخرة',
-    receivers: 'الموارد + المرشح',
-    why: 'بنود لم تُنفذ في الموعد',
-    action: 'متابعة وتذكير',
-    priority: 'متوسطة',
-    color: 'gold',
-  },
-  {
-    type: 'مسابقة وظيفية أظهرت مرشحاً مميزاً',
-    receivers: 'الرئيس',
-    why: 'نتائج مهمة تحتاج انتباه قيادي',
-    action: 'مراجعة نتائج المسابقة',
-    priority: 'متوسطة',
-    color: 'sage',
-  },
-];
 
-export default function SmartAlertsPage() {
+export default function AIAnalysisPage() {
   return (
-    <div className="space-y-10">
-      <div>
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          الإشعارات <span className="text-gold-400">الذكية</span>
-        </h1>
-        <p className="text-xl text-gold-200">القيادة لا تكتشف بل تُنبَّه</p>
-      </div>
+    <div className="space-y-16 max-w-5xl mx-auto" dir="rtl">
 
-      <div className="space-y-3">
-        {ALERTS.map((alert, i) => (
-          <div
-            key={i}
-            className="bg-white/5 border border-gold-500/20 rounded-xl p-5"
-          >
-            <div className="flex items-start gap-4">
-              <div className="h-10 w-10 rounded-lg bg-gold-500/20 border border-gold-400/30 flex items-center justify-center flex-shrink-0">
-                <Bell className="h-5 w-5 text-gold-400" />
+      {/* العنوان */}
+      <section className="text-center">
+        <div className="inline-block bg-purple-500/15 border border-purple-400/30 rounded-full px-5 py-2 text-purple-300 text-sm font-bold mb-6">
+          المحور السادس من العرض
+        </div>
+        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          دور <span className="text-purple-400">الذكاء الاصطناعي</span>
+        </h1>
+        <p className="text-white/70 text-lg max-w-2xl mx-auto">
+          AI في جدير ليس أداة إضافية — هو المحرك الذي يحوّل البيانات الخام إلى رؤية قيادية دقيقة وموضوعية
+        </p>
+      </section>
+
+      {/* ماذا يفعل AI */}
+      <section className="bg-gradient-to-br from-purple-900/30 to-primary-900/50 border border-purple-400/20 rounded-3xl p-8">
+        <h2 className="text-2xl font-bold text-white mb-8 text-center">ماذا يفعل الذكاء الاصطناعي في جدير؟</h2>
+        <div className="grid md:grid-cols-2 gap-6">
+          {[
+            {
+              icon: Brain,
+              title: 'تحليل الأنماط القيادية',
+              desc: 'يقرأ آلاف نقاط البيانات من 9 مصادر مختلفة ويكتشف أنماطاً يستحيل على الإنسان رصدها يدوياً — مثل العلاقة بين أسلوب القرارات ومعدلات الأداء.',
+              color: 'text-purple-300',
+              bg: 'bg-purple-400/10',
+            },
+            {
+              icon: Eye,
+              title: 'الكشف عن القيادة المخفية',
+              desc: 'يرصد الموظفين الذين يُظهرون مؤشرات قيادة استثنائية لكنهم لم يُرشَّحوا أبداً — بناءً على سلوكهم الفعلي لا على من يعرفون.',
+              color: 'text-blue-300',
+              bg: 'bg-blue-400/10',
+            },
+            {
+              icon: Shield,
+              title: 'كشف التحيز وتضارب المصالح',
+              desc: 'يحلل علاقات المقيّمين بالمرشحين ويُنبّه تلقائياً عند وجود تحيز محتمل في تقييم 360° — يحمي النزاهة دون تدخل بشري.',
+              color: 'text-emerald-300',
+              bg: 'bg-emerald-400/10',
+            },
+            {
+              icon: TrendingUp,
+              title: 'التنبؤ بالجاهزية المستقبلية',
+              desc: 'لا يقيّم فقط الوضع الحالي — بل يتوقع من سيصل للجاهزية القيادية خلال 6 أو 12 شهراً بناءً على مسار التطور.',
+              color: 'text-gold-300',
+              bg: 'bg-gold-400/10',
+            },
+            {
+              icon: Zap,
+              title: 'الاختبارات التكيّفية',
+              desc: 'الاختبارات الذكية لا تُعطي نفس الأسئلة لكل شخص — AI يُكيّف صعوبة الأسئلة في الوقت الفعلي بناءً على إجاباتك السابقة.',
+              color: 'text-cyan-300',
+              bg: 'bg-cyan-400/10',
+            },
+            {
+              icon: CheckCircle2,
+              title: 'صياغة التوصية النهائية',
+              desc: 'يصدر تقريراً شاملاً يتضمن نوع القيادة، الوحدات التنظيمية الأنسب، نقاط القوة، الفجوات، وخطة التطوير — كل ذلك بصياغة احترافية.',
+              color: 'text-rose-300',
+              bg: 'bg-rose-400/10',
+            },
+          ].map((item) => (
+            <div key={item.title} className="flex gap-4">
+              <div className={`h-10 w-10 rounded-xl ${item.bg} flex items-center justify-center shrink-0 mt-1`}>
+                <item.icon className={`h-5 w-5 ${item.color}`} />
               </div>
-              <div className="flex-1 grid md:grid-cols-4 gap-4">
-                <div>
-                  <div className="text-sm font-bold text-white mb-0.5">{alert.type}</div>
-                  <div className={`inline-block text-xs px-2 py-0.5 rounded mt-1 ${
-                    alert.priority === 'عالية' ? 'bg-rose-500/20 text-rose-200' : 'bg-gold-500/20 text-gold-200'
-                  }`}>
-                    {alert.priority}
-                  </div>
-                </div>
-                <div className="text-sm">
-                  <div className="text-xs text-gold-400 mb-1">المستلم</div>
-                  <div className="text-white/80">{alert.receivers}</div>
-                </div>
-                <div className="text-sm">
-                  <div className="text-xs text-gold-400 mb-1">السبب</div>
-                  <div className="text-white/80">{alert.why}</div>
-                </div>
-                <div className="text-sm">
-                  <div className="text-xs text-gold-400 mb-1">الإجراء المقترح</div>
-                  <div className="text-white/80">{alert.action}</div>
-                </div>
+              <div>
+                <h3 className="font-bold text-white mb-1">{item.title}</h3>
+                <p className="text-sm text-white/60 leading-relaxed">{item.desc}</p>
               </div>
             </div>
+          ))}
+        </div>
+      </section>
+
+      {/* مثال حي لتقرير AI */}
+      <section>
+        <h2 className="text-2xl font-bold text-white mb-6">مثال: تقرير AI لنورة القحطاني</h2>
+        <div className="bg-white/5 border border-purple-400/20 rounded-2xl overflow-hidden">
+          {/* رأس التقرير */}
+          <div className="bg-purple-900/30 border-b border-purple-400/20 px-6 py-4 flex items-center gap-3">
+            <Brain className="h-5 w-5 text-purple-400" />
+            <span className="text-purple-300 font-bold text-sm">تقرير تحليل الذكاء الاصطناعي · Jadeer AI v2.1</span>
+            <span className="mr-auto text-xs text-white/30 font-mono">AI-RPT-2026-047</span>
           </div>
-        ))}
-      </div>
+          <div className="p-6 space-y-4">
+            <div className="flex gap-3">
+              <div className="h-2 w-2 rounded-full bg-purple-400 shrink-0 mt-2" />
+              <p className="text-white/80 leading-relaxed text-sm">
+                <strong className="text-white">تحليل الأنماط:</strong> رصد النظام نمطاً متسقاً على مدى 3 سنوات — نورة تُظهر معدل إنجاز مشاريع 94% مع رضا فريق يتجاوز 90% في كل دورة، وهو ما يضعها في أعلى 8% من مجموع المتقدمين.
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <div className="h-2 w-2 rounded-full bg-blue-400 shrink-0 mt-2" />
+              <p className="text-white/80 leading-relaxed text-sm">
+                <strong className="text-white">تحليل التحيز:</strong> فحص النظام علاقات المقيّمين الـ13 — لم يُرصد تضارب مصالح في أي منهم. درجات التقييم مُوزّعة بشكل طبيعي بانحراف معياري 8.3، مما يُعزز مصداقية النتيجة.
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <div className="h-2 w-2 rounded-full bg-emerald-400 shrink-0 mt-2" />
+              <p className="text-white/80 leading-relaxed text-sm">
+                <strong className="text-white">التنبؤ المستقبلي:</strong> بناءً على منحنى التطور الحالي، يُتوقع وصولها لـ 92%+ خلال 8 أشهر في حال الاستثمار في محورَي التفكير الاستراتيجي والبيانات.
+              </p>
+            </div>
+            <div className="border-t border-white/10 pt-4 flex gap-3">
+              <div className="h-2 w-2 rounded-full bg-gold-400 shrink-0 mt-2" />
+              <p className="text-white/80 leading-relaxed text-sm">
+                <strong className="text-gold-400">التوصية النهائية:</strong> مرشحة ممتازة لقيادة قطاع تشغيلي بدرجة تعقيد متوسطة-عالية. الوحدات الأنسب: إدارة العمليات، إدارة الجودة والامتثال. يُوصى بتكليفها خلال الربع الثاني مع خطة تطوير موازية مدتها 6 أشهر.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ضمانات AI */}
+      <section>
+        <h2 className="text-2xl font-bold text-white mb-6">AI مساعد — لا بديل عن الحوكمة</h2>
+        <div className="bg-amber-500/10 border border-amber-400/30 rounded-2xl p-6 flex gap-4">
+          <AlertTriangle className="h-8 w-8 text-amber-400 shrink-0 mt-1" />
+          <div>
+            <h3 className="font-bold text-amber-300 mb-2">مبدأ أساسي لا يتغير</h3>
+            <p className="text-white/80 leading-relaxed">
+              توصية الذكاء الاصطناعي <strong className="text-white">استشارية وليست نهائية</strong>.
+              لا يُعتمد أي تصنيف قيادي دون مراجعة لجنة الحوكمة والتصويت عليه.
+              AI يُوفّر البيانات، والإنسان يتخذ القرار. هذا المبدأ مُقنَّن في بنية المنصة ولا يمكن تجاوزه.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="text-center pt-4">
+        <Link href="/executive-center/system-preview"
+          className="inline-flex items-center gap-3 text-gold-300 hover:text-gold-200 font-bold text-lg transition group">
+          شاهد لقطات النظام من داخل كل بوابة
+          <ChevronLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
+        </Link>
+      </section>
     </div>
   );
 }
