@@ -32,7 +32,7 @@ export default async function GovernanceReviewDetailPage({
   const [initiatives, kpis, assessments, nominees] = await Promise.all([
     supabase.from('initiatives').select('*').eq('candidate_profile_id', params.id),
     supabase.from('kpis').select('*').eq('candidate_profile_id', params.id),
-    supabase.from('assessment_results').select('*, assessments(name)').eq('candidate_profile_id', params.id),
+    supabase.from('assessment_results').select('*, assessments(title)').eq('candidate_profile_id', params.id),
     supabase.from('evaluator_nominees').select('*').eq('candidate_profile_id', params.id),
   ]);
 
@@ -134,8 +134,8 @@ export default async function GovernanceReviewDetailPage({
             {nominees.data.map((n) => (
               <div key={n.id} className="bg-gold-50 p-3 rounded-lg text-sm flex justify-between items-center">
                 <div>
-                  <div className="font-medium text-primary-700">{n.evaluator_name}</div>
-                  <div className="text-xs text-darkgray">{n.relationship}</div>
+                  <div className="font-medium text-primary-700">{n.full_name}</div>
+                  <div className="text-xs text-darkgray">{n.relationship_type}</div>
                 </div>
                 <Badge variant={n.status === 'approved' ? 'sage' : n.status === 'rejected' ? 'wine' : 'gold'}>
                   {n.status === 'approved' ? 'معتمد' : n.status === 'rejected' ? 'مرفوض' : 'قيد المراجعة'}

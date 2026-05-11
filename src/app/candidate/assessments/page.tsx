@@ -1,4 +1,4 @@
-﻿import { ClipboardCheck, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { ClipboardCheck, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
@@ -17,7 +17,7 @@ export default async function CandidateAssessmentsPage() {
     .maybeSingle();
 
   const [assessmentsRes, resultsRes] = await Promise.all([
-    supabase.from('assessments').select('*').order('order_index'),
+    supabase.from('assessments').select('*').eq('is_active', true).order('created_at'),
     supabase.from('assessment_results').select('*').eq('candidate_profile_id', profile?.id || ''),
   ]);
 
@@ -50,7 +50,7 @@ export default async function CandidateAssessmentsPage() {
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between gap-2 mb-1">
-                      <h3 className="font-bold text-primary-700">{a.name}</h3>
+                      <h3 className="font-bold text-primary-700">{a.title}</h3>
                       {completed && (
                         <Badge variant="sage">{Number(score).toFixed(0)}%</Badge>
                       )}
@@ -58,7 +58,7 @@ export default async function CandidateAssessmentsPage() {
                     <p className="text-xs text-darkgray mb-3 leading-relaxed">{a.description}</p>
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-darkgray">
-                        {a.duration_minutes} دقيقة · {a.questions_count} سؤال
+                        {a.estimated_duration_minutes} دقيقة · {a.question_count} سؤال
                       </span>
                       <Link
                         href={`/candidate/assessments/${a.id}`}
