@@ -12,8 +12,11 @@ import {
   ScrollText,
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser } from '@/lib/auth/current-user';
+import { canAdvisorViewCard } from '@/lib/auth/advisor-access';
 import { Card, Badge } from '@/components/ui';
 import { READINESS_LEVELS, leadershipTypeLabel } from '@/lib/utils';
+import { Lock } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,6 +26,34 @@ export default async function LeadershipCardDetailPage({
   params: { id: string };
 }) {
   const supabase = createClient();
+
+  // فحص صلاحية المستشار
+  const user = await getCurrentUser();
+  if (user?.roles.includes('advisor')) {
+    // جلب candidate_profile_id من البطاقة
+    const { data: cardCheck } = await supabase.from('leadership_cards').select('candidate_profile_id').eq('id', params.id).maybeSingle();
+    if (cardCheck) {
+      const allowed = await canAdvisorViewCard(user.id, cardCheck.candidate_profile_id);
+      if (!allowed) {
+        return (
+          <div className="min-h-[400px] flex items-center justify-center" dir="rtl">
+            <div className="text-center">
+              <Lock className="h-12 w-12 text-gold-400 mx-auto mb-4" />
+              <h2 className="text-lg font-bold text-primary-700 mb-2">غير مصرح</h2>
+              <p className="text-sm text-darkgray">لا يوجد لديك صلاحية مراجعة هذه البطاقة.</p>
+            </div>
+          </div>
+        );
+      }
+      // تسجيل اطلاع المستشار
+      await supabase.from('audit_logs').insert({
+        user_id: user.id, user_role: user.primaryRole,
+        operation_type: 'advisor_viewed_card',
+        description: 'اطلاع المستشار على البطاقة القيادية',
+        affected_entity_type: 'leadership_cards', affected_entity_id: params.id, sensitivity: 'sensitive',
+      });
+    }
+  }
   const { data: card } = await supabase
     .from('leadership_cards')
     .select(

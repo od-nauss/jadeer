@@ -63,7 +63,8 @@ export const SIDEBAR_ITEMS: Record<RoleCode, SidebarItem[]> = {
   president: [
     { label: 'لوحة القيادة العليا', href: '/executive/dashboard', icon: LayoutDashboard },
     { label: 'قائمة المرشحين', href: '/executive/candidates', icon: UsersRound },
-    { label: 'البطاقات القيادية', href: '/executive/cards', icon: IdCard },
+    { label: 'البطاقات القيادية', href: '/executive/candidates', icon: IdCard },
+    { label: 'مقارنة المرشحين', href: '/executive/compare', icon: IdCard },
     { label: 'خريطة الملاءمة التنظيمية', href: '/organization/map', icon: MapIcon },
     { label: 'التقارير التنفيذية', href: '/executive/reports', icon: FileBarChart },
     { label: 'المسابقات الوظيفية', href: '/executive/competitions', icon: Trophy },
