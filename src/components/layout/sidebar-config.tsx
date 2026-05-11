@@ -89,6 +89,7 @@ export const SIDEBAR_ITEMS: Record<RoleCode, SidebarItem[]> = {
     { label: 'متابعة تقييم 360', href: '/governance/360', icon: Activity },
     { label: 'مراجعة النتائج', href: '/governance/results', icon: ListChecks },
     { label: 'التظلمات', href: '/governance/appeals', icon: AlertCircle },
+    { label: 'قرارات اللجنة', href: '/governance/decisions', icon: ListChecks },
     { label: 'حالات تضارب المصالح', href: '/governance/conflicts', icon: AlertTriangle },
     { label: 'سجل الحوكمة', href: '/governance/audit', icon: History },
   ],
