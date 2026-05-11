@@ -33,6 +33,25 @@ ALTER TABLE evaluator_nominees
   ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'pending'
     CHECK (status IN ('pending','approved','rejected'));
 
+-- إضافة عمود status لجدول initiatives (مسودة / مرسلة / محققة)
+ALTER TABLE initiatives
+  ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'draft'
+    CHECK (status IN ('draft','submitted','verified','returned'));
+
+-- إضافة عمود ai_score للتحليل الذكي
+ALTER TABLE initiatives
+  ADD COLUMN IF NOT EXISTS ai_score NUMERIC(5,2);
+ALTER TABLE initiatives
+  ADD COLUMN IF NOT EXISTS ai_feedback JSONB;
+
+ALTER TABLE kpis
+  ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'draft'
+    CHECK (status IN ('draft','submitted'));
+ALTER TABLE kpis
+  ADD COLUMN IF NOT EXISTS ai_score NUMERIC(5,2);
+ALTER TABLE kpis
+  ADD COLUMN IF NOT EXISTS ai_feedback JSONB;
+
 -- للتحقق من نجاح التعديل:
 SELECT column_name, data_type
 FROM information_schema.columns

@@ -1,18 +1,27 @@
-﻿import { AlertTriangle, Plus } from 'lucide-react';
+import { AlertCircle, Clock, CheckCircle2, XCircle } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
+import { AppealForm } from '@/components/candidate/AppealForm';
 
 export const dynamic = 'force-dynamic';
-const APPEAL_TYPES: Record<string, string> = {
-  evaluator_bias: 'تحيز مقيم',
-  classification_disagreement: 'عدم موافقة على التصنيف',
-  fit_disagreement: 'عدم موافقة على الملاءمة',
-  development_plan_disagreement: 'عدم موافقة على خطة التطوير',
-  process_complaint: 'شكوى إجرائية',
-  data_correction: 'طلب تصحيح بيانات',
-  reevaluation: 'طلب إعادة تقييم',
+
+const APPEAL_TYPE_LABELS: Record<string, string> = {
+  classification_objection: 'اعتراض على التصنيف',
+  reassessment_request: 'طلب إعادة تقييم',
+  data_correction: 'تصحيح بيانات',
+  evidence_addition: 'إضافة شواهد',
+  evaluation_completion: 'اعتراض على اكتمال التقييم',
   other: 'أخرى',
+};
+
+const STATUS_INFO: Record<string, { label: string; variant: 'gold' | 'primary' | 'sage' | 'wine' | 'gray' }> = {
+  new:          { label: 'جديد', variant: 'gold' },
+  under_review: { label: 'قيد المراجعة', variant: 'primary' },
+  needs_info:   { label: 'يحتاج معلومات', variant: 'gold' },
+  accepted:     { label: 'مقبول', variant: 'sage' },
+  rejected:     { label: 'مرفوض', variant: 'wine' },
+  closed:       { label: 'مغلق', variant: 'gray' },
 };
 
 export default async function CandidateAppealsPage() {
@@ -20,63 +29,65 @@ export default async function CandidateAppealsPage() {
   if (!user) return null;
 
   const supabase = createClient();
-  const { data: profile } = await supabase
-    .from('candidate_profiles')
-    .select('id')
-    .eq('user_id', user.id)
-    .maybeSingle();
-
-  const { data: appeals } = await supabase
-    .from('appeals')
-    .select('*')
-    .eq('candidate_profile_id', profile?.id || '')
-    .order('created_at', { ascending: false });
+  const { data: profile } = await supabase.from('candidate_profiles').select('id, status').eq('user_id', user.id).maybeSingle();
+  const { data: appeals } = await supabase.from('appeals').select('*').eq('candidate_profile_id', profile?.id || '').order('created_at', { ascending: false });
 
   return (
-    <div>
+    <div dir="rtl">
       <PageHeader
-        title="تظلماتي"
-        description="حقّك في التظلم على أي قرار جزء من ضمانات العدالة في منصة جدير. كل تظلم يُحلَّل بالذكاء الاصطناعي ثم تنظر فيه لجنة الحوكمة."
-        example="ثمانية أنواع من التظلمات: تحيز مقيم، عدم موافقة على التصنيف، طلب تصحيح بيانات، طلب إعادة تقييم، وغيرها."
-        icon={<AlertTriangle className="h-5 w-5" />}
+        title="التظلمات"
+        description="إذا رأيت خطأً في بياناتك أو نتيجتك، يمكنك تقديم طلب مراجعة. لجنة الحوكمة ستراجعه وفق ضوابط المنصة."
+        example="مثال: بيانات خاطئة في الملف، نتيجة لا تعكس ملفك الفعلي، أو مؤشرات لم تُأخذ بعين الاعتبار."
+        icon={<AlertCircle className="h-5 w-5" />}
       />
 
-      <div className="mb-4">
-        <button className="inline-flex items-center gap-2 px-4 py-2 bg-primary-700 hover:bg-primary-800 text-white rounded-lg font-bold">
-          <Plus className="h-4 w-4" />
-          تقديم تظلم جديد
-        </button>
-      </div>
+      {/* نموذج التظلم */}
+      {profile ? (
+        <div className="mb-8"><AppealForm /></div>
+      ) : (
+        <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-xl text-sm text-amber-800">
+          أكمل ملفك القيادي أولاً لتتمكن من تقديم تظلم.
+        </div>
+      )}
 
-      {appeals && appeals.length > 0 ? (
+      {/* قائمة التظلمات */}
+      <h3 className="text-lg font-bold text-primary-700 mb-4">تظلماتي السابقة</h3>
+      {!appeals || appeals.length === 0 ? (
+        <EmptyState
+          icon={<AlertCircle className="h-8 w-8" />}
+          title="لا توجد تظلمات"
+          description="لم تقدم أي تظلم حتى الآن."
+        />
+      ) : (
         <div className="space-y-3">
-          {appeals.map((a) => (
-            <Card key={a.id}>
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                    <h3 className="font-bold text-primary-700">{APPEAL_TYPES[a.appeal_type] || a.appeal_type}</h3>
-                    <Badge variant={a.status === 'open' ? 'gold' : a.status === 'resolved' ? 'sage' : 'wine'}>
-                      {a.status === 'open' ? 'مفتوح' : a.status === 'resolved' ? 'مُعالَج' : a.status}
-                    </Badge>
-                  </div>
-                  {a.description && <p className="text-sm text-darkgray leading-relaxed">{a.description}</p>}
-                  {a.resolution && (
-                    <div className="mt-3 pt-3 border-t border-gold-100 bg-gold-50 -mx-4 -mb-4 px-4 py-3 rounded-b-lg">
-                      <div className="text-xs font-bold text-gold-700 mb-1">قرار اللجنة:</div>
-                      <p className="text-sm text-darkgray">{a.resolution}</p>
+          {appeals.map((appeal) => {
+            const si = STATUS_INFO[appeal.status] || STATUS_INFO.new;
+            return (
+              <Card key={appeal.id}>
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Badge variant={si.variant}>{si.label}</Badge>
+                      <span className="text-sm font-medium text-primary-700">
+                        {APPEAL_TYPE_LABELS[appeal.appeal_type] || appeal.appeal_type}
+                      </span>
                     </div>
-                  )}
-                  <div className="text-xs text-darkgray mt-2">
-                    {new Date(a.created_at).toLocaleString('ar-SA')}
+                    <p className="text-sm text-darkgray leading-relaxed">{appeal.appeal_text}</p>
+                    <div className="text-xs text-darkgray mt-2">
+                      {new Date(appeal.created_at).toLocaleDateString('ar-SA')}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Card>
-          ))}
+                {(appeal.committee_decision || appeal.committee_notes) && (
+                  <div className="mt-3 pt-3 border-t border-gold-100">
+                    <div className="text-xs font-semibold text-primary-600 mb-1">قرار اللجنة</div>
+                    <p className="text-sm text-darkgray">{appeal.committee_decision || appeal.committee_notes}</p>
+                  </div>
+                )}
+              </Card>
+            );
+          })}
         </div>
-      ) : (
-        <EmptyState icon={<AlertTriangle className="h-8 w-8" />} title="لا توجد تظلمات" description="ستظهر تظلماتك هنا فور تقديمها." />
       )}
     </div>
   );
