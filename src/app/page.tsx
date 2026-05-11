@@ -201,10 +201,10 @@ export default async function HomePage() {
           {/* إحصائيات سريعة */}
           <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
             {[
-              { value: '٧', label: 'محاور تقييم' },
-              { value: '٣٦٠°', label: 'تقييم شامل' },
-              { value: '١٥', label: 'مقيّم معتمد' },
-              { value: '١٠٠٪', label: 'شفافية كاملة' },
+              { value: '7', label: 'محاور تقييم' },
+              { value: '360°', label: 'تقييم شامل' },
+              { value: '15', label: 'مقيّم معتمد' },
+              { value: '100%', label: 'شفافية كاملة' },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
                 <div className="text-3xl md:text-4xl font-bold text-gold-400 mb-1">{stat.value}</div>
@@ -223,85 +223,35 @@ export default async function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════
-          الفكرة العامة
-      ══════════════════════════════════════════════════════════════════ */}
-      <section className="py-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <span className="inline-block text-xs font-bold tracking-widest text-gold-600 bg-gold-50 border border-gold-200 px-4 py-1.5 rounded-full mb-4">
-              الفكرة العامة
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-primary-800 mb-4">
-              ماذا تحل منصة جدير؟
-            </h2>
-            <div className="gold-divider max-w-xs mx-auto" />
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-10 items-center">
-            <div className="space-y-6">
-              <div className="institutional-card p-6 border-r-4 border-wine">
-                <h3 className="font-bold text-wine text-lg mb-2">المشكلة</h3>
-                <p className="text-darkgray leading-relaxed">
-                  قرارات القيادة تُبنى على الانطباعات الشخصية، الترشيحات التقليدية،
-                  أو المعارف — لا على بيانات موثقة وعادلة. يُضيع ذلك كفاءات حقيقية
-                  ويُقدّم آخرين لا يستحقون.
-                </p>
-              </div>
-              <div className="institutional-card p-6 border-r-4 border-primary-600">
-                <h3 className="font-bold text-primary-700 text-lg mb-2">الحل</h3>
-                <p className="text-darkgray leading-relaxed">
-                  منصة جدير تجمع في مسار واحد: ملف قيادي + مبادرات + مؤشرات أداء +
-                  اختبارات ذكية + تقييم 360° + تحليل ذكي + قرار حوكمي = بطاقة قيادية
-                  موثقة وقابلة للطعن والمراجعة.
-                </p>
-              </div>
-            </div>
-
-            <div className="institutional-card p-8 bg-gradient-to-br from-primary-700 to-primary-900 text-white rounded-2xl">
-              <h3 className="text-xl font-bold text-gold-300 mb-6">المعادلة الجوهرية</h3>
-              <div className="space-y-3 text-sm">
-                {[
-                  'ملف قيادي موثق',
-                  'مبادرات وإنجازات مثبتة',
-                  'مؤشرات أداء قابلة للقياس',
-                  'اختبارات ذكية متكيفة',
-                  'تقييم 360° من دائرة الثقة',
-                  'تحليل ذكي مساعد',
-                  'قرار حوكمي معتمد',
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <CheckCircle2 className="h-4 w-4 text-gold-400 shrink-0" />
-                    <span className="text-white/85">{item}</span>
-                    {i < 6 && <ChevronLeft className="h-3 w-3 text-gold-500/50 mr-auto" />}
-                  </div>
-                ))}
-                <div className="pt-4 mt-4 border-t border-gold-400/30 flex items-center gap-3">
-                  <Award className="h-6 w-6 text-gold-400 shrink-0" />
-                  <span className="font-bold text-gold-300 text-base">= بطاقة قيادية موثقة</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════════════════
-          الرؤية والرسالة والأهداف
+          رؤية المنصة ورسالتها وأهدافها
       ══════════════════════════════════════════════════════════════════ */}
       <section className="py-20 bg-gradient-to-b from-primary-50/50 to-ivory">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="inline-block text-xs font-bold tracking-widest text-gold-600 bg-gold-50 border border-gold-200 px-4 py-1.5 rounded-full mb-4">
+              منصة جدير
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-primary-800">
+              رؤيتنا ورسالتنا وقيمنا
+            </h2>
+            <p className="text-darkgray mt-3 max-w-xl mx-auto text-sm">
+              المبادئ التأسيسية التي تقوم عليها منصة جدير وتوجّه كل قرار فيها
+            </p>
+          </div>
+
           <div className="grid md:grid-cols-3 gap-8">
             {/* الرؤية */}
             <div className="institutional-card p-8 text-center hover:shadow-lg transition-shadow">
               <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-100 mb-5 mx-auto">
                 <Eye className="h-8 w-8 text-primary-700" />
               </div>
-              <h3 className="text-xl font-bold text-primary-800 mb-3">الرؤية</h3>
+              <h3 className="text-xl font-bold text-primary-800 mb-1">رؤية المنصة</h3>
+              <p className="text-xs text-gold-600 font-medium mb-3">ما الذي تطمح إليه جدير؟</p>
               <div className="gold-divider mb-4" />
               <p className="text-darkgray leading-relaxed text-sm">
-                أن تكون جامعة نايف العربية للعلوم الأمنية رائدة في بناء القيادات
-                المؤسسية عبر منهجية علمية موثوقة وشفافة، تكتشف القادة الظاهرين
-                والمخفيين على حد سواء.
+                أن تكون المرجع المؤسسي الأول في قياس الجاهزية القيادية،
+                وتمكين المنظمات من اكتشاف قادة المستقبل عبر منهجية علمية
+                موثوقة وشفافة تكشف القادة الظاهرين والمخفيين على حد سواء.
               </p>
             </div>
 
@@ -310,12 +260,13 @@ export default async function HomePage() {
               <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gold-100 mb-5 mx-auto">
                 <Target className="h-8 w-8 text-gold-700" />
               </div>
-              <h3 className="text-xl font-bold text-primary-800 mb-3">الرسالة</h3>
+              <h3 className="text-xl font-bold text-primary-800 mb-1">رسالة المنصة</h3>
+              <p className="text-xs text-gold-600 font-medium mb-3">ما الذي تؤديه جدير يومياً؟</p>
               <div className="gold-divider mb-4" />
               <p className="text-darkgray leading-relaxed text-sm">
                 تمكين كل موظف من إثبات جاهزيته القيادية بطريقة عادلة وشفافة،
                 وتزويد القيادة العليا ببيانات دقيقة وموثقة لدعم قرارات التكليف
-                والتعيين والتطوير.
+                والتعيين والتطوير بعيداً عن الانطباعات والترشيحات التقليدية.
               </p>
             </div>
 
@@ -324,7 +275,8 @@ export default async function HomePage() {
               <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-sage/15 mb-5 mx-auto">
                 <ShieldCheck className="h-8 w-8 text-sage" />
               </div>
-              <h3 className="text-xl font-bold text-primary-800 mb-3">القيم</h3>
+              <h3 className="text-xl font-bold text-primary-800 mb-1">قيم المنصة</h3>
+              <p className="text-xs text-gold-600 font-medium mb-3">ما الذي لا تتنازل عنه جدير؟</p>
               <div className="gold-divider mb-4" />
               <ul className="text-darkgray text-sm space-y-2 text-right">
                 {['العدالة والشفافية', 'الموضوعية والبيانات', 'الحوكمة والمساءلة', 'تكافؤ الفرص'].map(v => (
