@@ -1,4 +1,4 @@
-﻿import { FileText } from 'lucide-react';
+import { FileText } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge } from '@/components/ui';
 
@@ -28,12 +28,12 @@ export default async function AdminPageContentPage() {
                 className="flex items-center justify-between p-4 bg-gold-50 border border-gold-100 rounded-lg hover:border-gold-300 transition"
               >
                 <div>
-                  <div className="font-medium text-primary-700">{p.title || p.page_key}</div>
-                  <div className="text-xs text-darkgray mt-0.5">المفتاح: {p.page_key}</div>
+                  <div className="font-medium text-primary-700">{p.title || p.page_slug}</div>
+                  <div className="text-xs text-darkgray mt-0.5">المفتاح: {p.page_slug}</div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Badge variant={p.is_published ? 'sage' : 'gray'}>
-                    {p.is_published ? 'منشور' : 'مسودة'}
+                  <Badge variant={p.is_active ? 'sage' : 'gray'}>
+                    {p.is_active ? 'نشط' : 'معطّل'}
                   </Badge>
                   <span className="text-xs text-darkgray">
                     تحديث: {new Date(p.updated_at).toLocaleDateString('ar-SA')}

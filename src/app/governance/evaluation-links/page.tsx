@@ -1,4 +1,4 @@
-﻿import { Link2 } from 'lucide-react';
+import { Link2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
@@ -7,9 +7,19 @@ export default async function GovernanceLinksPage() {
   const supabase = createClient();
   const { data: links } = await supabase
     .from('evaluation_links')
-    .select('*, approved_evaluators(evaluator_name, candidate_profile_id)')
+    .select('*, approved_evaluators(full_name, candidate_profile_id)')
     .order('created_at', { ascending: false })
     .limit(100);
+
+  const STATUS_LABEL: Record<string, string> = {
+    ready: 'جاهز',
+    copied: 'تم النسخ',
+    opened: 'مفتوح',
+    submitted: 'مُستخدم',
+    expired: 'منتهي',
+    cancelled: 'ملغي',
+    regenerated: 'مُعاد',
+  };
 
   return (
     <div>
@@ -34,19 +44,19 @@ export default async function GovernanceLinksPage() {
               </thead>
               <tbody>
                 {links.map((l) => {
-                  type Row = { approved_evaluators?: { evaluator_name?: string } };
+                  type Row = { approved_evaluators?: { full_name?: string } };
                   const r = l as unknown as Row;
                   return (
                     <tr key={l.id} className="border-b border-gold-100 hover:bg-gold-50">
                       <td className="py-3 px-3 font-medium text-primary-800">
-                        {r.approved_evaluators?.evaluator_name || '—'}
+                        {r.approved_evaluators?.full_name || '—'}
                       </td>
                       <td className="py-3 px-3 text-xs text-darkgray font-mono" dir="ltr">
                         {l.token?.substring(0, 12)}...
                       </td>
                       <td className="py-3 px-3">
-                        <Badge variant={l.status === 'used' ? 'sage' : l.status === 'expired' ? 'gray' : 'gold'}>
-                          {l.status === 'active' ? 'نشط' : l.status === 'used' ? 'مستخدم' : l.status === 'expired' ? 'منتهي' : l.status}
+                        <Badge variant={l.status === 'submitted' ? 'sage' : l.status === 'expired' ? 'gray' : 'gold'}>
+                          {STATUS_LABEL[l.status] || l.status}
                         </Badge>
                       </td>
                       <td className="py-3 px-3 text-xs text-darkgray">

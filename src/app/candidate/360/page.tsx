@@ -67,9 +67,9 @@ export default async function Candidate360Page() {
             <Card key={n.id}>
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="font-bold text-primary-700">{n.evaluator_name}</div>
+                  <div className="font-bold text-primary-700">{n.full_name}</div>
                   <div className="text-xs text-darkgray">
-                    {n.relationship} {n.evaluator_email && `· ${n.evaluator_email}`}
+                    {n.relationship_type} {n.email && `· ${n.email}`}
                   </div>
                 </div>
                 <Badge
