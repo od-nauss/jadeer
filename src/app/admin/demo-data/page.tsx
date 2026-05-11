@@ -15,7 +15,7 @@ export default async function AdminDemoDataPage() {
     counts[table] = count || 0;
   }
 
-  const { data: flagRow } = await supabase.from('demo_data_flags').select('*').single();
+  const { data: flagRow } = await supabase.from('demo_data_flags').select('*').maybeSingle();
 
   const totalDemoRecords = Object.values(counts).reduce((a, b) => a + b, 0);
 

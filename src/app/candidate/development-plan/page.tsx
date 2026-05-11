@@ -13,7 +13,7 @@ export default async function CandidateDevelopmentPlanPage() {
     .from('candidate_profiles')
     .select('id')
     .eq('user_id', user.id)
-    .single();
+    .maybeSingle();
 
   const { data: plan } = await supabase
     .from('development_plans')

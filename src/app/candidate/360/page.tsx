@@ -13,7 +13,7 @@ export default async function Candidate360Page() {
     .from('candidate_profiles')
     .select('id')
     .eq('user_id', user.id)
-    .single();
+    .maybeSingle();
 
   const { data: nominees } = await supabase
     .from('evaluator_nominees')

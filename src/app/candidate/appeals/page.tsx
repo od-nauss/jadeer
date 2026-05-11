@@ -24,7 +24,7 @@ export default async function CandidateAppealsPage() {
     .from('candidate_profiles')
     .select('id')
     .eq('user_id', user.id)
-    .single();
+    .maybeSingle();
 
   const { data: appeals } = await supabase
     .from('appeals')

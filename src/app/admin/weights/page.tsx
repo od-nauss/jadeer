@@ -11,7 +11,7 @@ export default async function AdminWeightsPage() {
     .from('system_settings')
     .select('*')
     .eq('key', 'evaluation_weights')
-    .single();
+    .maybeSingle();
 
   type WeightsValue = { axis: string; weight: number; name_ar: string }[];
   const weights: WeightsValue = (settings?.value as WeightsValue) || [

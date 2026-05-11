@@ -14,7 +14,7 @@ export default async function CandidateAssessmentsPage() {
     .from('candidate_profiles')
     .select('id')
     .eq('user_id', user.id)
-    .single();
+    .maybeSingle();
 
   const [assessmentsRes, resultsRes] = await Promise.all([
     supabase.from('assessments').select('*').order('order_index'),

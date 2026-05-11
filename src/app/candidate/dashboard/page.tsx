@@ -29,7 +29,7 @@ export default async function CandidateDashboard() {
     .from('candidate_profiles')
     .select('*')
     .eq('user_id', user.id)
-    .single();
+    .maybeSingle();
 
   // البطاقة (إن وجدت)
   const { data: card } = await supabase

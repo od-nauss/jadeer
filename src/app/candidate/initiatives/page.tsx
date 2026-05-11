@@ -13,7 +13,7 @@ export default async function CandidateInitiativesPage() {
     .from('candidate_profiles')
     .select('id')
     .eq('user_id', user.id)
-    .single();
+    .maybeSingle();
 
   const { data: initiatives } = await supabase
     .from('initiatives')

@@ -14,7 +14,7 @@ export default async function CandidateResultPage() {
     .from('candidate_profiles')
     .select('id')
     .eq('user_id', user.id)
-    .single();
+    .maybeSingle();
 
   const { data: card } = await supabase
     .from('leadership_cards')

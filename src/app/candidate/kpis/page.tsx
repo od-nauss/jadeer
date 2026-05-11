@@ -13,7 +13,7 @@ export default async function CandidateKPIsPage() {
     .from('candidate_profiles')
     .select('id')
     .eq('user_id', user.id)
-    .single();
+    .maybeSingle();
 
   const { data: kpis } = await supabase
     .from('kpis')

@@ -13,7 +13,7 @@ export default async function CandidateProfilePage() {
     .from('candidate_profiles')
     .select('*')
     .eq('user_id', user.id)
-    .single();
+    .maybeSingle();
 
   return (
     <div>
