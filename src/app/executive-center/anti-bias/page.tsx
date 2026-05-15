@@ -1,83 +1,103 @@
-import { ShieldCheck } from 'lucide-react';
+import { Shield, CheckCircle2, Lock, ChevronLeft } from 'lucide-react';
+import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
+
 const GUARANTEES = [
-  'الموظف لا يتحكم وحده في المقيمين',
-  'الموظف يقترح 15 مقيماً فقط',
-  'لجنة الحوكمة تعتمد من 7 إلى 10',
-  'لجنة الحوكمة تحدد 60٪ على الأقل من المقيمين',
-  'كل مقيم يحصل على رابط خاص',
-  'كل رابط يستخدم مرة واحدة',
-  'كل رابط مرتبط بالمقيم والمرشح',
-  'المرشح لا يرى إجابات المقيمين',
-  'اللجنة ترى بيانات المقيمين وحالة التقييم',
-  'المنصة تكشف التقييمات المتطرفة',
-  'المنصة تكشف ضعف تنوع المقيمين',
-  'المنصة تكشف تضارب المصالح المحتمل',
-  'كل قرار يوثق في سجل الحوكمة',
+  { title: 'اعتماد المقيّمين بيد لجنة الحوكمة', body: 'الموظف يقترح ١٥ اسماً فقط — واللجنة هي التي تعتمد ٧–١٠ مقيّمين وتُحدد ٦٠٪ منهم على الأقل، مما يضمن تنوع المصادر وحياديتها.', icon: Shield },
+  { title: 'روابط تقييم مؤمّنة وذات استخدام واحد', body: 'كل مقيّم يحصل على رابط مخصص لا يُستخدم إلا مرة واحدة، مرتبط بهويته وعلاقته بالمرشح، مما يُحصّن العملية من أي تلاعب.', icon: Lock },
+  { title: 'كشف التقييمات المتطرفة تلقائياً', body: 'المنظومة ترصد أي تقييم خارج النطاق الطبيعي وتعرضه للجنة الحوكمة مع مؤشر واضح، مما يُحمي النتيجة من التأثيرات الفردية.', icon: CheckCircle2 },
+  { title: 'التحقق من المبادرات عبر المقيّمين', body: 'الشواهد والمبادرات لا تُقبل بمجرد ذكرها — بل يتحقق منها المقيّمون مما يمنع المبالغة ويضمن مصداقية الملف.', icon: CheckCircle2 },
+  { title: 'مستوى الثقة — مؤشر مستقل عن الدرجة', body: 'كل بطاقة قيادية تحمل درجتين: درجة الجاهزية ودرجة الثقة في مصادر التقييم. هذا يُعطي متخذ القرار صورة أشمل وأدق.', icon: Shield },
+  { title: 'سجل حوكمة محمي من الحذف', body: 'كل إجراء وكل قرار يُسجَّل تلقائياً في سجل حوكمة لا يُحذف، مما يُؤسس لمرجعية مؤسسية يُعتمد عليها.', icon: Lock },
 ];
 
-const FLOW = [
-  { step: 'الموظف', action: 'يقترح 15 مقيماً' },
-  { step: 'اللجنة', action: 'تعتمد 7-10 + تضيف 60% من اختيارها' },
-  { step: 'المقيم', action: 'يقيّم عبر رابط فردي آمن' },
-  { step: 'المنصة', action: 'تحلل الاتساق والتحيز' },
-  { step: 'اللجنة', action: 'تراجع وتعتمد التصنيف' },
-  { step: 'القيادة', action: 'تقرر التكليف' },
+const CYCLE = [
+  { label: 'الموظف يقترح', sub: '١٥ اسماً' },
+  { label: 'اللجنة تعتمد', sub: '٧–١٠ مقيّمين' },
+  { label: 'رابط مؤمَّن', sub: 'مرة واحدة فقط' },
+  { label: 'الذكاء الاصطناعي يحلل', sub: 'ويكشف التطرف' },
+  { label: 'اللجنة تُقرّ', sub: 'سلامة العملية' },
+  { label: 'القيادة تقرر', sub: 'بسند موثق' },
 ];
 
 export default function AntiBiasPage() {
   return (
-    <div className="space-y-10">
-      <div>
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          كيف تمنع المنصة <span className="text-gold-400">التحيز</span>
+    <div className="space-y-16 max-w-5xl mx-auto" dir="rtl">
+
+      <section className="text-center py-6">
+        <div className="inline-block bg-gold-500/15 border border-gold-400/30 rounded-full px-5 py-2 text-gold-300 text-sm font-bold mb-6">
+          حماية القرار القيادي
+        </div>
+        <h1 className="text-4xl md:text-5xl font-bold text-white mb-5 leading-tight">
+          كيف تحمي منصة جدير<br />
+          <span className="text-gold-400">قرار القيادة العليا؟</span>
         </h1>
-        <p className="text-xl text-gold-200">ثلاثة عشر ضمانة للعدالة</p>
-      </div>
-
-      <div className="bg-white/5 border border-gold-500/20 rounded-2xl p-8">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="h-12 w-12 rounded-lg bg-gold-500/20 flex items-center justify-center">
-            <ShieldCheck className="h-6 w-6 text-gold-400" />
-          </div>
-          <h2 className="text-2xl font-bold text-gold-300">الضمانات</h2>
-        </div>
-        <div className="grid md:grid-cols-2 gap-3">
-          {GUARANTEES.map((g, i) => (
-            <div
-              key={i}
-              className="bg-gold-500/5 border border-gold-500/20 rounded-lg p-3 text-sm text-white/80 flex items-start gap-2"
-            >
-              <ShieldCheck className="h-4 w-4 text-gold-400 flex-shrink-0 mt-0.5" />
-              <span>{g}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="bg-gradient-to-br from-primary-700/30 to-transparent border border-gold-500/20 rounded-2xl p-8">
-        <h2 className="text-2xl font-bold text-gold-300 mb-6">دورة العدالة</h2>
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
-          {FLOW.map((f, i) => (
-            <div
-              key={i}
-              className="bg-white/5 border border-gold-500/30 rounded-xl p-4 text-center"
-            >
-              <div className="text-xs text-gold-400 font-bold mb-1">المرحلة {i + 1}</div>
-              <div className="text-base font-bold text-white mb-1">{f.step}</div>
-              <div className="text-xs text-white/70 leading-relaxed">{f.action}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="bg-gold-500/10 border-r-4 border-gold-400 rounded-2xl p-6">
-        <p className="text-lg text-gold-100 leading-loose">
-          <strong>القاعدة الذهبية:</strong> لا اعتماد لتصنيف نهائي دون قرار موثق من لجنة الحوكمة. هذه
-          الجملة الواحدة تختصر فلسفة الحوكمة في منصة جدير.
+        <p className="text-lg text-white/70 max-w-2xl mx-auto leading-relaxed">
+          القرار القيادي الصحيح لا يحتاج فقط إلى حكمة صاحبه —
+          بل إلى <strong className="text-gold-300">بنية منهجية تحميه من الطعن وتمنحه السند الموضوعي.</strong>
         </p>
-      </div>
+      </section>
+
+      {/* ─── الضمانات الستة ─── */}
+      <section>
+        <div className="text-center mb-10">
+          <h2 className="text-2xl font-bold text-white mb-2">٦ ضمانات تحمي سلامة العملية</h2>
+          <p className="text-white/50 text-sm">بُنيت لتُعطي متخذ القرار سنداً لا يُطعن فيه</p>
+        </div>
+        <div className="grid md:grid-cols-2 gap-5">
+          {GUARANTEES.map((g, i) => {
+            const Icon = g.icon;
+            return (
+              <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5 hover:border-gold-400/20 transition flex gap-4">
+                <div className="flex-shrink-0 h-10 w-10 rounded-xl bg-gold-400/10 flex items-center justify-center">
+                  <Icon className="h-5 w-5 text-gold-400" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-white text-sm mb-1.5">{g.title}</h3>
+                  <p className="text-xs text-white/60 leading-relaxed">{g.body}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ─── دورة ضمان الجودة ─── */}
+      <section>
+        <div className="text-center mb-8">
+          <h2 className="text-2xl font-bold text-white mb-2">دورة ضمان سلامة التقييم</h2>
+          <p className="text-white/50 text-sm">كل مرحلة مُصمَّمة لتُعزز موثوقية المرحلة التالية</p>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          {CYCLE.map((step, i) => (
+            <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
+              <div className="h-8 w-8 rounded-full bg-gold-500/20 text-gold-300 text-sm font-bold flex items-center justify-center mx-auto mb-2">
+                {i + 1}
+              </div>
+              <div className="font-bold text-white text-sm">{step.label}</div>
+              <div className="text-xs text-white/50 mt-0.5">{step.sub}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ─── الرسالة الختامية ─── */}
+      <section className="text-center bg-gradient-to-br from-primary-700/30 to-transparent border border-primary-400/20 rounded-3xl p-10">
+        <Shield className="h-12 w-12 text-gold-400 mx-auto mb-5" />
+        <h2 className="text-2xl font-bold text-white mb-4">
+          القرار يبقى بيد القيادة — دائماً
+        </h2>
+        <p className="text-white/65 max-w-2xl mx-auto leading-relaxed text-base">
+          الهدف من هذه المنظومة ليس الحكم على الموظف — بل تزويد متخذ القرار بأعمق وأدق الملفات التحليلية
+          الممكنة، لتصدر قراراته مُحصَّنة بالبيانات، مُدعَّمة بالحوكمة، جاهزة للمحاسبة.
+        </p>
+        <Link href="/executive-center/system-preview"
+          className="inline-flex items-center gap-2 mt-6 text-gold-300 hover:text-gold-200 font-bold transition group">
+          شاهد النظام من الداخل
+          <ChevronLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+        </Link>
+      </section>
     </div>
   );
 }

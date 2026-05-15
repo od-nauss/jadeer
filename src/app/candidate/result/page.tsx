@@ -85,9 +85,9 @@ export default async function CandidateResultPage() {
         </div>
       </div>
 
-      {card.executive_summary && (
+      {(card.ai_summary || card.governance_summary) && (
         <Card title="ملخص البطاقة" className="mb-6">
-          <p className="text-darkgray leading-loose">{card.executive_summary}</p>
+          <p className="text-darkgray leading-loose">{card.governance_summary || card.ai_summary}</p>
         </Card>
       )}
 
@@ -123,10 +123,10 @@ export default async function CandidateResultPage() {
         </Card>
       </div>
 
-      {card.recommendation && (
+      {card.ai_summary && (
         <Card title="التوصية" className="mt-5">
           <div className="bg-gold-50 border-r-4 border-gold-500 p-4 rounded-lg">
-            <p className="text-darkgray leading-loose">{card.recommendation}</p>
+            <p className="text-darkgray leading-loose">{card.ai_summary}</p>
           </div>
         </Card>
       )}

@@ -31,6 +31,22 @@ export default async function SystemHealthPage() {
     'audit_logs', 'competitions', 'appeals',
   ];
 
+  const TABLE_NAMES_AR: Record<string, string> = {
+    users: 'المستخدمون',
+    user_roles: 'أدوار المستخدمين',
+    candidate_profiles: 'ملفات المرشحين',
+    organization_units: 'الوحدات التنظيمية',
+    leadership_cards: 'البطاقات القيادية',
+    position_fit_scores: 'درجات الملاءمة',
+    development_plans: 'خطط التطوير',
+    governance_reviews: 'مراجعات الحوكمة',
+    evaluations_360: 'تقييمات 360°',
+    notifications: 'الإشعارات',
+    audit_logs: 'سجل التدقيق',
+    competitions: 'المسابقات الوظيفية',
+    appeals: 'التظلمات',
+  };
+
   const tableCounts: Record<string, { ok: boolean; count: number }> = {};
   await Promise.all(CORE_TABLES.map(async (t) => {
     tableCounts[t] = await checkTable(supabase, t);
@@ -41,14 +57,12 @@ export default async function SystemHealthPage() {
 
   // فحص متغيرات البيئة
   const envChecks = [
-    { key: 'NEXT_PUBLIC_SUPABASE_URL', value: !!process.env.NEXT_PUBLIC_SUPABASE_URL, critical: true },
-    { key: 'NEXT_PUBLIC_SUPABASE_ANON_KEY', value: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY, critical: true },
-    { key: 'SUPABASE_SERVICE_ROLE_KEY', value: !!process.env.SUPABASE_SERVICE_ROLE_KEY, critical: true },
-    { key: 'EXECUTIVE_CENTER_DEFAULT_CODE', value: !!process.env.EXECUTIVE_CENTER_DEFAULT_CODE, critical: false },
-    { key: 'EXEC_CENTER_NO_PASSWORD', value: process.env.EXEC_CENTER_NO_PASSWORD === 'true', critical: false },
-    { key: 'ANTHROPIC_API_KEY', value: !!process.env.ANTHROPIC_API_KEY, critical: false },
-    { key: 'OPENAI_API_KEY', value: !!process.env.OPENAI_API_KEY, critical: false },
-    { key: 'RESEND_API_KEY', value: !!process.env.RESEND_API_KEY, critical: false },
+    { key: 'رابط قاعدة البيانات (Supabase URL)', value: !!process.env.NEXT_PUBLIC_SUPABASE_URL, critical: true },
+    { key: 'مفتاح العميل العام (Anon Key)', value: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY, critical: true },
+    { key: 'مفتاح الخدمة (Service Role Key)', value: !!process.env.SUPABASE_SERVICE_ROLE_KEY, critical: true },
+    { key: 'مفتاح Anthropic AI', value: !!process.env.ANTHROPIC_API_KEY, critical: false },
+    { key: 'مفتاح OpenAI', value: !!process.env.OPENAI_API_KEY, critical: false },
+    { key: 'مفتاح البريد الإلكتروني (Resend)', value: !!process.env.RESEND_API_KEY, critical: false },
   ];
   const criticalEnvOk = envChecks.filter(e => e.critical).every(e => e.value);
   const aiConfigured = envChecks.find(e => e.key === 'ANTHROPIC_API_KEY')?.value ||
@@ -97,7 +111,7 @@ export default async function SystemHealthPage() {
               return (
                 <div key={table} className="flex items-center gap-2 text-sm">
                   <StatusIcon ok={info.ok} />
-                  <span className="flex-1 font-mono text-xs text-primary-700">{table}</span>
+                  <span className="flex-1 text-xs text-primary-700">{TABLE_NAMES_AR[table] || table}</span>
                   <span className={`text-xs font-bold ${info.ok ? 'text-sage' : 'text-wine'}`}>
                     {info.ok ? `${info.count} سجل` : 'خطأ'}
                   </span>

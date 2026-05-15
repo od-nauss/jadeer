@@ -20,14 +20,44 @@ export default function ExecutiveComparePage() {
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
-    const supabase = createClient();
-    const { data } = await supabase
-      .from('leadership_cards')
-      .select('id, total_score, trust_score, readiness_level, leadership_type, primary_strengths, development_gaps, axis_scores, candidate_profiles(id, users(full_name, job_title, department))')
-      .eq('is_published', true)
-      .order('total_score', { ascending: false });
-    setAllCards(data || []);
-    setLoading(false);
+    try {
+      const supabase = createClient();
+      // نجلب أولاً البطاقات الأساسية بدون JSONB المعقدة لتجنب أخطاء schema cache
+      const { data: cards, error } = await supabase
+        .from('leadership_cards')
+        .select('id, total_score, trust_score, readiness_level, leadership_type, axis_scores, candidate_profile_id')
+        .eq('is_published', true)
+        .order('total_score', { ascending: false });
+
+      if (error || !cards) { setLoading(false); return; }
+
+      // نجلب primary_strengths و development_gaps و profile/user data بشكل منفصل لتجنب 400
+      const enriched = await Promise.all(
+        cards.map(async (card) => {
+          const { data: fullCard } = await supabase
+            .from('leadership_cards')
+            .select('primary_strengths, development_gaps')
+            .eq('id', card.id)
+            .maybeSingle();
+          const { data: profile } = await supabase
+            .from('candidate_profiles')
+            .select('id, users(full_name, job_title, department)')
+            .eq('id', card.candidate_profile_id)
+            .maybeSingle();
+          return {
+            ...card,
+            primary_strengths: (fullCard as any)?.primary_strengths || [],
+            development_gaps: (fullCard as any)?.development_gaps || [],
+            candidate_profiles: profile,
+          };
+        })
+      );
+      setAllCards(enriched);
+    } catch (e) {
+      console.error('compare load error:', e);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => { load(); }, [load]);

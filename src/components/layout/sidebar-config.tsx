@@ -49,10 +49,9 @@ export interface SidebarItem {
 export const SIDEBAR_ITEMS: Record<RoleCode, SidebarItem[]> = {
   admin: [
     { label: 'لوحة النظام', href: '/admin/dashboard', icon: LayoutDashboard },
-    { label: 'إدارة المستخدمين', href: '/admin/users', icon: Users },
-    { label: 'الأدوار والصلاحيات', href: '/admin/roles', icon: Shield },
+    { label: 'إدارة المستخدمين والأدوار', href: '/admin/users', icon: Users },
     { label: 'الهيكل التنظيمي', href: '/admin/organization', icon: Building2 },
-    { label: 'محاور التقييم والأوزان', href: '/admin/weights', icon: Sliders },
+    { label: 'أوزان التقييم (قابلة للتعديل)', href: '/admin/weights', icon: Sliders },
     { label: 'البيانات التجريبية', href: '/admin/demo-data', icon: Database },
     { label: 'المسابقات الوظيفية', href: '/admin/competitions', icon: Trophy },
     { label: 'التذكيرات والإشعارات', href: '/admin/notifications', icon: Bell },
@@ -64,8 +63,8 @@ export const SIDEBAR_ITEMS: Record<RoleCode, SidebarItem[]> = {
   president: [
     { label: 'لوحة القيادة العليا', href: '/executive/dashboard', icon: LayoutDashboard },
     { label: 'قائمة المرشحين', href: '/executive/candidates', icon: UsersRound },
-    { label: 'البطاقات القيادية', href: '/executive/candidates', icon: IdCard },
-    { label: 'مقارنة المرشحين', href: '/executive/compare', icon: IdCard },
+    { label: 'البطاقات القيادية', href: '/executive/cards', icon: IdCard },
+    { label: 'مقارنة المرشحين', href: '/executive/compare', icon: GitCompareArrows },
     { label: 'خريطة الملاءمة التنظيمية', href: '/organization/map', icon: MapIcon },
     { label: 'الفجوات القيادية', href: '/organization/gaps', icon: AlertTriangle },
     { label: 'خريطة التعاقب', href: '/organization/succession', icon: GitCompareArrows },

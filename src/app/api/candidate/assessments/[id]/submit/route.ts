@@ -1,26 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
-
-function scoreAnswers(questions: Array<{ id: string; question_type: string; options_json: Record<string, unknown> }>, answers: Record<string, unknown>): number {
-  let total = 0;
-  let count = 0;
-  for (const q of questions) {
-    const ans = answers[q.id];
-    if (!ans) continue;
-    if (q.question_type === 'short_text') {
-      const len = String(ans).trim().length;
-      total += len > 100 ? 90 : len > 50 ? 70 : len > 20 ? 50 : 20;
-    } else if (q.question_type === 'priority_ranking') {
-      total += Array.isArray(ans) ? 80 : 50;
-    } else {
-      // multiple_choice, situation, best_decision, case_analysis
-      total += ans !== null && ans !== undefined ? 75 : 0;
-    }
-    count++;
-  }
-  return count > 0 ? Math.round(total / count) : 0;
-}
+import { scoreAssessment } from '@/lib/ai/assessmentScoring';
 
 export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
   try {
@@ -31,50 +12,84 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     const { resultId, answers } = body;
     const supabase = createServiceClient();
 
-    const { data: profile } = await supabase.from('candidate_profiles').select('id').eq('user_id', user.id).maybeSingle();
+    // التحقق من الملف
+    const { data: profile } = await supabase.from('candidate_profiles')
+      .select('id').eq('user_id', user.id).maybeSingle();
     if (!profile) return NextResponse.json({ error: 'ملف غير موجود' }, { status: 404 });
 
+    // التحقق من نتيجة الاختبار
     const { data: result } = await supabase.from('assessment_results')
       .select('id, candidate_profile_id, status')
-      .eq('id', resultId)
-      .maybeSingle();
+      .eq('id', resultId).maybeSingle();
+    if (!result || result.candidate_profile_id !== profile.id)
+      return NextResponse.json({ error: 'غير مصرح' }, { status: 403 });
+    if (result.status === 'completed')
+      return NextResponse.json({ error: 'الاختبار مكتمل مسبقاً' }, { status: 400 });
 
-    if (!result || result.candidate_profile_id !== profile.id) return NextResponse.json({ error: 'غير مصرح' }, { status: 403 });
-    if (result.status === 'completed') return NextResponse.json({ error: 'الاختبار مكتمل مسبقاً' }, { status: 400 });
+    // جلب الاختبار وأسئلته
+    const { data: assessment } = await supabase.from('assessments')
+      .select('code').eq('id', params.id).maybeSingle();
 
-    // جلب الأسئلة
     const { data: questions } = await supabase.from('assessment_questions')
-      .select('id, question_type, options_json')
+      .select('id, question_type, options_json, display_order')
       .eq('assessment_id', params.id)
       .order('display_order');
 
-    const score = scoreAnswers((questions || []) as Parameters<typeof scoreAnswers>[0], answers);
+    // ─── التصحيح الذكي ────────────────────────────────────────────────────
+    const scoringResult = scoreAssessment(
+      assessment?.code || '',
+      (questions || []) as Parameters<typeof scoreAssessment>[1],
+      answers
+    );
 
-    // تحديد نمط التفكير
-    const shortAnswers = (questions || []).filter(q => q.question_type === 'short_text');
-    const allText = shortAnswers.map(q => String(answers[q.id] || '')).join(' ');
-    let thinking_pattern = 'تحليلي متوازن';
-    if (allText.includes('بيانات') || allText.includes('مؤشر') || allText.includes('قياس')) thinking_pattern = 'مدفوع بالبيانات';
-    else if (allText.includes('فريق') || allText.includes('تعاون') || allText.includes('ثقة')) thinking_pattern = 'إنساني تشاركي';
-    else if (allText.includes('استراتيج') || allText.includes('رؤية') || allText.includes('مستقبل')) thinking_pattern = 'استراتيجي بعيد المدى';
-
+    // حفظ النتيجة
     await supabase.from('assessment_results').update({
       status: 'completed',
-      score,
-      thinking_pattern,
+      score: scoringResult.totalScore,
+      thinking_pattern: scoringResult.thinkingPattern,
+      leadership_pattern: scoringResult.leadershipDimension,
+      strengths_json: scoringResult.strengths,
+      gaps_json: scoringResult.gaps,
       answers_json: answers,
       completed_at: new Date().toISOString(),
     }).eq('id', resultId);
 
+    // تحديث درجة اكتمال الملف
+    const { data: allResults } = await supabase.from('assessment_results')
+      .select('id, status').eq('candidate_profile_id', profile.id);
+    const completedCount = (allResults || []).filter(r => r.status === 'completed').length;
+    const totalAssessments = 8;
+    const assessmentContrib = Math.round((completedCount / totalAssessments) * 20); // الاختبارات تساهم بـ 20% من الاكتمال
+
+    // جلب الدرجة الحالية وتحديثها
+    const { data: currentProfile } = await supabase.from('candidate_profiles')
+      .select('completion_score').eq('id', profile.id).maybeSingle();
+    const currentScore = currentProfile?.completion_score || 0;
+    const newScore = Math.min(100, Math.max(currentScore, assessmentContrib + 60)); // base 60 + assessment bonus
+    await supabase.from('candidate_profiles')
+      .update({ completion_score: newScore }).eq('id', profile.id);
+
+    // سجل التدقيق
     await supabase.from('audit_logs').insert({
       user_id: user.id, user_role: user.primaryRole,
       operation_type: 'assessment_completed',
-      description: `إكمال اختبار — النتيجة: ${score}%`,
-      affected_entity_type: 'assessment_results', affected_entity_id: resultId, sensitivity: 'normal',
+      description: `إكمال اختبار "${assessment?.code}" — الدرجة: ${scoringResult.totalScore}% — النمط: ${scoringResult.thinkingPattern}`,
+      affected_entity_type: 'assessment_results',
+      affected_entity_id: resultId,
+      sensitivity: 'normal',
     });
 
-    return NextResponse.json({ success: true, score, thinking_pattern });
+    return NextResponse.json({
+      success: true,
+      score: scoringResult.totalScore,
+      thinking_pattern: scoringResult.thinkingPattern,
+      leadership_dimension: scoringResult.leadershipDimension,
+      strengths: scoringResult.strengths,
+      gaps: scoringResult.gaps,
+    });
+
   } catch (err) {
+    console.error('[assessment/submit]', err);
     return NextResponse.json({ error: String(err) }, { status: 500 });
   }
 }

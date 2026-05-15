@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
 
     const profileData = {
       user_id: user.id,
-      years_of_experience: body.years_of_experience ? Number(body.years_of_experience) : null,
+      years_of_experience: body.years_of_experience || null,
       qualification: body.qualification || null,
       specialization: body.specialization || null,
       educational_institution: body.educational_institution || null,
@@ -49,11 +49,17 @@ export async function POST(request: NextRequest) {
       automation_tools: body.automation_tools || [],
     };
 
-    // حساب درجة الاكتمال
-    const filled = Object.values(profileData).filter(v =>
+    // حساب درجة الاكتمال — تشمل الحقول الأساسية من جدول users
+    const basicFields = {
+      full_name: body.full_name || null,
+      job_title: body.job_title || null,
+      department: body.department || null,
+    };
+    const allFields = { ...basicFields, ...profileData };
+    const filled = Object.values(allFields).filter(v =>
       v !== null && v !== undefined && v !== '' && !(Array.isArray(v) && v.length === 0)
     ).length;
-    const total = Object.keys(profileData).length;
+    const total = Object.keys(allFields).length;
     const completion = Math.round((filled / total) * 100);
 
     if (!profile) {

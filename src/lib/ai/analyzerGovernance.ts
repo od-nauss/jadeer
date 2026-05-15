@@ -118,20 +118,39 @@ export function computeGovernanceScore(input: GovernanceScoreInput): GovernanceA
   const strategicScore = stratAssessments.length > 0
     ? stratAssessments.reduce((s, r) => s + r.score, 0) / stratAssessments.length : 55;
 
-  // ── المحور 3: الأداء والإنجاز (مبادرات + KPIs + اختبارات) ─
-  const validInis = input.initiatives.filter(i => (i.ai_score || 0) > 40);
+  // ── المحور 3: الأداء والإنجاز (مبادرات + KPIs + الملف) ─────
+  // الأولوية: ai_score إذا متوفر، وإلا نستنتج من الشواهد والأثر
+  const validInis = input.initiatives.filter(i =>
+    (i.ai_score && i.ai_score > 40) || i.achieved_impact || i.evidence || i.is_sustainable
+  );
   const iniScore = validInis.length > 0
-    ? Math.min(100, validInis.reduce((s, i) => s + (i.ai_score || 50), 0) / validInis.length) : 40;
+    ? Math.min(100, validInis.reduce((s, i) => {
+        const score = i.ai_score && i.ai_score > 0 ? i.ai_score
+          : (i.evidence ? 65 : 0) + (i.achieved_impact ? 15 : 0) + (i.is_sustainable ? 10 : 0);
+        return s + Math.max(50, Math.min(100, score));
+      }, 0) / validInis.length)
+    : Math.max(30, input.initiatives.length * 15); // تقدير بدائي
+
   const validKpis = input.kpis.filter(k => k.target_value);
   const kpiScore = validKpis.length > 0
-    ? Math.min(100, 50 + validKpis.filter(k => k.is_officially_approved).length * 10 + validKpis.filter(k => k.used_in_decision).length * 8) : 40;
-  const performanceScore = (iniScore * 0.4 + kpiScore * 0.4 + (input.profile.completion_score * 0.2));
+    ? Math.min(100,
+        50 +
+        validKpis.filter(k => k.actual_value).length * 8 +
+        validKpis.filter(k => k.is_officially_approved).length * 8 +
+        validKpis.filter(k => k.used_in_decision).length * 6
+      )
+    : 40;
+  const performanceScore = Math.round(
+    iniScore * 0.35 + kpiScore * 0.35 + (input.profile.completion_score * 0.20) +
+    (input.profile.years_of_experience ? Math.min(10, input.profile.years_of_experience * 0.8) : 0)
+  );
 
-  // ── المحور 4: الابتكار (من المبادرات) ──────────────────────
+  // ── المحور 4: الابتكار (من المبادرات والتنوع) ──────────────
   const sustainableInis = input.initiatives.filter(i => i.is_sustainable);
-  const withImpact = input.initiatives.filter(i => i.impact_metrics);
+  const withImpact = input.initiatives.filter(i => i.impact_metrics || i.achieved_impact);
   const innovationScore = Math.min(100,
-    40 + withImpact.length * 10 + sustainableInis.length * 8 + validInis.length * 5
+    35 + withImpact.length * 10 + sustainableInis.length * 8 + validInis.length * 5 +
+    (input.profile.led_projects ? 8 : 0)
   );
 
   // ── المحور 5: الفريق (من 360) ──────────────────────────────

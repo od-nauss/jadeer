@@ -1,152 +1,164 @@
 import Link from 'next/link';
-import { ArrowLeft, Target, Brain, ShieldCheck, Award, TrendingUp, Users, Zap, ChevronLeft } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, Star, Shield, TrendingUp, Users, Brain, Target } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
 export default function ExecutiveOverview() {
   return (
-    <div className="space-y-16 max-w-5xl mx-auto" dir="rtl">
+    <div className="space-y-20 max-w-5xl mx-auto" dir="rtl">
 
-      {/* الافتتاحية التشويقية */}
-      <section className="text-center py-8">
-        <div className="inline-block bg-gold-500/15 border border-gold-400/30 rounded-full px-5 py-2 text-gold-300 text-sm font-bold tracking-wider mb-6">
-          جامعة نايف العربية للعلوم الأمنية &middot; مركز العرض التنفيذي
+      {/* ─── الافتتاحية — تعظيم القائد ─── */}
+      <section className="text-center py-10">
+        <div className="inline-block bg-gold-500/15 border border-gold-400/30 rounded-full px-6 py-2 text-gold-300 text-sm font-bold tracking-wider mb-8">
+          جامعة نايف العربية للعلوم الأمنية &mdash; مركز العرض التنفيذي
         </div>
+
         <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight mb-6">
-          كيف تعرف أن الشخص الصحيح<br />
-          <span className="text-gold-400">في المكان الصحيح؟</span>
+          منصة <span className="text-gold-400">جدير</span>
         </h1>
-        <p className="text-xl text-white/75 max-w-3xl mx-auto leading-relaxed mb-4">
-          في معظم المنظمات، تُبنى قرارات القيادة على الانطباع الشخصي، سنوات الخبرة، أو من يعرف من.
-          النتيجة؟ قادة في غير مكانهم، وكفاءات حقيقية مخفية لم تُكتشف بعد.
+        <p className="text-xl md:text-2xl text-gold-200 font-light mb-4">
+          لتحليل الجاهزية القيادية وبناء قيادات المستقبل
         </p>
-        <p className="text-2xl font-bold text-gold-300 mb-10">منصة جدير تغيّر هذه المعادلة كلياً.</p>
-        <div className="flex flex-wrap justify-center gap-4">
-          <Link href="/executive-center/why" className="btn-gold px-6 py-3 rounded-xl font-bold flex items-center gap-2">
-            لماذا نحتاجها؟ <ArrowLeft className="h-4 w-4" />
+
+        {/* الرسالة الافتتاحية — بلغة تُعظّم القائد */}
+        <div className="max-w-3xl mx-auto mt-10 p-8 bg-white/5 border border-gold-400/20 rounded-3xl">
+          <p className="text-lg text-white/85 leading-loose text-right">
+            القيادات الاستثنائية لا تُبنى بالحظ — بل بمنظومة مدروسة تُعطي كل كفاءة حقها من الفرصة.
+            منصة جدير تُزوّد متخذ القرار برؤية تحليلية شاملة تُعزز حكمته وتُوثّق خياراته،
+            فيصدر قراره مدعوماً بالبيانات، محمياً بالحوكمة، مُسجَّلاً للتاريخ.
+          </p>
+          <p className="text-base text-gold-300/80 mt-4 text-right font-medium">
+            الأداة لا تحكم — القيادة تحكم. الأداة تُنير — القيادة تقرر.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-4 mt-10">
+          <Link href="/executive-center/why"
+            className="inline-flex items-center gap-2 bg-gold-500 hover:bg-gold-400 text-primary-900 font-bold px-7 py-3.5 rounded-xl transition-all">
+            لماذا منظمتك تحتاجها؟ <ArrowLeft className="h-4 w-4" />
           </Link>
-          <Link href="/executive-center/urgency"
-            className="border border-gold-400/50 text-gold-200 hover:bg-white/5 px-6 py-3 rounded-xl font-bold flex items-center gap-2 transition">
-            <Award className="h-4 w-4" /> شاهد البطاقة القيادية
+          <Link href="/executive-center/demo-models"
+            className="inline-flex items-center gap-2 border border-gold-400/50 text-gold-200 hover:bg-white/5 px-7 py-3.5 rounded-xl transition">
+            مشاهدة النماذج التجريبية
           </Link>
         </div>
       </section>
 
-      {/* جدير في جملة واحدة */}
+      {/* ─── المنصة في جملة ─── */}
       <section className="bg-gradient-to-br from-gold-500/10 to-transparent border border-gold-400/20 rounded-3xl p-8 md:p-12 text-center">
-        <p className="text-2xl md:text-3xl text-white leading-relaxed font-light">
+        <p className="text-xl md:text-2xl text-white leading-relaxed font-light">
           منصة جدير هي المنظومة الأولى من نوعها التي{' '}
-          <span className="text-gold-400 font-bold">تحوّل تقييم القيادة</span>{' '}
-          من رأي شخصي إلى{' '}
-          <span className="text-gold-400 font-bold">بطاقة قيادية موثّقة</span>{' '}
-          مبنية على 7 محاور، تقييم 360°، وتحليل ذكاء اصطناعي، تحت إشراف لجنة حوكمة مستقلة.
+          <span className="text-gold-400 font-bold">تُحوّل تقييم الجاهزية القيادية</span>{' '}
+          من انطباع شخصي إلى{' '}
+          <span className="text-gold-400 font-bold">بطاقة موثقة ومعتمدة</span>{' '}
+          تُبنى على ٧ محاور، وتقييم ٣٦٠°، وتحليل ذكاء اصطناعي — تحت إشراف لجنة حوكمة مستقلة.
         </p>
       </section>
 
-      {/* الأهداف الستة */}
+      {/* ─── المحاور الستة للقيمة ─── */}
       <section>
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold text-white mb-3">ماذا تحقق جدير؟</h2>
-          <p className="text-white/60">ستة أهداف استراتيجية تحلّ إشكاليات حقيقية</p>
+          <h2 className="text-3xl font-bold text-white mb-3">ماذا تُحقق جدير للمنظمة؟</h2>
+          <p className="text-white/50">ست قيم مؤسسية تُعالج إشكاليات حقيقية</p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {[
-            { icon: Target, title: 'اكتشاف القادة المخفيين', desc: 'الكفاءات الحقيقية لا تصل دائماً للواجهة — جدير تجعلها مرئية بآلية موضوعية لا تعتمد على المعارف.', color: 'text-gold-400', bg: 'bg-gold-400/10' },
-            { icon: ShieldCheck, title: 'قرارات تكليف مدعومة بالبيانات', desc: 'بدلاً من "أتوقع أنه مناسب" — ستقول "نسبة جاهزيته 87% وهذا توثيقها".', color: 'text-primary-300', bg: 'bg-primary-300/10' },
-            { icon: Users, title: 'تكافؤ الفرص', desc: 'كل موظف يستطيع التقديم وإثبات نفسه بغض النظر عن موقعه أو علاقاته.', color: 'text-sage', bg: 'bg-sage/10' },
-            { icon: TrendingUp, title: 'بناء الصف القيادي الثاني', desc: 'تعرّف مسبقاً على من سيكون جاهزاً للقيادة بعد سنة أو سنتين — خطط ولا تفاجأ.', color: 'text-steelblue', bg: 'bg-steelblue/10' },
-            { icon: Brain, title: 'تحليل ذكي لا بشري', desc: 'الذكاء الاصطناعي يحلل الأنماط عبر آلاف نقاط البيانات ويصدر توصية موضوعية لا يستطيعها الإنسان وحده.', color: 'text-purple-300', bg: 'bg-purple-400/10' },
-            { icon: Zap, title: 'استدامة مؤسسية', desc: 'بناء قاعدة بيانات قيادية حيّة تتجدد مع كل دورة تقييم — لن تُفاجأ بفراغ قيادي.', color: 'text-amber-300', bg: 'bg-amber-400/10' },
+            {
+              icon: Star,
+              color: 'text-gold-400', bg: 'bg-gold-400/10',
+              title: 'اكتشاف الكفاءات المخفية',
+              desc: 'المنظمات الكبيرة تحمل ثروات بشرية لم تصل بعد إلى دائرة الضوء. جدير تُسهم في استثمار هذا الثراء المؤسسي.',
+            },
+            {
+              icon: Shield,
+              color: 'text-primary-300', bg: 'bg-primary-300/10',
+              title: 'تحصين قرار التكليف',
+              desc: 'كل قرار يصدر بسند تحليلي موثق يمنحه مشروعية أعمق أمام المؤسسة والجهات الرقابية.',
+            },
+            {
+              icon: Users,
+              color: 'text-sage', bg: 'bg-sage/10',
+              title: 'رفع العدالة المؤسسية',
+              desc: 'منح كل موظف قناة رسمية مشروعة لإثبات جاهزيته، مما يرفع الانتماء والولاء المؤسسي.',
+            },
+            {
+              icon: TrendingUp,
+              color: 'text-steelblue', bg: 'bg-steelblue/10',
+              title: 'بناء الصف القيادي الثاني',
+              desc: 'المنظمة التي تعرف مسبقاً من سيقود غداً لا تُفاجأ بالفراغ القيادي.',
+            },
+            {
+              icon: Brain,
+              color: 'text-purple-300', bg: 'bg-purple-400/10',
+              title: 'تعزيز الحكمة بالبيانات',
+              desc: 'الذكاء الاصطناعي لا يستبدل الحكمة القيادية — بل يُضيف إليها طبقة تحليلية دقيقة تدعمها.',
+            },
+            {
+              icon: Target,
+              color: 'text-amber-300', bg: 'bg-amber-400/10',
+              title: 'الاستدامة المؤسسية',
+              desc: 'بناء قاعدة بيانات قيادية حية تتجدد مع كل دورة، فلا يتوقف المسار بتغيّر الوجوه.',
+            },
           ].map((item) => (
-            <div key={item.title} className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-gold-400/30 rounded-2xl p-6 transition-all">
+            <div key={item.title}
+              className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-gold-400/30 rounded-2xl p-6 transition-all group">
               <div className={`inline-flex h-12 w-12 items-center justify-center rounded-xl ${item.bg} mb-4`}>
                 <item.icon className={`h-6 w-6 ${item.color}`} />
               </div>
-              <h3 className="font-bold text-white mb-2">{item.title}</h3>
+              <h3 className="font-bold text-white mb-2 group-hover:text-gold-300 transition">{item.title}</h3>
               <p className="text-sm text-white/60 leading-relaxed">{item.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* المسار بصرياً */}
+      {/* ─── المسار في أربع خطوات ─── */}
       <section>
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold text-white mb-3">المسار في لمحة</h2>
-          <p className="text-white/60">من التقديم إلى البطاقة القيادية</p>
+          <h2 className="text-3xl font-bold text-white mb-3">دورة التقييم — من التقديم إلى البطاقة</h2>
+          <p className="text-white/50">مسار منهجي متكامل يضمن موضوعية النتيجة وشفافية الإجراء</p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { n: '1', label: 'الموظف يقدّم ملفه',      sub: 'ملف + مبادرات + KPIs', color: 'bg-primary-600' },
-            { n: '2', label: 'التقييم متعدد المصادر',  sub: 'اختبارات + 360° + AI', color: 'bg-gold-600' },
-            { n: '3', label: 'مراجعة الحوكمة',         sub: 'اللجنة تعتمد أو ترفض', color: 'bg-steelblue' },
-            { n: '4', label: 'البطاقة القيادية',        sub: 'نتيجة موثقة رسمياً',  color: 'bg-sage' },
+            { n: '١', label: 'يُقدّم الموظف ملفه', sub: 'مبادرات · مؤشرات · اختبارات ذكية', color: 'bg-primary-600' },
+            { n: '٢', label: 'تقييم متعدد المصادر', sub: '360° · تحليل الذكاء الاصطناعي', color: 'bg-gold-600' },
+            { n: '٣', label: 'مراجعة الحوكمة', sub: 'التحقق من سلامة الإجراء', color: 'bg-steelblue' },
+            { n: '٤', label: 'البطاقة القيادية', sub: 'نتيجة موثقة · خطة تطوير · ملاءمة تنظيمية', color: 'bg-sage' },
           ].map((step) => (
-            <div key={step.n} className="text-center">
-              <div className={`inline-flex h-16 w-16 items-center justify-center rounded-2xl ${step.color} text-white text-2xl font-bold mb-3 mx-auto block`}>
+            <div key={step.n} className="text-center group">
+              <div className={`inline-flex h-16 w-16 items-center justify-center rounded-2xl ${step.color} text-white text-2xl font-bold mb-3 mx-auto block transition group-hover:scale-105`}>
                 {step.n}
               </div>
               <div className="font-bold text-white text-sm mb-1">{step.label}</div>
-              <div className="text-xs text-white/50">{step.sub}</div>
+              <div className="text-xs text-white/50 leading-relaxed">{step.sub}</div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* الأرقام — منهجية المنصة */}
-      <section>
-        <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold text-white mb-1">منهجية التقييم في أرقام</h2>
-          <p className="text-white/50 text-sm">حتى لو لم يوجد أي مرشح مسجل — هذه منهجية النظام</p>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { value: '7',    label: 'محاور تقييم',          sub: 'بأوزان مدروسة قابلة للتعديل', color: 'text-gold-400' },
-            { value: '15',   label: 'مقيّماً يقترحهم الموظف', sub: 'اللجنة تعتمد 7–10 منهم',      color: 'text-primary-300' },
-            { value: '9',    label: 'مصادر بيانات',          sub: 'تُغذّي التحليل الذكي',         color: 'text-sage' },
-            { value: '60٪',  label: 'حد أدنى من اللجنة',     sub: 'من مجموع المقيمين المعتمدين',  color: 'text-amber-300' },
-          ].map((stat) => (
-            <div key={stat.label} className="bg-gradient-to-br from-gold-500/10 to-transparent border border-gold-400/20 rounded-2xl p-5 text-center">
-              <div className={`text-4xl font-bold mb-1 ${stat.color}`}>{stat.value}</div>
-              <div className="font-bold text-white text-sm">{stat.label}</div>
-              <div className="text-xs text-white/50 mt-1">{stat.sub}</div>
-            </div>
-          ))}
-        </div>
+      {/* ─── الأرقام الجوهرية ─── */}
+      <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {[
+          { value: '٧', label: 'محاور تقييم', sub: 'بأوزان علمية مدروسة' },
+          { value: '١٥', label: 'مقيّماً في 360°', sub: 'تعتمدهم لجنة الحوكمة' },
+          { value: '٩', label: 'مصادر بيانات', sub: 'تُغذّي التحليل الذكي' },
+          { value: '١٠٠٪', label: 'شفافية', sub: 'كل قرار موثق' },
+        ].map((stat) => (
+          <div key={stat.label}
+            className="bg-gradient-to-br from-gold-500/10 to-transparent border border-gold-400/20 rounded-2xl p-5 text-center hover:border-gold-400/40 transition">
+            <div className="text-4xl font-bold text-gold-400 mb-1">{stat.value}</div>
+            <div className="font-bold text-white text-sm">{stat.label}</div>
+            <div className="text-xs text-white/50 mt-1">{stat.sub}</div>
+          </div>
+        ))}
       </section>
 
-      {/* بطاقات التصنيفات التجريبية */}
-      <section className="bg-white/5 border border-white/10 rounded-2xl p-6">
-        <div className="text-center mb-5">
-          <h2 className="text-xl font-bold text-white mb-1">مخرجات نموذجية من المنصة</h2>
-          <p className="text-white/50 text-xs">أمثلة توضيحية — المنصة تنتج هذه التصنيفات بشكل آلي لكل مرشح</p>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {[
-            { label: 'جاهز الآن للقيادة',        color: 'text-sage',       bg: 'bg-sage/10',          count: '1', icon: '🏆' },
-            { label: 'جاهز خلال سنة',            color: 'text-primary-300', bg: 'bg-primary-300/10',   count: '1', icon: '📈' },
-            { label: 'قائد إنساني',               color: 'text-steelblue',  bg: 'bg-steelblue/10',     count: '1', icon: '🤝' },
-            { label: 'أداء عالٍ / رضا منخفض',    color: 'text-amber-300',  bg: 'bg-amber-300/10',     count: '1', icon: '⚠️' },
-            { label: 'قيادة مخفية محتملة',        color: 'text-purple-300', bg: 'bg-purple-300/10',    count: '1', icon: '🔍' },
-            { label: 'قائد تقني واعد',            color: 'text-gold-300',   bg: 'bg-gold-300/10',      count: '1', icon: '💡' },
-            { label: 'متخصص جيد / ليس للقيادة',  color: 'text-white/60',   bg: 'bg-white/5',          count: '1', icon: '🎯' },
-            { label: 'قائد استراتيجي',            color: 'text-gold-400',   bg: 'bg-gold-400/10',      count: '1', icon: '🌟' },
-          ].map((item) => (
-            <div key={item.label} className={`${item.bg} border border-white/10 rounded-xl p-3 text-center`}>
-              <div className="text-2xl mb-1">{item.icon}</div>
-              <div className={`text-2xl font-bold ${item.color} mb-1`}>{item.count}</div>
-              <div className="text-xs text-white/60 leading-tight">{item.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="text-center pt-4">
-        <p className="text-white/50 text-sm mb-4">ابدأ بالسؤال الأهم</p>
+      {/* ─── CTA ─── */}
+      <section className="text-center pt-4 pb-8">
+        <p className="text-white/40 text-sm mb-5">تصفّح الأقسام للاطلاع على التفاصيل الكاملة</p>
         <Link href="/executive-center/why"
           className="inline-flex items-center gap-3 text-gold-300 hover:text-gold-200 font-bold text-lg transition group">
-          لماذا منظمتك تحتاج هذا الآن؟
+          ابدأ برؤية الفرصة الكاملة
           <ChevronLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
         </Link>
       </section>

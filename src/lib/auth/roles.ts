@@ -50,8 +50,8 @@ export const ROLES: Record<RoleCode, RoleInfo> = {
   },
   candidate: {
     code: 'candidate',
-    nameAr: 'مستخدم',
-    nameEn: 'User',
+    nameAr: 'مرشح قيادي',
+    nameEn: 'Leadership Candidate',
     homePath: '/candidate/dashboard',
     primaryColor: 'gold',
   },

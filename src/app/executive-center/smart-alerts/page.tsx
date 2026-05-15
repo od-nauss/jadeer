@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Brain, Zap, Shield, Eye, TrendingUp, ChevronLeft, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { Brain, Zap, Shield, Eye, TrendingUp, ChevronLeft, AlertTriangle, Sparkles } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -7,65 +7,67 @@ export default function AIAnalysisPage() {
   return (
     <div className="space-y-16 max-w-5xl mx-auto" dir="rtl">
 
-      {/* العنوان */}
-      <section className="text-center">
+      {/* ─── الافتتاحية ─── */}
+      <section className="text-center py-6">
         <div className="inline-block bg-purple-500/15 border border-purple-400/30 rounded-full px-5 py-2 text-purple-300 text-sm font-bold mb-6">
-          المحور السادس من العرض
+          المحرك التحليلي للمنصة
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-          دور <span className="text-purple-400">الذكاء الاصطناعي</span>
+        <h1 className="text-4xl md:text-5xl font-bold text-white mb-5 leading-tight">
+          دور <span className="text-purple-400">الذكاء الاصطناعي</span><br />
+          في خدمة قرار القيادة
         </h1>
-        <p className="text-white/70 text-lg max-w-2xl mx-auto">
-          AI في جدير ليس أداة إضافية — هو المحرك الذي يحوّل البيانات الخام إلى رؤية قيادية دقيقة وموضوعية
-        </p>
+        <div className="max-w-3xl mx-auto bg-purple-500/10 border border-purple-400/20 rounded-2xl p-6">
+          <p className="text-lg text-white/85 leading-loose">
+            الذكاء الاصطناعي في منصة جدير ليس بديلاً عن الحكمة القيادية —
+            بل هو <strong className="text-purple-300">محرك تحليلي يُحوّل آلاف نقاط البيانات إلى رؤية واضحة</strong>،
+            تُمكّن القيادة من الحكم بأعمق معرفة ممكنة.
+          </p>
+          <p className="text-sm text-purple-300/70 mt-3 font-medium">
+            "الآلة تُحلّل — القيادة تحكم. مبدأ لا يتغير في كل مرحلة."
+          </p>
+        </div>
       </section>
 
-      {/* ماذا يفعل AI */}
+      {/* ─── ماذا يفعل AI ─── */}
       <section className="bg-gradient-to-br from-purple-900/30 to-primary-900/50 border border-purple-400/20 rounded-3xl p-8">
-        <h2 className="text-2xl font-bold text-white mb-8 text-center">ماذا يفعل الذكاء الاصطناعي في جدير؟</h2>
+        <h2 className="text-2xl font-bold text-white mb-8 text-center">ستة أدوار تحليلية للذكاء الاصطناعي</h2>
         <div className="grid md:grid-cols-2 gap-6">
           {[
             {
               icon: Brain,
-              title: 'تحليل الأنماط القيادية',
-              desc: 'يقرأ آلاف نقاط البيانات من 9 مصادر مختلفة ويكتشف أنماطاً يستحيل على الإنسان رصدها يدوياً — مثل العلاقة بين أسلوب القرارات ومعدلات الأداء.',
-              color: 'text-purple-300',
-              bg: 'bg-purple-400/10',
+              title: 'تحليل الأنماط القيادية عبر الزمن',
+              desc: 'يقرأ آلاف نقاط البيانات من ٩ مصادر ويكشف أنماطاً يستحيل رصدها يدوياً — كالعلاقة بين أسلوب اتخاذ القرار ومعدلات رضا الفريق.',
+              color: 'text-purple-300', bg: 'bg-purple-400/10',
             },
             {
               icon: Eye,
-              title: 'الكشف عن القيادة المخفية',
-              desc: 'يرصد الموظفين الذين يُظهرون مؤشرات قيادة استثنائية لكنهم لم يُرشَّحوا أبداً — بناءً على سلوكهم الفعلي لا على من يعرفون.',
-              color: 'text-blue-300',
-              bg: 'bg-blue-400/10',
+              title: 'الكشف عن القيادة غير المرئية',
+              desc: 'يرصد الموظفين الذين يُظهرون مؤشرات قيادة استثنائية في بياناتهم الفعلية — بغض النظر عن مدى ظهورهم الإداري.',
+              color: 'text-blue-300', bg: 'bg-blue-400/10',
             },
             {
               icon: Shield,
-              title: 'كشف التحيز وتضارب المصالح',
-              desc: 'يحلل علاقات المقيّمين بالمرشحين ويُنبّه تلقائياً عند وجود تحيز محتمل في تقييم 360° — يحمي النزاهة دون تدخل بشري.',
-              color: 'text-emerald-300',
-              bg: 'bg-emerald-400/10',
+              title: 'حماية النزاهة من التحيزات',
+              desc: 'يحلل علاقات المقيّمين بالمرشحين وينبّه لجنة الحوكمة تلقائياً عند وجود تحيز محتمل — يحمي العملية دون تدخل بشري.',
+              color: 'text-emerald-300', bg: 'bg-emerald-400/10',
             },
             {
               icon: TrendingUp,
-              title: 'التنبؤ بالجاهزية المستقبلية',
-              desc: 'لا يقيّم فقط الوضع الحالي — بل يتوقع من سيصل للجاهزية القيادية خلال 6 أو 12 شهراً بناءً على مسار التطور.',
-              color: 'text-gold-300',
-              bg: 'bg-gold-400/10',
+              title: 'التنبؤ بمسار الجاهزية',
+              desc: 'لا يقيّم اللحظة الحالية فقط — بل يتوقع من سيصل للجاهزية القيادية خلال ٦ أو ١٢ شهراً بناءً على منحنى التطور.',
+              color: 'text-gold-300', bg: 'bg-gold-400/10',
             },
             {
               icon: Zap,
-              title: 'الاختبارات التكيّفية',
-              desc: 'الاختبارات الذكية لا تُعطي نفس الأسئلة لكل شخص — AI يُكيّف صعوبة الأسئلة في الوقت الفعلي بناءً على إجاباتك السابقة.',
-              color: 'text-cyan-300',
-              bg: 'bg-cyan-400/10',
+              title: 'الاختبارات التكيّفية الذكية',
+              desc: 'الاختبارات لا تُعطي نفس الأسئلة للجميع — يُكيّف صعوبة الأسئلة في الوقت الفعلي بناءً على إجابات المرشح السابقة لأعلى دقة ممكنة.',
+              color: 'text-cyan-300', bg: 'bg-cyan-400/10',
             },
             {
-              icon: CheckCircle2,
-              title: 'صياغة التوصية النهائية',
-              desc: 'يصدر تقريراً شاملاً يتضمن نوع القيادة، الوحدات التنظيمية الأنسب، نقاط القوة، الفجوات، وخطة التطوير — كل ذلك بصياغة احترافية.',
-              color: 'text-rose-300',
-              bg: 'bg-rose-400/10',
+              icon: Sparkles,
+              title: 'صياغة البطاقة القيادية',
+              desc: 'يُصدر البطاقة القيادية الأولية متضمنةً: نوع القيادة، الوحدات الأنسب، نقاط القوة، الفجوات، وخطة التطوير — تراجعها لجنة الحوكمة قبل الاعتماد.',
+              color: 'text-rose-300', bg: 'bg-rose-400/10',
             },
           ].map((item) => (
             <div key={item.title} className="flex gap-4">
@@ -73,7 +75,7 @@ export default function AIAnalysisPage() {
                 <item.icon className={`h-5 w-5 ${item.color}`} />
               </div>
               <div>
-                <h3 className="font-bold text-white mb-1">{item.title}</h3>
+                <h3 className="font-bold text-white mb-1 text-sm">{item.title}</h3>
                 <p className="text-sm text-white/60 leading-relaxed">{item.desc}</p>
               </div>
             </div>
@@ -81,63 +83,123 @@ export default function AIAnalysisPage() {
         </div>
       </section>
 
-      {/* مثال حي لتقرير AI */}
+      {/* ─── Mock Screen: تقرير AI ─── */}
       <section>
-        <h2 className="text-2xl font-bold text-white mb-6">مثال: تقرير AI لنورة القحطاني</h2>
-        <div className="bg-white/5 border border-purple-400/20 rounded-2xl overflow-hidden">
-          {/* رأس التقرير */}
-          <div className="bg-purple-900/30 border-b border-purple-400/20 px-6 py-4 flex items-center gap-3">
-            <Brain className="h-5 w-5 text-purple-400" />
-            <span className="text-purple-300 font-bold text-sm">تقرير تحليل الذكاء الاصطناعي · Jadeer AI v2.1</span>
-            <span className="mr-auto text-xs text-white/30 font-mono">AI-RPT-2026-047</span>
+        <div className="text-center mb-8">
+          <h2 className="text-2xl font-bold text-white mb-2">مثال: تقرير الذكاء الاصطناعي لمرشح فعلي</h2>
+          <p className="text-white/50 text-sm">لقطة من التقرير التحليلي الذي يصدره الذكاء الاصطناعي قبل مراجعة لجنة الحوكمة</p>
+        </div>
+
+        <div className="rounded-2xl overflow-hidden border border-white/20 shadow-2xl">
+          {/* Browser Bar */}
+          <div className="bg-gray-800 px-4 py-2 flex items-center gap-2">
+            <div className="flex gap-1.5">
+              <div className="h-3 w-3 rounded-full bg-red-500" />
+              <div className="h-3 w-3 rounded-full bg-yellow-500" />
+              <div className="h-3 w-3 rounded-full bg-green-500" />
+            </div>
+            <div className="flex-1 bg-gray-700 rounded-md px-3 py-0.5 text-xs text-gray-300 text-center">
+              jadeer.nauss.edu.sa/governance/ai-report/JDR-2026-047
+            </div>
           </div>
-          <div className="p-6 space-y-4">
-            <div className="flex gap-3">
-              <div className="h-2 w-2 rounded-full bg-purple-400 shrink-0 mt-2" />
-              <p className="text-white/80 leading-relaxed text-sm">
-                <strong className="text-white">تحليل الأنماط:</strong> رصد النظام نمطاً متسقاً على مدى 3 سنوات — نورة تُظهر معدل إنجاز مشاريع 94% مع رضا فريق يتجاوز 90% في كل دورة، وهو ما يضعها في أعلى 8% من مجموع المتقدمين.
-              </p>
+
+          <div className="bg-[#0f1929] p-6" dir="rtl">
+            {/* AI Report Header */}
+            <div className="flex items-center gap-3 mb-5 pb-4 border-b border-purple-400/20">
+              <div className="h-10 w-10 rounded-xl bg-purple-500/20 flex items-center justify-center">
+                <Brain className="h-5 w-5 text-purple-400" />
+              </div>
+              <div>
+                <div className="font-bold text-white">تقرير التحليل الذكي — Jadeer AI v2.4</div>
+                <div className="text-xs text-purple-400/60">صادر تلقائياً · بانتظار مراجعة لجنة الحوكمة</div>
+              </div>
+              <div className="mr-auto text-right">
+                <div className="text-xs text-white/30 font-mono">AI-RPT-2026-047</div>
+                <div className="text-xs text-amber-400">⏳ قيد المراجعة</div>
+              </div>
             </div>
-            <div className="flex gap-3">
-              <div className="h-2 w-2 rounded-full bg-blue-400 shrink-0 mt-2" />
-              <p className="text-white/80 leading-relaxed text-sm">
-                <strong className="text-white">تحليل التحيز:</strong> فحص النظام علاقات المقيّمين الـ13 — لم يُرصد تضارب مصالح في أي منهم. درجات التقييم مُوزّعة بشكل طبيعي بانحراف معياري 8.3، مما يُعزز مصداقية النتيجة.
-              </p>
+
+            {/* Candidate Summary */}
+            <div className="grid grid-cols-3 gap-3 mb-5">
+              <div className="bg-white/5 rounded-xl p-3 text-center">
+                <div className="text-3xl font-bold text-[#E8D5A3]">٨٧</div>
+                <div className="text-xs text-gray-400 mt-0.5">درجة الجاهزية</div>
+              </div>
+              <div className="bg-white/5 rounded-xl p-3 text-center">
+                <div className="text-3xl font-bold text-green-400">٩١٪</div>
+                <div className="text-xs text-gray-400 mt-0.5">مستوى الثقة</div>
+              </div>
+              <div className="bg-white/5 rounded-xl p-3 text-center">
+                <div className="text-sm font-bold text-blue-300 mt-1">قائد تشغيلي</div>
+                <div className="text-xs text-gray-400 mt-0.5">النمط القيادي</div>
+              </div>
             </div>
-            <div className="flex gap-3">
-              <div className="h-2 w-2 rounded-full bg-emerald-400 shrink-0 mt-2" />
-              <p className="text-white/80 leading-relaxed text-sm">
-                <strong className="text-white">التنبؤ المستقبلي:</strong> بناءً على منحنى التطور الحالي، يُتوقع وصولها لـ 92%+ خلال 8 أشهر في حال الاستثمار في محورَي التفكير الاستراتيجي والبيانات.
-              </p>
+
+            {/* AI Analysis Points */}
+            <div className="space-y-3">
+              {[
+                {
+                  color: 'bg-purple-400',
+                  label: 'تحليل الأنماط',
+                  text: 'رصد النظام نمطاً متسقاً على مدى ٣ سنوات — معدل إنجاز مشاريع ٩٤٪ مع رضا فريق يتجاوز ٩٠٪ في كل دورة. هذا يضعها في أعلى ٨٪ من مجموع المتقدمين.',
+                },
+                {
+                  color: 'bg-blue-400',
+                  label: 'سلامة التقييم',
+                  text: 'فُحصت علاقات المقيّمين الـ١٣ — لم يُرصد تضارب مصالح في أي منهم. توزيع الدرجات طبيعي بانحراف معياري ٨.٣، مما يُعزز مصداقية النتيجة.',
+                },
+                {
+                  color: 'bg-emerald-400',
+                  label: 'التنبؤ المستقبلي',
+                  text: 'بناءً على منحنى التطور الحالي، يُتوقع وصولها لـ ٩٢٪+ خلال ٨ أشهر بالاستثمار في محوري التفكير الاستراتيجي والبيانات.',
+                },
+                {
+                  color: 'bg-[#E8D5A3]',
+                  label: 'توصية AI الأولية',
+                  text: 'مرشحة ممتازة لقيادة قطاع تشغيلي. الوحدات الأنسب: إدارة العمليات، إدارة الجودة. يُوصى بالتكليف خلال الربع الثاني مع خطة تطوير موازية ٦ أشهر.',
+                },
+              ].map((item, i) => (
+                <div key={i} className="flex gap-3 bg-white/5 rounded-xl p-3">
+                  <div className={`h-2 w-2 rounded-full ${item.color} shrink-0 mt-1.5`} />
+                  <div>
+                    <span className="text-xs font-bold text-white/50 ml-1">{item.label}: </span>
+                    <span className="text-sm text-white/80 leading-relaxed">{item.text}</span>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className="border-t border-white/10 pt-4 flex gap-3">
-              <div className="h-2 w-2 rounded-full bg-gold-400 shrink-0 mt-2" />
-              <p className="text-white/80 leading-relaxed text-sm">
-                <strong className="text-gold-400">التوصية النهائية:</strong> مرشحة ممتازة لقيادة قطاع تشغيلي بدرجة تعقيد متوسطة-عالية. الوحدات الأنسب: إدارة العمليات، إدارة الجودة والامتثال. يُوصى بتكليفها خلال الربع الثاني مع خطة تطوير موازية مدتها 6 أشهر.
+
+            {/* Footer Note */}
+            <div className="mt-4 pt-3 border-t border-white/10 flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4 text-amber-400 flex-shrink-0" />
+              <p className="text-xs text-white/40">
+                هذه التوصية أولية وتحليلية — لا تُعتمد قبل مراجعة لجنة الحوكمة وإصدار قرارها الرسمي.
               </p>
             </div>
           </div>
         </div>
+
+        <p className="text-center text-white/30 text-xs mt-3">
+          ⚠ هذه بيانات افتراضية لأغراض العرض — لا تمثل تقييماً حقيقياً لأي موظف
+        </p>
       </section>
 
-      {/* ضمانات AI */}
-      <section>
-        <h2 className="text-2xl font-bold text-white mb-6">AI مساعد — لا بديل عن الحوكمة</h2>
-        <div className="bg-amber-500/10 border border-amber-400/30 rounded-2xl p-6 flex gap-4">
-          <AlertTriangle className="h-8 w-8 text-amber-400 shrink-0 mt-1" />
-          <div>
-            <h3 className="font-bold text-amber-300 mb-2">مبدأ أساسي لا يتغير</h3>
-            <p className="text-white/80 leading-relaxed">
-              توصية الذكاء الاصطناعي <strong className="text-white">استشارية وليست نهائية</strong>.
-              لا يُعتمد أي تصنيف قيادي دون مراجعة لجنة الحوكمة والتصويت عليه.
-              AI يُوفّر البيانات، والإنسان يتخذ القرار. هذا المبدأ مُقنَّن في بنية المنصة ولا يمكن تجاوزه.
-            </p>
-          </div>
+      {/* ─── مبدأ لا يتغير ─── */}
+      <section className="bg-amber-500/10 border border-amber-400/30 rounded-2xl p-6 flex gap-4">
+        <AlertTriangle className="h-8 w-8 text-amber-400 shrink-0 mt-1" />
+        <div>
+          <h3 className="font-bold text-amber-300 mb-2">مبدأ راسخ في بنية المنصة</h3>
+          <p className="text-white/80 leading-relaxed text-sm">
+            توصية الذكاء الاصطناعي <strong className="text-white">استشارية وتحليلية — لا نهائية</strong>.
+            البطاقة القيادية لا تُصدر إلا بعد مراجعة لجنة الحوكمة وإصدار قرارها الرسمي باعتماد سلامة الإجراء.
+            وقرار القيادة العليا في التكليف يبقى سلطة لا تُفوَّض للآلة.
+            هذا المبدأ مُقنَّن في بنية المنصة ولا يمكن تجاوزه.
+          </p>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="text-center pt-4">
+      {/* ─── CTA ─── */}
+      <section className="text-center pt-2">
         <Link href="/executive-center/system-preview"
           className="inline-flex items-center gap-3 text-gold-300 hover:text-gold-200 font-bold text-lg transition group">
           شاهد لقطات النظام من داخل كل بوابة
