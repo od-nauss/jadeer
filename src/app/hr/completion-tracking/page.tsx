@@ -1,5 +1,5 @@
 import { Activity, AlertTriangle, CheckCircle } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge } from '@/components/ui';
 import { RemindButton } from './RemindButton';
 
@@ -12,7 +12,7 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 export default async function HRCompletionTrackingPage() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
 
   const { data: profiles } = await supabase
     .from('candidate_profiles')

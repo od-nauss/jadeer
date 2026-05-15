@@ -1,12 +1,13 @@
 ﻿import Link from 'next/link';
 import { LayoutDashboard, TrendingUp, Award, AlertTriangle, Eye, Bell, ArrowLeft, Users, FileText, Trophy } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, StatCard, Card } from '@/components/ui';
 import { READINESS_LEVELS } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
 export default async function ExecutiveDashboard() {
-  const supabase = createClient();
+  // نستخدم service client لتجاوز RLS ورؤية جميع البيانات
+  const supabase = createServiceClient();
 
   // المؤشرات الرئيسية
   const [readyNow, withinYear, promising, hidden, lowSatisfaction, totalCandidates] = await Promise.all([

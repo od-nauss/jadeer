@@ -46,17 +46,13 @@ export default function HRCandidatesPage() {
   const [readinessFilter, setReadinessFilter] = useState('');
 
   const load = useCallback(async () => {
-    const supabase = createClient();
-    const { data } = await supabase
-      .from('candidate_profiles')
-      .select(`
-        id, status, completion_score, evaluation_track, updated_at,
-        users(full_name, job_title, department, email),
-        leadership_cards(readiness_level, total_score, is_published)
-      `)
-      .order('updated_at', { ascending: false });
-    setProfiles(data || []);
-    setFiltered(data || []);
+    // نستخدم API endpoint يستخدم service client لتجاوز RLS
+    const res = await fetch('/api/hr/candidates');
+    if (res.ok) {
+      const { profiles: data } = await res.json();
+      setProfiles(data || []);
+      setFiltered(data || []);
+    }
     setLoading(false);
   }, []);
 

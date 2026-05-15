@@ -211,59 +211,97 @@ function MultiCheckInput({
   );
 }
 
-// ─── مكوّن: قائمة منسدلة مع خيار "أخرى" ──────────────────────────────────
+// ─── مكوّن: قائمة منسدلة مع خيار "أخرى" (مُصلَح) ─────────────────────────
 
 function SelectWithOther({
   label, options, value, onChange, required,
 }: { label: string; options: string[]; value: string; onChange: (v: string) => void; required?: boolean }) {
-  const isOther = value && !options.includes(value);
-  const selectVal = isOther ? 'أخرى' : value;
+  // نزيل "أخرى" من القائمة ونضيفها يدوياً
+  const cleanOpts = options.filter(o => o !== 'أخرى');
+  const isInList = cleanOpts.includes(value);
+  // "أخرى" مفعّلة إذا القيمة غير فارغة وغير موجودة في القائمة
+  const [showCustom, setShowCustom] = useState(!isInList && value !== '');
+  const selectVal = showCustom ? '__OTHER__' : (value || '');
+
   const inputCls = 'w-full px-3 py-2 border border-gold-300 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none text-sm bg-white';
   const labelCls = 'block text-sm font-medium text-primary-700 mb-1';
+
+  function handleSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    const v = e.target.value;
+    if (v === '__OTHER__') {
+      setShowCustom(true);
+      onChange(''); // يُفرغ القيمة حتى يكتب المستخدم
+    } else {
+      setShowCustom(false);
+      onChange(v);
+    }
+  }
+
   return (
     <div>
       <label className={labelCls}>{label}{required && <span className="text-wine mr-0.5">*</span>}</label>
-      <select value={selectVal} onChange={e => onChange(e.target.value === 'أخرى' ? '' : e.target.value)} className={inputCls}>
+      <select value={selectVal} onChange={handleSelectChange} className={inputCls}>
         <option value="">— اختر —</option>
-        {options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+        {cleanOpts.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+        <option value="__OTHER__">أخرى (اكتب يدوياً)...</option>
       </select>
-      {(selectVal === 'أخرى' || isOther) && (
+      {showCustom && (
         <input
-          value={isOther ? value : ''}
+          autoFocus
+          value={value || ''}
           onChange={e => onChange(e.target.value)}
           placeholder="اكتب هنا..."
-          className={`${inputCls} mt-2`}
+          className={`${inputCls} mt-2 border-primary-400 ring-1 ring-primary-300`}
         />
       )}
     </div>
   );
 }
 
-// ─── مكوّن: قائمة جامعات مُجمَّعة ────────────────────────────────────────
+// ─── مكوّن: قائمة جامعات مُجمَّعة (مُصلَح) ───────────────────────────────
 
 function UniversitySelect({ value, onChange }: { value: string; onChange: (v: string) => void }) {
-  const allItems = UNIVERSITIES.flatMap(g => g.items);
-  const isCustom = value && value !== 'أخرى — اكتب اسم الجامعة' && !allItems.includes(value);
-  const selectVal = isCustom ? 'أخرى — اكتب اسم الجامعة' : value;
+  // جميع الجامعات المحددة مسبقاً
+  const knownUnis = UNIVERSITIES.flatMap(g => g.items).filter(i => i !== 'أخرى — اكتب اسم الجامعة');
+  const isKnown = knownUnis.includes(value);
+  const [showCustom, setShowCustom] = useState(!isKnown && value !== '');
+  const selectVal = showCustom ? '__UNI_OTHER__' : (value || '');
+
   const inputCls = 'w-full px-3 py-2 border border-gold-300 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none text-sm bg-white';
   const labelCls = 'block text-sm font-medium text-primary-700 mb-1';
+
+  function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    const v = e.target.value;
+    if (v === '__UNI_OTHER__') {
+      setShowCustom(true);
+      onChange('');
+    } else {
+      setShowCustom(false);
+      onChange(v);
+    }
+  }
+
   return (
     <div>
       <label className={labelCls}>الجهة التعليمية</label>
-      <select value={selectVal} onChange={e => onChange(e.target.value)} className={inputCls}>
+      <select value={selectVal} onChange={handleChange} className={inputCls}>
         <option value="">— اختر الجامعة —</option>
         {UNIVERSITIES.map(group => (
           <optgroup key={group.group} label={group.group}>
-            {group.items.map(uni => <option key={uni} value={uni}>{uni}</option>)}
+            {group.items
+              .filter(uni => uni !== 'أخرى — اكتب اسم الجامعة')
+              .map(uni => <option key={uni} value={uni}>{uni}</option>)}
           </optgroup>
         ))}
+        <option value="__UNI_OTHER__">أخرى (اكتب اسم الجامعة)...</option>
       </select>
-      {(value === 'أخرى — اكتب اسم الجامعة' || isCustom) && (
+      {showCustom && (
         <input
-          value={isCustom ? value : ''}
+          autoFocus
+          value={value || ''}
           onChange={e => onChange(e.target.value)}
           placeholder="اكتب اسم الجامعة..."
-          className={`${inputCls} mt-2`}
+          className={`${inputCls} mt-2 border-primary-400 ring-1 ring-primary-300`}
         />
       )}
     </div>
@@ -406,7 +444,7 @@ export default function CandidateProfilePage() {
       <div className="mb-6 institutional-card p-4">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm font-medium text-primary-700">اكتمال الملف</span>
-          <span className="text-2xl font-bold text-gold-700">{completion}٪</span>
+          <span className="text-2xl font-bold text-gold-700">{completion}%</span>
         </div>
         <div className="h-3 bg-gold-100 rounded-full overflow-hidden">
           <div
@@ -454,11 +492,19 @@ export default function CandidateProfilePage() {
             </div>
             <div>
               <label className={labelCls}>إجمالي سنوات الخبرة <span className="text-wine">*</span></label>
-              <select value={form.years_of_experience || ''} onChange={e => update('years_of_experience', e.target.value)} className={selectCls}>
+              <select
+                value={form.years_of_experience !== '' && form.years_of_experience !== null ? String(form.years_of_experience) : ''}
+                onChange={e => update('years_of_experience', e.target.value ? Number(e.target.value) : '')}
+                className={selectCls}
+              >
                 <option value="">— اختر —</option>
-                {['أقل من سنة', '١–٣ سنوات', '٣–٥ سنوات', '٥–١٠ سنوات', '١٠–١٥ سنة', '١٥–٢٠ سنة', 'أكثر من ٢٠ سنة'].map(v => (
-                  <option key={v} value={v}>{v}</option>
-                ))}
+                <option value="0">أقل من سنة</option>
+                <option value="2">1 – 3 سنوات</option>
+                <option value="4">3 – 5 سنوات</option>
+                <option value="7">5 – 10 سنوات</option>
+                <option value="12">10 – 15 سنة</option>
+                <option value="17">15 – 20 سنة</option>
+                <option value="22">أكثر من 20 سنة</option>
               </select>
             </div>
           </div>

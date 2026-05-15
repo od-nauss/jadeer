@@ -1,10 +1,10 @@
 ﻿import { FileText, BarChart3, PieChart, TrendingUp, Users, Eye } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card, StatCard } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
 export default async function ExecutiveReportsPage() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
   const { data: cards } = await supabase
     .from('leadership_cards')
     .select('readiness_level, leadership_type, total_score, trust_score');

@@ -1,11 +1,11 @@
 ﻿import Link from 'next/link';
 import { Users, ArrowLeft, AlertCircle } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
 export default async function GovernanceEvaluatorsPage() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
 
   // مرشحون لديهم مقيمون مقترحون لكن لم يكتمل اعتمادهم
   const { data: profiles } = await supabase

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Users, AlertTriangle, Brain, TrendingUp } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
@@ -18,7 +18,7 @@ const READINESS_AR: Record<string, string> = {
 };
 
 export default async function OrganizationSuccessionPage() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
 
   const { data: successions } = await supabase
     .from('succession_maps')

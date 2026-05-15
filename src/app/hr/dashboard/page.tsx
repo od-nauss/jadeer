@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import { GraduationCap, Users, Activity, Target, Bell, FileText, ArrowLeft, Trophy, Brain, AlertTriangle, Route, TrendingUp } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, StatCard, Card } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
 
 export default async function HRDashboard() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
 
   const [
     { count: totalCandidates },

@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import { ShieldCheck, FileSearch, Users, Link2, Bell, Award, AlertTriangle, ArrowLeft, ScrollText, Eye, Brain, TrendingUp } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, StatCard, Card, EmptyState } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
 
 export default async function GovernanceDashboard() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
 
   const [
     { count: pendingReviews },

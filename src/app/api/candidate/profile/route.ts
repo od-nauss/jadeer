@@ -20,7 +20,10 @@ export async function POST(request: NextRequest) {
 
     const profileData = {
       user_id: user.id,
-      years_of_experience: body.years_of_experience || null,
+      // years_of_experience عمود INTEGER — نتأكد من إرسال رقم صحيح
+      years_of_experience: body.years_of_experience !== '' && body.years_of_experience !== null
+        ? Number(body.years_of_experience) || null
+        : null,
       qualification: body.qualification || null,
       specialization: body.specialization || null,
       educational_institution: body.educational_institution || null,

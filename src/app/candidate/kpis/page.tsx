@@ -21,13 +21,15 @@ export default function CandidateKPIsPage() {
   const [expanded, setExpanded] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
 
+  const [profileId, setProfileId] = useState<string | null>(null);
   const load = useCallback(async () => {
     setLoading(true);
     const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
     const { data: profile } = await supabase.from('candidate_profiles').select('id').eq('user_id', user.id).maybeSingle();
-    if (!profile) { setLoading(false); return; }
+    setProfileId(profile?.id || null);
+    if (!profile?.id) { setLoading(false); return; }
     const { data } = await supabase.from('kpis').select('*').eq('candidate_profile_id', profile.id).order('created_at', { ascending: false });
     setKpis(data || []);
     setLoading(false);
@@ -65,6 +67,19 @@ export default function CandidateKPIsPage() {
           إضافة مؤشر
         </button>
       </div>
+
+      {!loading && !profileId && (
+        <div className="flex items-center gap-3 p-4 bg-amber-50 border border-amber-300 rounded-xl mb-5">
+          <AlertCircle className="h-5 w-5 text-amber-600 flex-shrink-0" />
+          <div>
+            <div className="font-bold text-amber-800 text-sm">يجب إكمال الملف القيادي أولاً</div>
+            <div className="text-xs text-amber-700 mt-0.5">
+              احفظ الملف القيادي قبل إضافة المؤشرات.
+              {' '}<a href="/candidate/profile" className="underline font-bold">اذهب للملف القيادي ←</a>
+            </div>
+          </div>
+        </div>
+      )}
 
       {loading ? (
         <div className="space-y-3">{[1, 2].map(i => <div key={i} className="h-24 bg-gold-50 rounded-xl animate-pulse" />)}</div>

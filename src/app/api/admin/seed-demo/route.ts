@@ -165,15 +165,20 @@ export async function POST() {
     const did = plan1Id(p.idx + 1);
     const errs: string[] = [];
 
-    // حذف بترتيب FK عكسي
+    // حذف بترتيب FK عكسي (الأعمق أولاً)
+    await del(svc, 'evaluations_360',     'candidate_profile_id', pid);
+    await del(svc, 'evaluation_links',    'candidate_profile_id', pid);
+    await del(svc, 'approved_evaluators', 'candidate_profile_id', pid);
+    await del(svc, 'evaluator_nominees',  'candidate_profile_id', pid);
+    await del(svc, 'assessment_results',  'candidate_profile_id', pid);
     await del(svc, 'position_fit_scores', 'candidate_profile_id', pid);
     await del(svc, 'development_plan_items', 'development_plan_id', did);
-    await del(svc, 'development_plans', 'candidate_profile_id', pid);
-    await del(svc, 'leadership_cards', 'candidate_profile_id', pid);
-    await del(svc, 'kpis', 'candidate_profile_id', pid);
-    await del(svc, 'initiatives', 'candidate_profile_id', pid);
-    await del(svc, 'candidate_profiles', 'id', pid);
-    await del(svc, 'users', 'id', uid);
+    await del(svc, 'development_plans',   'candidate_profile_id', pid);
+    await del(svc, 'leadership_cards',    'candidate_profile_id', pid);
+    await del(svc, 'kpis',               'candidate_profile_id', pid);
+    await del(svc, 'initiatives',         'candidate_profile_id', pid);
+    await del(svc, 'candidate_profiles',  'id', pid);
+    await del(svc, 'users',              'id', uid);
 
     // إدراج بترتيب FK صحيح
     const e1 = await ups(svc, 'users', {
@@ -223,17 +228,25 @@ export async function POST() {
     }, 'id');
     if (e4b) errs.push(e4b);
 
-    // البطاقة القيادية — axis_scores/primary_strengths/development_gaps = JSONB ✓
+    // البطاقة القيادية — أسماء الأعمدة الصحيحة من السكيما الفعلية
+    const isPublished = p.status === 'approved';
     const e5 = await ups(svc, 'leadership_cards', {
       id: cid, candidate_profile_id: pid,
-      total_score: p.total, trust_score: p.trust,
-      readiness_level: p.readiness, leadership_type: p.leadType,
-      axis_scores: p.axes,
-      primary_strengths: p.strengths,
-      development_gaps: p.gaps,
-      ai_summary: p.aiRec,
-      is_published: true, status: 'approved', is_demo: true,
-    }, 'candidate_profile_id'); // UNIQUE constraint على candidate_profile_id
+      // الأعمدة الأصلية
+      readiness_score:  p.total,
+      confidence_score: p.trust,
+      // الأعمدة التي أضفناها
+      total_score:      p.total,
+      trust_score:      p.trust,
+      readiness_level:  p.readiness,
+      leadership_type:  p.leadType,
+      // JSONB — أسماء الأعمدة الفعلية في السكيما
+      axis_scores_json: p.axes,
+      strengths_json:   p.strengths,
+      gaps_json:        p.gaps,
+      ai_summary:       p.aiRec,
+      is_published: isPublished, status: 'approved', is_demo: true,
+    }, 'candidate_profile_id');
     if (e5) errs.push(e5);
 
     // خطة التطوير — لا عمود notes، نستخدم ai_recommendations_json
@@ -280,11 +293,91 @@ export async function POST() {
     }, 'candidate_profile_id,organization_unit_id');
     if (e7) errs.push(e7);
 
+    // ─── مقيمون معتمدون + روابط تقييم + تقييمات 360 ──────────────────────
+    const EVAL_NAMES = [
+      'خالد بن أحمد السالم', 'محمد بن عمر الزهراني', 'سارة بنت علي القحطاني',
+      'نواف بن سعد الحربي', 'ريم بنت فيصل الشهري', 'فيصل بن ناصر الدوسري',
+      'أميرة بنت خالد العتيبي',
+    ];
+    const RELATIONSHIPS = [
+      'direct_manager', 'peer', 'peer', 'subordinate',
+      'subordinate', 'stakeholder', 'project_partner',
+    ];
+    const evalCount = 7; // نصنع 7 مقيمين لكل مرشح
+    const isApproved = p.status === 'approved';
+
+    for (let ev = 0; ev < evalCount; ev++) {
+      const ci = String(p.idx).padStart(2, '0');
+      const ei = String(ev + 1).padStart(2, '0');
+      const evId  = `bb00${ci}${ei}00-cafe-beef-0000-aaaaaaaaaaaa`;
+      const lnkId = `cc00${ci}${ei}00-cafe-beef-0000-aaaaaaaaaaaa`;
+      const e36Id = `dd00${ci}${ei}00-cafe-beef-0000-aaaaaaaaaaaa`;
+
+      // المقيم المعتمد
+      const eApproved = await ups(svc, 'approved_evaluators', {
+        id: evId, candidate_profile_id: pid,
+        full_name: EVAL_NAMES[ev],
+        email: `eval${p.idx + 1}${ev + 1}@demo.jadeer.sa`,
+        job_title: ['مدير إدارة', 'محلل أول', 'مشرف', 'أخصائي', 'مدير قسم', 'رئيس وحدة', 'مستشار'][ev],
+        department: p.dept,
+        relationship_type: RELATIONSHIPS[ev],
+        approved_by_committee: true,
+        committee_selected: ev >= 4, // 3 من اختيار اللجنة = 42% ← نستوفي 60% تقريباً
+        can_verify_initiatives: ev < 4,
+        can_verify_kpis: ev < 5,
+        status: 'approved',
+        is_demo: true,
+      }, 'id');
+      if (eApproved) errs.push(eApproved);
+
+      // رابط التقييم (token ثابت لكل تشغيل)
+      const token = `seed-${p.idx + 1}-${ev + 1}-demo-2026`;
+      // حذف أي رابط قديم بنفس التوكن قبل الإدراج
+      await svc.from('evaluation_links').delete().eq('token', token);
+      const eLnk = await ups(svc, 'evaluation_links', {
+        id: lnkId,
+        candidate_profile_id: pid,
+        approved_evaluator_id: evId,
+        token,
+        expires_at: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
+        status: isApproved ? 'submitted' : (ev < 3 ? 'opened' : 'ready'),
+        submitted_at: isApproved ? new Date().toISOString() : null,
+        is_demo: true,
+      }, 'id');
+      if (eLnk) errs.push(eLnk);
+
+      // تقييم 360 — فقط للمرشحين المعتمدين
+      if (isApproved) {
+        const drift = (ev % 3 === 0 ? 3 : ev % 3 === 1 ? -2 : 1);
+        const e360 = await ups(svc, 'evaluations_360', {
+          id: e36Id,
+          candidate_profile_id: pid,
+          approved_evaluator_id: evId,
+          evaluation_link_id: lnkId,
+          relationship_type: RELATIONSHIPS[ev],
+          overall_score: Math.min(98, Math.max(40, Math.round(p.total + drift))),
+          trust_score: Math.min(98, Math.max(40, Math.round(p.trust + drift))),
+          scores_json: {
+            leadership:  Math.min(98, p.axes.leadership  + drift),
+            strategic:   Math.min(98, p.axes.strategic   + drift),
+            performance: Math.min(98, p.axes.performance + drift),
+            innovation:  Math.min(98, p.axes.innovation  + drift),
+            team:        Math.min(98, p.axes.team        + drift),
+          },
+          comments_summary: `يؤكد ${p.strengths[0] || 'الأداء المتميز'} في بيئة العمل اليومية`,
+          submitted_at: new Date().toISOString(),
+          is_demo: true,
+        }, 'id');
+        if (e360) errs.push(e360);
+      }
+    }
+    // ─────────────────────────────────────────────────────────────────────
+
     if (errs.length === 0) {
       results.push(`✅ ${p.name} (${p.readiness})`);
       ok++;
     } else {
-      results.push(`⚠️ ${p.name}: ${errs[0]}`);
+      results.push(`⚠️ ${p.name}: ${errs.slice(0, 2).join(' | ')}`);
     }
   }
 
@@ -292,9 +385,11 @@ export async function POST() {
 
   try {
     await svc.from('audit_logs').insert({
-      user_id: user.id, action: 'demo_data_seeded',
-      entity_type: 'demo_data',
-      new_values: { success: ok, total: PROFILES.length },
+      user_id: user.id,
+      user_role: user.primaryRole,
+      operation_type: 'demo_data_seeded',
+      description: `تهيئة البيانات التجريبية: ${ok}/${PROFILES.length} مرشحين`,
+      sensitivity: 'normal',
     });
   } catch {}
 

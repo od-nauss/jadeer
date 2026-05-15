@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Users, ArrowLeft, Filter, Eye } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card, EmptyState } from '@/components/ui';
 import { READINESS_LEVELS } from '@/lib/utils';
 
@@ -16,7 +16,7 @@ export default async function ExecutiveCandidatesPage({
 }: {
   searchParams: { level?: string; flag?: string };
 }) {
-  const supabase = createClient();
+  const supabase = createServiceClient();
 
   let query = supabase
     .from('leadership_cards')

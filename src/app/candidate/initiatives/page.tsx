@@ -34,9 +34,9 @@ export default function CandidateInitiativesPage() {
     const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
-    const { data: profile } = await supabase.from('candidate_profiles').select('id').eq('user_id', user.id).maybeSingle();
-    if (!profile) { setLoading(false); return; }
-    setProfileId(profile.id);
+    const { data: profile } = await supabase.from('candidate_profiles').select('id, status').eq('user_id', user.id).maybeSingle();
+    setProfileId(profile?.id || null);
+    if (!profile?.id) { setLoading(false); return; }
     const { data } = await supabase.from('initiatives').select('*').eq('candidate_profile_id', profile.id).order('created_at', { ascending: false });
     setInitiatives(data || []);
     setLoading(false);
@@ -75,6 +75,20 @@ export default function CandidateInitiativesPage() {
           إضافة مبادرة
         </button>
       </div>
+
+      {/* تحذير: الملف القيادي غير مكتمل */}
+      {!loading && !profileId && (
+        <div className="flex items-center gap-3 p-4 bg-amber-50 border border-amber-300 rounded-xl mb-5">
+          <AlertCircle className="h-5 w-5 text-amber-600 flex-shrink-0" />
+          <div>
+            <div className="font-bold text-amber-800 text-sm">يجب إكمال الملف القيادي أولاً</div>
+            <div className="text-xs text-amber-700 mt-0.5">
+              احفظ الملف القيادي بالبيانات الأساسية قبل إضافة المبادرات.
+              {' '}<a href="/candidate/profile" className="underline font-bold">اذهب للملف القيادي ←</a>
+            </div>
+          </div>
+        </div>
+      )}
 
       {loading ? (
         <div className="space-y-3">

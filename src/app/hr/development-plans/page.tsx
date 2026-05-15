@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Target, ArrowLeft, Plus } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 import { READINESS_LEVELS } from '@/lib/utils';
@@ -22,7 +22,7 @@ export default async function HRDevelopmentPlansPage() {
   const user = await getCurrentUser();
   if (!user) return null;
 
-  const supabase = createClient();
+  const supabase = createServiceClient();
   const { data: plans } = await supabase
     .from('development_plans')
     .select('*, candidate_profiles(id, users(full_name, job_title, department))')

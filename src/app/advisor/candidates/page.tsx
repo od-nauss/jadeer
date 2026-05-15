@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Users, Lock } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { getAdvisorPermissions } from '@/lib/auth/advisor-access';
 import { PageHeader, EmptyState } from '@/components/ui';
@@ -27,7 +27,7 @@ export default async function AdvisorCandidatesPage() {
     );
   }
 
-  const supabase = createClient();
+  const supabase = createServiceClient();
   let query = supabase
     .from('leadership_cards')
     .select('id, total_score, trust_score, readiness_level, leadership_type, primary_strengths, candidate_profiles(id, users(full_name, job_title, department))')

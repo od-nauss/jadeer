@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { AlertTriangle, Brain, TrendingUp, Plus, Users } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
@@ -13,7 +13,7 @@ const UNIT_TYPE_LABELS: Record<string, string> = {
 };
 
 export default async function OrganizationGapsPage() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
 
   const [
     { data: allUnits },

@@ -1,11 +1,11 @@
 ﻿import Link from 'next/link';
 import { Eye, Users, FileText, ArrowLeft, ScrollText } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card, StatCard } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
 export default async function AdvisorDashboard() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
   const [cards, hidden, ready] = await Promise.all([
     supabase.from('leadership_cards').select('id', { count: 'exact', head: true }).eq('is_published', true),
     supabase.from('leadership_cards').select('id', { count: 'exact', head: true }).eq('leadership_type', 'hidden').eq('is_published', true),

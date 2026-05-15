@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { FileSearch, ArrowLeft, AlertTriangle, CheckCircle2, Clock, RotateCcw } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
@@ -14,7 +14,7 @@ const STATUS_INFO: Record<string, { label: string; variant: 'gold' | 'primary' |
 };
 
 export default async function GovernanceReviewsPage() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
 
   const { data: profiles } = await supabase
     .from('candidate_profiles')

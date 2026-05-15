@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Map, AlertTriangle, CheckCircle, Users, TrendingUp, RefreshCw } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
@@ -29,7 +29,7 @@ export default async function OrganizationMapPage({ searchParams }: { searchPara
   const filter = searchParams.filter || 'all';
   const typeFilter = searchParams.type || '';
 
-  const supabase = createClient();
+  const supabase = createServiceClient();
 
   const [{ data: units }, { data: fitScores }, { data: successionMaps }] = await Promise.all([
     supabase.from('organization_units').select('*, organization_unit_requirements(*)').eq('is_active', true).order('unit_type').order('name'),

@@ -1,12 +1,12 @@
 ﻿import Link from 'next/link';
 import { Award, ArrowLeft } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 import { READINESS_LEVELS } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
 export default async function ExecutiveCardsPage() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
   const { data: cards } = await supabase
     .from('leadership_cards')
     .select('*, candidate_profiles(user_id, users(full_name, job_title, department))')
