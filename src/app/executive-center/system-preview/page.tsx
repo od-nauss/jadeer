@@ -46,7 +46,7 @@ export default function SystemPreviewPage() {
             {/* Header */}
             <div className="flex items-center justify-between mb-5">
               <div>
-                <div className="text-[#E8D5A3] text-xs font-bold mb-1">الدورة الثانية ١٤٤٧هـ · مركز القيادة العليا</div>
+                <div className="text-[#E8D5A3] text-xs font-bold mb-1">الدورة الثانية 1447هـ · مركز القيادة العليا</div>
                 <h3 className="text-xl font-bold text-white">لوحة جاهزية الكفاءات القيادية</h3>
               </div>
               <div className="flex gap-2">
@@ -57,10 +57,10 @@ export default function SystemPreviewPage() {
             {/* Stats Row */}
             <div className="grid grid-cols-4 gap-3 mb-5">
               {[
-                { val: '٢٣', label: 'إجمالي المتقدمين', color: 'text-[#E8D5A3]' },
-                { val: '٨', label: 'جاهزون للتكليف', color: 'text-green-400' },
-                { val: '١١', label: 'تحت التطوير', color: 'text-blue-400' },
-                { val: '٢', label: 'وحدات حرجة بلا بديل', color: 'text-red-400' },
+                { val: '23', label: 'إجمالي المتقدمين', color: 'text-[#E8D5A3]' },
+                { val: '8', label: 'جاهزون للتكليف', color: 'text-green-400' },
+                { val: '11', label: 'تحت التطوير', color: 'text-blue-400' },
+                { val: '2', label: 'وحدات حرجة بلا بديل', color: 'text-red-400' },
               ].map((stat, i) => (
                 <div key={i} className="bg-white/5 rounded-xl p-3 text-center border border-white/10">
                   <div className={`text-2xl font-bold ${stat.color}`}>{stat.val}</div>
@@ -143,12 +143,12 @@ export default function SystemPreviewPage() {
             {/* Card Header */}
             <div className="bg-[#1a365d] rounded-xl p-5 mb-4 flex items-start justify-between">
               <div>
-                <div className="text-[#E8D5A3] text-xs mb-1 font-medium">بطاقة قيادية معتمدة · الدورة الثانية ١٤٤٧هـ</div>
+                <div className="text-[#E8D5A3] text-xs mb-1 font-medium">بطاقة قيادية معتمدة · الدورة الثانية 1447هـ</div>
                 <h3 className="text-2xl font-bold text-white">نورة القحطاني</h3>
                 <p className="text-blue-200 text-sm mt-0.5">رئيس قسم العمليات · إدارة العمليات</p>
               </div>
               <div className="text-center">
-                <div className="text-5xl font-bold text-[#E8D5A3]">٨٧</div>
+                <div className="text-5xl font-bold text-[#E8D5A3]">87</div>
                 <div className="text-xs text-blue-300">درجة الجاهزية</div>
                 <div className="text-sm font-bold text-green-300 mt-1">جاهزة الآن</div>
               </div>
@@ -157,7 +157,7 @@ export default function SystemPreviewPage() {
             {/* Metrics Row */}
             <div className="grid grid-cols-3 gap-3 mb-4">
               <div className="bg-green-50 border-2 border-green-200 rounded-xl p-3 text-center">
-                <div className="text-2xl font-bold text-green-600">٩١٪</div>
+                <div className="text-2xl font-bold text-green-600">91٪</div>
                 <div className="text-xs text-gray-500">مستوى الثقة</div>
               </div>
               <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-3 text-center">
@@ -195,7 +195,7 @@ export default function SystemPreviewPage() {
             <div className="bg-[#1a365d] rounded-xl p-4">
               <div className="text-xs text-[#E8D5A3] font-bold mb-1">توصية الذكاء الاصطناعي — معتمدة من لجنة الحوكمة</div>
               <p className="text-sm text-white/85 leading-relaxed">
-                تكليف قيادي مباشر موصى به. الوحدة الأنسب: إدارة العمليات (ملاءمة ٩٢٪). برنامج مصاحب في التخطيط الاستراتيجي مدة ٦ أشهر.
+                تكليف قيادي مباشر موصى به. الوحدة الأنسب: إدارة العمليات (ملاءمة 92٪). برنامج مصاحب في التخطيط الاستراتيجي مدة 6 أشهر.
               </p>
             </div>
           </div>
@@ -229,10 +229,10 @@ export default function SystemPreviewPage() {
             <h3 className="text-lg font-bold text-[#1a365d] mb-4">لوحة الحوكمة — قائمة المراجعة المعلقة</h3>
             <div className="space-y-2">
               {[
-                { name: 'سعد الحارثي', stage: 'اعتماد المقيّمين', alert: null, time: 'منذ ٢ يوم' },
-                { name: 'نورة القحطاني', stage: 'مراجعة تقرير AI', alert: null, time: 'منذ ٥ ساعات' },
+                { name: 'سعد الحارثي', stage: 'اعتماد المقيّمين', alert: null, time: 'منذ 2 يوم' },
+                { name: 'نورة القحطاني', stage: 'مراجعة تقرير AI', alert: null, time: 'منذ 5 ساعات' },
                 { name: 'عبدالعزيز الدوسري', stage: 'كشف تحيز محتمل', alert: '⚠ مقيّم يحتاج مراجعة', time: 'منذ ساعة' },
-                { name: 'هند العتيبي', stage: 'مراجعة التظلم', alert: '📋 طلب إعادة مراجعة', time: 'منذ ٣ أيام' },
+                { name: 'هند العتيبي', stage: 'مراجعة التظلم', alert: '📋 طلب إعادة مراجعة', time: 'منذ 3 أيام' },
               ].map((item, i) => (
                 <div key={i} className={`flex items-center gap-3 rounded-xl px-4 py-3 border ${item.alert ? 'bg-amber-50 border-amber-200' : 'bg-white border-gray-200'}`}>
                   <div className="h-8 w-8 rounded-full bg-[#2D5A8B] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
@@ -263,9 +263,9 @@ export default function SystemPreviewPage() {
           الرئيس يرى الصورة الكاملة. اللجنة تملك أدوات الحوكمة. الموظف يتابع مساره.
           كل بوابة مُصممة لاحتياج صاحبها الفعلي.
         </p>
-        <Link href="/executive-center/demo-models"
+        <Link href="/executive-center/critical-points"
           className="inline-flex items-center gap-2 text-gold-300 hover:text-gold-200 font-bold transition group">
-          استعرض النماذج التجريبية الخمسة
+          ما الذي يجعل جدير مختلفة؟ النقاط الحرجة
           <ChevronLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
         </Link>
       </section>

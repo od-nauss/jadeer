@@ -133,9 +133,9 @@ export default function UrgencyPage() {
           بل خطوة مؤسسية لبناء{' '}
           <span className="text-gold-300 font-bold">عدالة الفرص، واستدامة القيادة، ورفع جودة القرار.</span>
         </p>
-        <Link href="/executive-center/decision"
+        <Link href="/executive-center/faq-leadership"
           className="inline-flex items-center gap-3 bg-gold-500 hover:bg-gold-400 text-primary-900 font-bold px-8 py-4 rounded-2xl text-base transition-all group">
-          شاهد القرار المطلوب
+          أسئلة وأجوبة متوقعة
           <ChevronLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
         </Link>
       </section>

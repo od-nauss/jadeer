@@ -1,14 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronDown, HelpCircle, Shield } from 'lucide-react';
+import { ChevronDown, HelpCircle, Shield, ChevronLeft } from 'lucide-react';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
 const FAQ = [
   {
     category: 'ضمانات صحة التقييم',
     q: 'كيف نضمن أن يختار الموظف مقيّمين موضوعيين؟',
-    a: 'الموظف يقترح أسماء فقط — ولا يملك اعتماد أيٍّ منهم. لجنة الحوكمة هي التي تعتمد ٧–١٠ مقيّمين، وتحدد ٦٠٪ على الأقل منهم، وتستطيع إضافة أو استبعاد أي مقيم. هذا يجعل تركيبة المقيّمين في يد اللجنة لا المرشح.',
+    a: 'الموظف يقترح أسماء فقط — ولا يملك اعتماد أيٍّ منهم. لجنة الحوكمة هي التي تعتمد 7–10 مقيّمين، وتحدد 60٪ على الأقل منهم، وتستطيع إضافة أو استبعاد أي مقيم. هذا يجعل تركيبة المقيّمين في يد اللجنة لا المرشح.',
   },
   {
     category: 'ضمانات صحة التقييم',
@@ -78,13 +79,13 @@ export default function FAQPage() {
       {/* ─── الافتتاحية ─── */}
       <section className="text-center py-6">
         <div className="inline-block bg-gold-500/15 border border-gold-400/30 rounded-full px-5 py-2 text-gold-300 text-sm font-bold mb-6">
-          إجابات بمستوى القرار
+          أسئلة نتوقع طرحها — وإجاباتها
         </div>
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-5 leading-tight">
-          أسئلة القيادة <span className="text-gold-400">وإجاباتها</span>
+          أسئلة <span className="text-gold-400">وأجوبة متوقعة</span>
         </h1>
         <p className="text-lg text-white/70 max-w-2xl mx-auto leading-relaxed">
-          كل سؤال قد يخطر على بال متخذ القرار — مُجاب بالأدلة، لا بالطمأنة.
+          أسئلة نتوقع أن تُطرح حول المنصة — نُبادر بالإجابة عليها بالأدلة قبل أن تُسأل.
         </p>
       </section>
 
@@ -148,9 +149,14 @@ export default function FAQPage() {
         <h2 className="text-xl font-bold text-white mb-3">
           لديك سؤال لا تجده هنا؟
         </h2>
-        <p className="text-white/60 text-sm max-w-lg mx-auto leading-relaxed">
+        <p className="text-white/60 text-sm max-w-lg mx-auto leading-relaxed mb-6">
           منصة جدير مبنية على مبدأ الشفافية الكاملة مع القيادة — أي سؤال يُطرح له إجابة مدعومة بالبيانات.
         </p>
+        <Link href="/executive-center/decision"
+          className="inline-flex items-center gap-2 bg-gold-500 hover:bg-gold-400 text-primary-900 font-bold px-8 py-3 rounded-xl transition-all">
+          من الفكرة إلى التنفيذ — القرار المطلوب
+          <ChevronLeft className="h-4 w-4" />
+        </Link>
       </section>
     </div>
   );

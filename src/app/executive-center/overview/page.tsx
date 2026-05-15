@@ -51,7 +51,7 @@ export default function ExecutiveOverview() {
           <span className="text-gold-400 font-bold">تُحوّل تقييم الجاهزية القيادية</span>{' '}
           من انطباع شخصي إلى{' '}
           <span className="text-gold-400 font-bold">بطاقة موثقة ومعتمدة</span>{' '}
-          تُبنى على ٧ محاور، وتقييم ٣٦٠°، وتحليل ذكاء اصطناعي — تحت إشراف لجنة حوكمة مستقلة.
+          تُبنى على 7 محاور، وتقييم 360°، وتحليل ذكاء اصطناعي — تحت إشراف لجنة حوكمة مستقلة.
         </p>
       </section>
 
@@ -120,10 +120,10 @@ export default function ExecutiveOverview() {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { n: '١', label: 'يُقدّم الموظف ملفه', sub: 'مبادرات · مؤشرات · اختبارات ذكية', color: 'bg-primary-600' },
-            { n: '٢', label: 'تقييم متعدد المصادر', sub: '360° · تحليل الذكاء الاصطناعي', color: 'bg-gold-600' },
-            { n: '٣', label: 'مراجعة الحوكمة', sub: 'التحقق من سلامة الإجراء', color: 'bg-steelblue' },
-            { n: '٤', label: 'البطاقة القيادية', sub: 'نتيجة موثقة · خطة تطوير · ملاءمة تنظيمية', color: 'bg-sage' },
+            { n: '1', label: 'يُقدّم الموظف ملفه', sub: 'مبادرات · مؤشرات · اختبارات ذكية', color: 'bg-primary-600' },
+            { n: '2', label: 'تقييم متعدد المصادر', sub: '360° · تحليل الذكاء الاصطناعي', color: 'bg-gold-600' },
+            { n: '3', label: 'مراجعة الحوكمة', sub: 'التحقق من سلامة الإجراء', color: 'bg-steelblue' },
+            { n: '4', label: 'البطاقة القيادية', sub: 'نتيجة موثقة · خطة تطوير · ملاءمة تنظيمية', color: 'bg-sage' },
           ].map((step) => (
             <div key={step.n} className="text-center group">
               <div className={`inline-flex h-16 w-16 items-center justify-center rounded-2xl ${step.color} text-white text-2xl font-bold mb-3 mx-auto block transition group-hover:scale-105`}>
@@ -139,10 +139,10 @@ export default function ExecutiveOverview() {
       {/* ─── الأرقام الجوهرية ─── */}
       <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
-          { value: '٧', label: 'محاور تقييم', sub: 'بأوزان علمية مدروسة' },
-          { value: '١٥', label: 'مقيّماً في 360°', sub: 'تعتمدهم لجنة الحوكمة' },
-          { value: '٩', label: 'مصادر بيانات', sub: 'تُغذّي التحليل الذكي' },
-          { value: '١٠٠٪', label: 'شفافية', sub: 'كل قرار موثق' },
+          { value: '7', label: 'محاور تقييم', sub: 'بأوزان علمية مدروسة' },
+          { value: '15', label: 'مقيّماً في 360°', sub: 'تعتمدهم لجنة الحوكمة' },
+          { value: '9', label: 'مصادر بيانات', sub: 'تُغذّي التحليل الذكي' },
+          { value: '100٪', label: 'شفافية', sub: 'كل قرار موثق' },
         ].map((stat) => (
           <div key={stat.label}
             className="bg-gradient-to-br from-gold-500/10 to-transparent border border-gold-400/20 rounded-2xl p-5 text-center hover:border-gold-400/40 transition">

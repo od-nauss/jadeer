@@ -20,9 +20,9 @@ const PHASES = [
     title: 'التقييم المتعدد المصادر',
     color: 'bg-gold-600',
     steps: [
-      { n: '05', label: 'الاختبارات الذكية التكيّفية', sub: '٨ اختبارات: قيادة، استراتيجي، قرار، أزمات، عاطفي، فريق، تقنية، حالة' },
-      { n: '06', label: 'ترشيح دائرة الثقة', sub: '١٥ مقترحاً من مستويات متعددة' },
-      { n: '07', label: 'اعتماد لجنة الحوكمة', sub: '٧–١٠ مقيّمين، ٦٠٪ على الأقل من اختيار اللجنة' },
+      { n: '05', label: 'الاختبارات الذكية التكيّفية', sub: '8 اختبارات: قيادة، استراتيجي، قرار، أزمات، عاطفي، فريق، تقنية، حالة' },
+      { n: '06', label: 'ترشيح دائرة الثقة', sub: '15 مقترحاً من مستويات متعددة' },
+      { n: '07', label: 'اعتماد لجنة الحوكمة', sub: '7–10 مقيّمين، 60٪ على الأقل من اختيار اللجنة' },
       { n: '08', label: 'إرسال روابط مؤمَّنة', sub: 'رابط فردي لكل مقيم، يستخدم مرة واحدة فقط' },
     ],
   },
@@ -61,7 +61,7 @@ export default function HowItWorksPage() {
           رحلة التقييم القيادي <span className="text-gold-400">من الأول إلى الأخير</span>
         </h1>
         <p className="text-lg text-white/70 max-w-2xl mx-auto leading-relaxed">
-          ١٤ مرحلة منهجية متكاملة — كل مرحلة تبني على سابقتها لتُنتج
+          14 مرحلة منهجية متكاملة — كل مرحلة تبني على سابقتها لتُنتج
           <strong className="text-gold-300"> أدق ملف تحليلي قيادي ممكن.</strong>
         </p>
       </section>
@@ -125,10 +125,10 @@ export default function HowItWorksPage() {
             <div className="flex items-center justify-between mb-5">
               <div>
                 <h3 className="text-xl font-bold text-[#1a365d]">مرحباً، سعد الحارثي</h3>
-                <p className="text-sm text-gray-500 mt-0.5">مسار الجاهزية القيادية — الدورة الثانية ١٤٤٧هـ</p>
+                <p className="text-sm text-gray-500 mt-0.5">مسار الجاهزية القيادية — الدورة الثانية 1447هـ</p>
               </div>
               <div className="text-left">
-                <div className="text-3xl font-bold text-[#2D5A8B]">٦٤٪</div>
+                <div className="text-3xl font-bold text-[#2D5A8B]">64٪</div>
                 <div className="text-xs text-gray-500">نسبة الاكتمال الكلي</div>
               </div>
             </div>
@@ -176,7 +176,7 @@ export default function HowItWorksPage() {
             <div className="bg-[#2D5A8B] text-white rounded-xl p-4 flex items-center justify-between">
               <div>
                 <div className="text-xs text-blue-200 mb-0.5">الخطوة التالية</div>
-                <div className="font-bold">أكمل الاختبار الذكي رقم ٥ — إدارة الأزمات</div>
+                <div className="font-bold">أكمل الاختبار الذكي رقم 5 — إدارة الأزمات</div>
               </div>
               <button className="bg-[#E8D5A3] text-[#7A5C00] text-xs font-bold px-4 py-2 rounded-lg flex-shrink-0">
                 ابدأ الآن ←

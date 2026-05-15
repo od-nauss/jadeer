@@ -1,4 +1,5 @@
-import { Shield, Eye, Brain, AlertTriangle, CheckCircle2, Lock, TrendingUp, Users, FileSearch, Award, Bell, Scale } from 'lucide-react';
+import Link from 'next/link';
+import { Shield, Eye, Brain, AlertTriangle, CheckCircle2, Lock, TrendingUp, Users, FileSearch, Award, Bell, Scale, ChevronLeft } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -179,7 +180,12 @@ export default function CriticalPointsPage() {
         <p className="text-xl md:text-2xl font-bold text-white mb-3">
           هذه ليست ميزات إضافية — هي الفرق بين نظام حقيقي وقائمة خانات فارغة.
         </p>
-        <p className="text-white/50 text-sm">كل نقطة من النقاط الاثنتي عشرة تعالج خطراً يمكن أن يودي بأي عملية تقييم غير محمية.</p>
+        <p className="text-white/50 text-sm mb-6">كل نقطة من النقاط الاثنتي عشرة تعالج خطراً يمكن أن يودي بأي عملية تقييم غير محمية.</p>
+        <Link href="/executive-center/smart-alerts"
+          className="inline-flex items-center gap-2 text-gold-300 hover:text-gold-200 font-bold transition group">
+          دور الذكاء الاصطناعي في التحليل
+          <ChevronLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+        </Link>
       </div>
     </div>
   );

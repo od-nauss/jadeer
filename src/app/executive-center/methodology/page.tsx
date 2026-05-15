@@ -14,15 +14,15 @@ const AXES = [
 ];
 
 const SOURCES = [
-  { n: '١', title: 'الملف القيادي',          desc: 'التجربة والمسيرة والمؤهلات' },
-  { n: '٢', title: 'المبادرات والإنجازات',   desc: 'المشاريع وأثرها الموثق' },
-  { n: '٣', title: 'مؤشرات الأداء KPIs',    desc: 'الأرقام والتقارير السنوية' },
-  { n: '٤', title: '٨ اختبارات ذكية',        desc: 'تكيّفية بالذكاء الاصطناعي' },
-  { n: '٥', title: 'تقييم 360°',             desc: '٧–١٠ مقيّمين من ٣ مستويات' },
-  { n: '٦', title: 'تحليل AI',               desc: 'أنماط وتوصية موضوعية أولية' },
-  { n: '٧', title: 'خريطة الملاءمة',         desc: 'مطابقة مع الوحدات التنظيمية' },
-  { n: '٨', title: 'الأدلة الداعمة',         desc: 'وثائق وشهادات وتوصيات' },
-  { n: '٩', title: 'قرار لجنة الحوكمة',     desc: 'الاعتماد الرسمي النهائي' },
+  { n: '1', title: 'الملف القيادي',          desc: 'التجربة والمسيرة والمؤهلات' },
+  { n: '2', title: 'المبادرات والإنجازات',   desc: 'المشاريع وأثرها الموثق' },
+  { n: '3', title: 'مؤشرات الأداء KPIs',    desc: 'الأرقام والتقارير السنوية' },
+  { n: '4', title: '8 اختبارات ذكية',        desc: 'تكيّفية بالذكاء الاصطناعي' },
+  { n: '5', title: 'تقييم 360°',             desc: '7–10 مقيّمين من 3 مستويات' },
+  { n: '6', title: 'تحليل AI',               desc: 'أنماط وتوصية موضوعية أولية' },
+  { n: '7', title: 'خريطة الملاءمة',         desc: 'مطابقة مع الوحدات التنظيمية' },
+  { n: '8', title: 'الأدلة الداعمة',         desc: 'وثائق وشهادات وتوصيات' },
+  { n: '9', title: 'قرار لجنة الحوكمة',     desc: 'الاعتماد الرسمي النهائي' },
 ];
 
 export default function MethodologyPage() {
@@ -73,7 +73,7 @@ export default function MethodologyPage() {
           {/* ملخص الأوزان */}
           <div className="md:w-56 shrink-0">
             <div className="bg-gradient-to-br from-gold-500/20 to-transparent border border-gold-400/30 rounded-2xl p-5 text-center sticky top-24">
-              <div className="text-5xl font-bold text-gold-400 mb-1">١٠٠</div>
+              <div className="text-5xl font-bold text-gold-400 mb-1">100</div>
               <div className="text-white font-bold text-sm mb-4">درجة الجاهزية</div>
               <div className="space-y-1.5 text-right">
                 {AXES.map(a => (
@@ -89,10 +89,10 @@ export default function MethodologyPage() {
         </div>
       </section>
 
-      {/* ─── ٩ مصادر البيانات ─── */}
+      {/* ─── 9 مصادر البيانات ─── */}
       <section>
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-white mb-2">٩ مصادر تُغذّي الدرجة</h2>
+          <h2 className="text-2xl font-bold text-white mb-2">9 مصادر تُغذّي الدرجة</h2>
           <p className="text-white/50 text-sm">لا مصدر واحد يحدد النتيجة — التنوع يضمن الموضوعية</p>
         </div>
 
@@ -148,7 +148,7 @@ export default function MethodologyPage() {
             <span className="text-white font-bold">الدرجة الإجمالية النهائية</span>
           </div>
           <div className="text-right">
-            <div className="text-4xl font-bold text-gold-400">٨٧ / ١٠٠</div>
+            <div className="text-4xl font-bold text-gold-400">87 / 100</div>
             <div className="text-xs text-emerald-400 font-bold">جاهزة الآن</div>
           </div>
         </div>
@@ -167,9 +167,9 @@ export default function MethodologyPage() {
 
       {/* ─── CTA ─── */}
       <section className="text-center">
-        <Link href="/executive-center/smart-alerts"
+        <Link href="/executive-center/anti-bias"
           className="inline-flex items-center gap-3 text-gold-300 hover:text-gold-200 font-bold text-lg transition group">
-          كيف يعمل الذكاء الاصطناعي في التحليل؟
+          كيف تحمي المنصة القرار القيادي من التحيز؟
           <ChevronLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
         </Link>
       </section>

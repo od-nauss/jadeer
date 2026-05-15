@@ -17,7 +17,7 @@ const EXEC_PAGES = [
   { slug: 'organization-fit', title: 'الملاءمة التنظيمية' },
   { slug: 'demo-models',      title: 'النماذج التجريبية' },
   { slug: 'urgency',          title: 'القيمة العاجلة' },
-  { slug: 'faq-leadership',   title: 'أسئلة القيادة' },
+  { slug: 'faq-leadership',   title: 'أسئلة وأجوبة متوقعة' },
   { slug: 'decision',         title: 'من الفكرة للتنفيذ' },
   { slug: 'export',           title: 'تصدير العرض' },
 ];

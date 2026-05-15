@@ -36,7 +36,7 @@ export default function AIAnalysisPage() {
             {
               icon: Brain,
               title: 'تحليل الأنماط القيادية عبر الزمن',
-              desc: 'يقرأ آلاف نقاط البيانات من ٩ مصادر ويكشف أنماطاً يستحيل رصدها يدوياً — كالعلاقة بين أسلوب اتخاذ القرار ومعدلات رضا الفريق.',
+              desc: 'يقرأ آلاف نقاط البيانات من 9 مصادر ويكشف أنماطاً يستحيل رصدها يدوياً — كالعلاقة بين أسلوب اتخاذ القرار ومعدلات رضا الفريق.',
               color: 'text-purple-300', bg: 'bg-purple-400/10',
             },
             {
@@ -54,7 +54,7 @@ export default function AIAnalysisPage() {
             {
               icon: TrendingUp,
               title: 'التنبؤ بمسار الجاهزية',
-              desc: 'لا يقيّم اللحظة الحالية فقط — بل يتوقع من سيصل للجاهزية القيادية خلال ٦ أو ١٢ شهراً بناءً على منحنى التطور.',
+              desc: 'لا يقيّم اللحظة الحالية فقط — بل يتوقع من سيصل للجاهزية القيادية خلال 6 أو 12 شهراً بناءً على منحنى التطور.',
               color: 'text-gold-300', bg: 'bg-gold-400/10',
             },
             {
@@ -122,11 +122,11 @@ export default function AIAnalysisPage() {
             {/* Candidate Summary */}
             <div className="grid grid-cols-3 gap-3 mb-5">
               <div className="bg-white/5 rounded-xl p-3 text-center">
-                <div className="text-3xl font-bold text-[#E8D5A3]">٨٧</div>
+                <div className="text-3xl font-bold text-[#E8D5A3]">87</div>
                 <div className="text-xs text-gray-400 mt-0.5">درجة الجاهزية</div>
               </div>
               <div className="bg-white/5 rounded-xl p-3 text-center">
-                <div className="text-3xl font-bold text-green-400">٩١٪</div>
+                <div className="text-3xl font-bold text-green-400">91٪</div>
                 <div className="text-xs text-gray-400 mt-0.5">مستوى الثقة</div>
               </div>
               <div className="bg-white/5 rounded-xl p-3 text-center">
@@ -141,22 +141,22 @@ export default function AIAnalysisPage() {
                 {
                   color: 'bg-purple-400',
                   label: 'تحليل الأنماط',
-                  text: 'رصد النظام نمطاً متسقاً على مدى ٣ سنوات — معدل إنجاز مشاريع ٩٤٪ مع رضا فريق يتجاوز ٩٠٪ في كل دورة. هذا يضعها في أعلى ٨٪ من مجموع المتقدمين.',
+                  text: 'رصد النظام نمطاً متسقاً على مدى 3 سنوات — معدل إنجاز مشاريع 94٪ مع رضا فريق يتجاوز 90٪ في كل دورة. هذا يضعها في أعلى 8٪ من مجموع المتقدمين.',
                 },
                 {
                   color: 'bg-blue-400',
                   label: 'سلامة التقييم',
-                  text: 'فُحصت علاقات المقيّمين الـ١٣ — لم يُرصد تضارب مصالح في أي منهم. توزيع الدرجات طبيعي بانحراف معياري ٨.٣، مما يُعزز مصداقية النتيجة.',
+                  text: 'فُحصت علاقات المقيّمين الـ13 — لم يُرصد تضارب مصالح في أي منهم. توزيع الدرجات طبيعي بانحراف معياري 8.3، مما يُعزز مصداقية النتيجة.',
                 },
                 {
                   color: 'bg-emerald-400',
                   label: 'التنبؤ المستقبلي',
-                  text: 'بناءً على منحنى التطور الحالي، يُتوقع وصولها لـ ٩٢٪+ خلال ٨ أشهر بالاستثمار في محوري التفكير الاستراتيجي والبيانات.',
+                  text: 'بناءً على منحنى التطور الحالي، يُتوقع وصولها لـ 92٪+ خلال 8 أشهر بالاستثمار في محوري التفكير الاستراتيجي والبيانات.',
                 },
                 {
                   color: 'bg-[#E8D5A3]',
                   label: 'توصية AI الأولية',
-                  text: 'مرشحة ممتازة لقيادة قطاع تشغيلي. الوحدات الأنسب: إدارة العمليات، إدارة الجودة. يُوصى بالتكليف خلال الربع الثاني مع خطة تطوير موازية ٦ أشهر.',
+                  text: 'مرشحة ممتازة لقيادة قطاع تشغيلي. الوحدات الأنسب: إدارة العمليات، إدارة الجودة. يُوصى بالتكليف خلال الربع الثاني مع خطة تطوير موازية 6 أشهر.',
                 },
               ].map((item, i) => (
                 <div key={i} className="flex gap-3 bg-white/5 rounded-xl p-3">
@@ -200,9 +200,9 @@ export default function AIAnalysisPage() {
 
       {/* ─── CTA ─── */}
       <section className="text-center pt-2">
-        <Link href="/executive-center/system-preview"
+        <Link href="/executive-center/organization-fit"
           className="inline-flex items-center gap-3 text-gold-300 hover:text-gold-200 font-bold text-lg transition group">
-          شاهد لقطات النظام من داخل كل بوابة
+          شاهد خريطة الملاءمة التنظيمية
           <ChevronLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
         </Link>
       </section>

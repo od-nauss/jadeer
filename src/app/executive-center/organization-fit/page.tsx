@@ -44,7 +44,7 @@ export default function OrganizationFitPage() {
             يُجيب عن: <strong className="text-white">ما نوع هذا القائد؟ وما درجة جاهزيته؟</strong>
           </p>
           <div className="space-y-1.5">
-            {['قائد استراتيجي — ٧٨٪', 'مستوى الثقة: عالٍ', 'جاهز خلال ١٢ شهراً'].map((v, i) => (
+            {['قائد استراتيجي — 78٪', 'مستوى الثقة: عالٍ', 'جاهز خلال 12 شهراً'].map((v, i) => (
               <div key={i} className="text-xs text-gold-300 flex items-center gap-2">
                 <span className="h-1 w-4 bg-gold-400/60 rounded-full" />{v}
               </div>
@@ -66,7 +66,7 @@ export default function OrganizationFitPage() {
             يُجيب عن: <strong className="text-gold-300">أين يُحقق هذا القائد أعلى قيمة داخل منظمتكم؟</strong>
           </p>
           <div className="space-y-1.5">
-            {['إدارة العمليات: ٩٢٪ — ✓ الأنسب', 'إدارة المشاريع: ٨٤٪', 'الإدارة الاستراتيجية: ٦٨٪'].map((v, i) => (
+            {['إدارة العمليات: 92٪ — ✓ الأنسب', 'إدارة المشاريع: 84٪', 'الإدارة الاستراتيجية: 68٪'].map((v, i) => (
               <div key={i} className={`text-xs flex items-center gap-2 ${i === 0 ? 'text-gold-300 font-bold' : 'text-white/60'}`}>
                 <span className={`h-1 w-4 rounded-full ${i === 0 ? 'bg-gold-400' : 'bg-white/20'}`} />{v}
               </div>
@@ -105,8 +105,8 @@ export default function OrganizationFitPage() {
                 <p className="text-xs text-gray-500">رؤية بانورامية للعلاقة بين الكفاءات والوحدات التنظيمية</p>
               </div>
               <div className="flex gap-2">
-                <span className="text-xs bg-[#E8D5A3] text-[#7A5C00] px-3 py-1 rounded-full font-medium">٥ مرشحين</span>
-                <span className="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full font-medium">٣ جاهزون</span>
+                <span className="text-xs bg-[#E8D5A3] text-[#7A5C00] px-3 py-1 rounded-full font-medium">5 مرشحين</span>
+                <span className="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full font-medium">3 جاهزون</span>
               </div>
             </div>
 
@@ -151,8 +151,8 @@ export default function OrganizationFitPage() {
 
             {/* Bottom Stats */}
             <div className="flex gap-3 mt-4">
-              <div className="text-xs bg-[#2D5A8B] text-white px-3 py-1.5 rounded-lg">٤ وحدات لديها مرشحون</div>
-              <div className="text-xs bg-red-600 text-white px-3 py-1.5 rounded-lg">٢ وحدات حرجة بلا بديل</div>
+              <div className="text-xs bg-[#2D5A8B] text-white px-3 py-1.5 rounded-lg">4 وحدات لديها مرشحون</div>
+              <div className="text-xs bg-red-600 text-white px-3 py-1.5 rounded-lg">2 وحدات حرجة بلا بديل</div>
               <div className="text-xs bg-[#E8D5A3] text-[#7A5C00] px-3 py-1.5 rounded-lg">حساب الملاءمة: تلقائي</div>
             </div>
           </div>
@@ -172,7 +172,7 @@ export default function OrganizationFitPage() {
           {[
             { icon: Zap, title: 'الفراغ القيادي — قبل وقوعه', body: 'ترى بوضوح الوحدات التي ستحتاج قيادة وعندها من الجاهز — قبل أن يتحول الفراغ إلى أزمة.' },
             { icon: Target, title: 'الكفاءة في موضعها الأمثل', body: 'لا يكفي أن تعرف أن الموظف متميز — الخريطة تُريك في أي وحدة تُحقق كفاءته أعلى عائد مؤسسي.' },
-            { icon: TrendingUp, title: 'قرار مدعوم بالبيانات', body: 'حين تتخذ قرار التكليف، لديك ملف يقول: هذا الشخص في هذه الوحدة — ٩٢٪ ملاءمة — ولهذه الأسباب.' },
+            { icon: TrendingUp, title: 'قرار مدعوم بالبيانات', body: 'حين تتخذ قرار التكليف، لديك ملف يقول: هذا الشخص في هذه الوحدة — 92٪ ملاءمة — ولهذه الأسباب.' },
           ].map((item, i) => {
             const Icon = item.icon;
             return (
