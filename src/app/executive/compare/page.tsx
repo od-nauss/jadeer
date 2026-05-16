@@ -3,7 +3,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { GitCompare, Plus, X, Brain, ArrowRight } from 'lucide-react';
 import { PageHeader, Card } from '@/components/ui';
-import { createClient } from '@/lib/supabase/client';
 import { READINESS_LEVELS } from '@/lib/utils';
 import Link from 'next/link';
 
@@ -21,38 +20,11 @@ export default function ExecutiveComparePage() {
 
   const load = useCallback(async () => {
     try {
-      const supabase = createClient();
-      // نجلب أولاً البطاقات الأساسية بدون JSONB المعقدة لتجنب أخطاء schema cache
-      const { data: cards, error } = await supabase
-        .from('leadership_cards')
-        .select('id, total_score, trust_score, readiness_level, leadership_type, axis_scores, candidate_profile_id')
-        .eq('is_published', true)
-        .order('total_score', { ascending: false });
-
-      if (error || !cards) { setLoading(false); return; }
-
-      // نجلب primary_strengths و development_gaps و profile/user data بشكل منفصل لتجنب 400
-      const enriched = await Promise.all(
-        cards.map(async (card) => {
-          const { data: fullCard } = await supabase
-            .from('leadership_cards')
-            .select('primary_strengths, development_gaps')
-            .eq('id', card.id)
-            .maybeSingle();
-          const { data: profile } = await supabase
-            .from('candidate_profiles')
-            .select('id, users(full_name, job_title, department)')
-            .eq('id', card.candidate_profile_id)
-            .maybeSingle();
-          return {
-            ...card,
-            primary_strengths: (fullCard as any)?.primary_strengths || [],
-            development_gaps: (fullCard as any)?.development_gaps || [],
-            candidate_profiles: profile,
-          };
-        })
-      );
-      setAllCards(enriched);
+      // نستخدم API server-side يتجاوز RLS ويُرجع البيانات الكاملة
+      const res = await fetch('/api/executive/cards');
+      if (!res.ok) { setLoading(false); return; }
+      const { cards } = await res.json();
+      setAllCards(cards || []);
     } catch (e) {
       console.error('compare load error:', e);
     } finally {
@@ -82,7 +54,7 @@ export default function ExecutiveComparePage() {
     insights.push(`أعلى درجة جاهزية: ${sorted[0]?.candidate_profiles?.users?.full_name} (${Number(sorted[0]?.total_score).toFixed(0)}٪)`);
     const axes = Object.keys(AXIS_LABELS);
     for (const axis of axes) {
-      const scores = compareData.map(c => ({ name: (c.candidate_profiles?.users?.full_name || '').split(' ')[0], val: (c.axis_scores as any)?.[axis] ?? 0 }));
+      const scores = compareData.map(c => ({ name: (c.candidate_profiles?.users?.full_name || '').split(' ')[0], val: (c.axis_scores_json as any)?.[axis] ?? 0 }));
       const maxScore = Math.max(...scores.map(s => s.val));
       const minScore = Math.min(...scores.map(s => s.val));
       if (maxScore - minScore > 20) {
@@ -205,8 +177,8 @@ export default function ExecutiveComparePage() {
                     <tr key={axis} className="border-b border-gold-100 hover:bg-gold-50">
                       <td className="py-2 px-3 text-darkgray">{label}</td>
                       {compareData.map(c => {
-                        const score = (c.axis_scores as any)?.[axis] ?? 0;
-                        const scores = compareData.map(x => (x.axis_scores as any)?.[axis] ?? 0);
+                        const score = (c.axis_scores_json as any)?.[axis] ?? 0;
+                        const scores = compareData.map(x => (x.axis_scores_json as any)?.[axis] ?? 0);
                         const isMax = Math.max(...scores) === score && score > 0;
                         const isMin = Math.min(...scores) === score && scores.filter(s => s > 0).length > 1;
                         return (
@@ -224,7 +196,7 @@ export default function ExecutiveComparePage() {
                   <tr className="border-b border-gold-100">
                     <td className="py-2 px-3 text-darkgray font-medium">أبرز قوة</td>
                     {compareData.map(c => {
-                      const strengths = (c.primary_strengths as string[] | null) || [];
+                      const strengths = (c.strengths_json as string[] | null) || [];
                       return <td key={c.id} className="py-2 px-3 text-center text-xs text-sage">{strengths[0] || '—'}</td>;
                     })}
                   </tr>
@@ -233,7 +205,7 @@ export default function ExecutiveComparePage() {
                   <tr>
                     <td className="py-2 px-3 text-darkgray font-medium">أكبر فجوة</td>
                     {compareData.map(c => {
-                      const gaps = (c.development_gaps as string[] | null) || [];
+                      const gaps = (c.gaps_json as string[] | null) || [];
                       return <td key={c.id} className="py-2 px-3 text-center text-xs text-wine">{gaps[0] || '—'}</td>;
                     })}
                   </tr>

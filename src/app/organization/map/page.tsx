@@ -31,13 +31,17 @@ export default async function OrganizationMapPage({ searchParams }: { searchPara
 
   const supabase = createServiceClient();
 
-  const [{ data: units }, { data: fitScores }, { data: successionMaps }] = await Promise.all([
-    supabase.from('organization_units').select('*, organization_unit_requirements(*)').eq('is_active', true).order('unit_type').order('name'),
+  const [unitsRes, fitRes, succRes] = await Promise.allSettled([
+    supabase.from('organization_units').select('*').eq('is_active', true).order('name'),
     supabase.from('position_fit_scores')
       .select('organization_unit_id, candidate_profile_id, fit_score, fit_level, confidence_score, fit_reason, ai_summary, candidate_profiles(id, users(full_name, job_title, department))')
       .order('fit_score', { ascending: false }),
     supabase.from('succession_maps').select('organization_unit_id, risk_level, status'),
   ]);
+
+  const units = unitsRes.status === 'fulfilled' ? unitsRes.value.data : [];
+  const fitScores = fitRes.status === 'fulfilled' ? fitRes.value.data : [];
+  const successionMaps = succRes.status === 'fulfilled' ? succRes.value.data : [];
 
   // تنظيم بيانات الملاءمة
   const fitByUnit: Record<string, any[]> = {};

@@ -20,7 +20,7 @@ export default async function ExecutiveCandidatesPage({
 
   let query = supabase
     .from('leadership_cards')
-    .select('id, total_score, trust_score, readiness_level, leadership_type, primary_strengths, special_tags, candidate_profiles(id, users(full_name, job_title, department))')
+    .select('id, total_score, trust_score, readiness_level, leadership_type, strengths_json, special_tags, candidate_profiles(id, users(full_name, job_title, department))')
     .eq('is_published', true)
     .order('total_score', { ascending: false });
 
@@ -103,7 +103,7 @@ export default async function ExecutiveCandidatesPage({
                     const cu = r.candidate_profiles?.users;
                     if (!cu) return null;
                     const level = READINESS_LEVELS[card.readiness_level as keyof typeof READINESS_LEVELS];
-                    const strengths = (card.primary_strengths as string[] | null) || [];
+                    const strengths = (card.strengths_json as string[] | null) || [];
                     const tags = (card.special_tags as string[] | null) || [];
                     return (
                       <tr key={card.id} className="border-b border-gold-100 hover:bg-gold-50">
