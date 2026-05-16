@@ -159,37 +159,62 @@ export async function POST() {
   let ok = 0;
 
   for (const p of PROFILES) {
-    const uid = UIDS[p.idx];
-    const pid = PIDS[p.idx];
-    const cid = cardId(p.idx + 1);
-    const did = plan1Id(p.idx + 1);
     const errs: string[] = [];
 
-    // حذف بترتيب FK عكسي (الأعمق أولاً)
-    await del(svc, 'evaluations_360',     'candidate_profile_id', pid);
-    await del(svc, 'evaluation_links',    'candidate_profile_id', pid);
-    await del(svc, 'approved_evaluators', 'candidate_profile_id', pid);
-    await del(svc, 'evaluator_nominees',  'candidate_profile_id', pid);
-    await del(svc, 'assessment_results',  'candidate_profile_id', pid);
-    await del(svc, 'position_fit_scores', 'candidate_profile_id', pid);
-    await del(svc, 'development_plan_items', 'development_plan_id', did);
-    await del(svc, 'development_plans',   'candidate_profile_id', pid);
-    await del(svc, 'leadership_cards',    'candidate_profile_id', pid);
-    await del(svc, 'kpis',               'candidate_profile_id', pid);
-    await del(svc, 'initiatives',         'candidate_profile_id', pid);
-    await del(svc, 'candidate_profiles',  'id', pid);
-    await del(svc, 'users',              'id', uid);
+    // ─── حل تعارض IDs: ابحث عن المستخدم الفعلي بالإيميل ────────────────
+    const { data: existingUser } = await svc.from('users').select('id, auth_user_id').eq('email', p.email).maybeSingle();
+    const uid = existingUser?.id || UIDS[p.idx]; // استخدم الـ ID الفعلي إن وُجد
 
-    // إدراج بترتيب FK صحيح
+    // ابحث عن الملف الفعلي بـ user_id
+    const { data: existingProfile } = await svc.from('candidate_profiles').select('id').eq('user_id', uid).maybeSingle();
+    const pid = PIDS[p.idx]; // نريد ID ثابت للملف حتى تعمل IDs الأبناء
+    const cid = cardId(p.idx + 1);
+    const did = plan1Id(p.idx + 1);
+
+    // ─── حذف كل البيانات المرتبطة بالملف الفعلي أو الثابت ───────────────
+    const pidsToClean = existingProfile ? [existingProfile.id, pid] : [pid];
+    for (const pidToClean of [...new Set(pidsToClean)]) {
+      await del(svc, 'evaluations_360',     'candidate_profile_id', pidToClean);
+      await del(svc, 'evaluation_links',    'candidate_profile_id', pidToClean);
+      await del(svc, 'approved_evaluators', 'candidate_profile_id', pidToClean);
+      await del(svc, 'evaluator_nominees',  'candidate_profile_id', pidToClean);
+      await del(svc, 'assessment_results',  'candidate_profile_id', pidToClean);
+      await del(svc, 'position_fit_scores', 'candidate_profile_id', pidToClean);
+      await del(svc, 'leadership_cards',    'candidate_profile_id', pidToClean);
+      await del(svc, 'kpis',               'candidate_profile_id', pidToClean);
+      await del(svc, 'initiatives',         'candidate_profile_id', pidToClean);
+    }
+    await del(svc, 'development_plan_items', 'development_plan_id', did);
+    await del(svc, 'development_plans', 'candidate_profile_id', pid);
+    if (existingProfile?.id && existingProfile.id !== pid) {
+      await svc.from('development_plans').delete().eq('candidate_profile_id', existingProfile.id);
+    }
+    // احذف جميع ملفات المرشح لهذا المستخدم ثم أعد بناءها بـ ID ثابت
+    await svc.from('candidate_profiles').delete().eq('user_id', uid);
+    // احذف المستخدم القديم إذا كان بـ ID مختلف عن الثابت
+    if (existingUser && existingUser.id !== UIDS[p.idx]) {
+      await del(svc, 'users', 'id', existingUser.id);
+    } else {
+      await del(svc, 'users', 'id', UIDS[p.idx]);
+    }
+
+    // ─── إنشاء المستخدم بـ ID ثابت مع ربط auth_user_id ──────────────────
+    // ابحث عن الحساب الأصلي في Supabase Auth بالإيميل
+    const { data: authList } = await svc.auth.admin.listUsers();
+    const authUser = authList?.users?.find((u: any) => u.email === p.email);
+    const authUserId = authUser?.id || null;
+
     const e1 = await ups(svc, 'users', {
-      id: uid, full_name: p.name, email: p.email,
+      id: UIDS[p.idx],
+      auth_user_id: authUserId,
+      full_name: p.name, email: p.email,
       job_title: p.jobTitle, department: p.dept,
       is_active: true, is_demo: true,
     }, 'id');
     if (e1) errs.push(e1);
 
     const e2 = await ups(svc, 'candidate_profiles', {
-      id: pid, user_id: uid,
+      id: pid, user_id: UIDS[p.idx],
       years_of_experience: p.exp, qualification: 'ماجستير',
       specialization: p.dept, status: p.status,
       completion_score: 88, is_demo: true,
