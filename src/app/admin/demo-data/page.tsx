@@ -1,18 +1,29 @@
 ﻿import { Database } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge } from '@/components/ui';
 import { DemoDataActions } from './demo-actions';
 
 export const dynamic = 'force-dynamic';
 export default async function AdminDemoDataPage() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
 
   // جمع أعداد البيانات التجريبية
-  const tables = ['users', 'candidate_profiles', 'initiatives', 'kpis', 'evaluations_360', 'leadership_cards'];
+  const TABLE_AR: Record<string, string> = {
+    users: 'المستخدمون',
+    candidate_profiles: 'ملفات المرشحين',
+    initiatives: 'المبادرات',
+    kpis: 'مؤشرات الأداء',
+    evaluations_360: 'تقييمات 360°',
+    leadership_cards: 'البطاقات القيادية',
+    approved_evaluators: 'المقيمون المعتمدون',
+  };
+  const tables = Object.keys(TABLE_AR);
   const counts: Record<string, number> = {};
   for (const table of tables) {
-    const { count } = await supabase.from(table).select('id', { count: 'exact', head: true }).eq('is_demo', true);
-    counts[table] = count || 0;
+    try {
+      const { count } = await supabase.from(table as any).select('id', { count: 'exact', head: true }).eq('is_demo', true);
+      counts[table] = count || 0;
+    } catch { counts[table] = 0; }
   }
 
   const { data: flagRow } = await supabase.from('demo_data_flags').select('*').maybeSingle();
@@ -32,7 +43,7 @@ export default async function AdminDemoDataPage() {
         <div className="grid md:grid-cols-3 gap-3 mb-6">
           {Object.entries(counts).map(([table, count]) => (
             <div key={table} className="bg-gold-50 border border-gold-200 rounded-lg p-3 flex items-center justify-between">
-              <span className="text-sm text-primary-700 font-medium">{table}</span>
+              <span className="text-sm text-primary-700 font-medium">{TABLE_AR[table] || table}</span>
               <span className="text-lg font-bold text-gold-700">{count}</span>
             </div>
           ))}

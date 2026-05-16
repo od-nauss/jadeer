@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { AlertTriangle, Trash2, Loader2, X, CheckCircle2, Database, Play, RefreshCw } from 'lucide-react';
+import { AlertTriangle, Trash2, Loader2, X, CheckCircle2, Database, Play, RefreshCw, Users } from 'lucide-react';
 
 const REQUIRED_TEXT = 'حذف البيانات التجريبية';
 
@@ -19,6 +19,11 @@ export function DemoDataActions({ totalRecords, isActive }: Props) {
   const [seedResults, setSeedResults] = useState<string[] | null>(null);
   const [seedError, setSeedError] = useState<string | null>(null);
 
+  // حالة إنشاء حسابات الأدوار
+  const [staffSeeding, setStaffSeeding] = useState(false);
+  const [staffResults, setStaffResults] = useState<string[] | null>(null);
+  const [staffError, setStaffError] = useState<string | null>(null);
+
   // حالة الحذف
   const [showModal, setShowModal] = useState(false);
   const [confirmText, setConfirmText] = useState('');
@@ -26,6 +31,25 @@ export function DemoDataActions({ totalRecords, isActive }: Props) {
   const [deleting, setDeleting] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
+
+  async function handleStaffSeed() {
+    setStaffSeeding(true);
+    setStaffResults(null);
+    setStaffError(null);
+    try {
+      const res = await fetch('/api/admin/seed-staff', { method: 'POST' });
+      const data = await res.json();
+      if (!res.ok) {
+        setStaffError(data.error || `خطأ ${res.status}`);
+      } else {
+        setStaffResults(data.results || []);
+        setTimeout(() => router.refresh(), 1000);
+      }
+    } catch {
+      setStaffError('حدث خطأ في الشبكة');
+    }
+    setStaffSeeding(false);
+  }
 
   async function handleSeed() {
     setSeeding(true);
@@ -75,16 +99,74 @@ export function DemoDataActions({ totalRecords, isActive }: Props) {
 
   return (
     <div className="space-y-4">
-      {/* ─── قسم الإنشاء — يظهر دائماً ─── */}
+
+      {/* ─── الخطوة الأولى: إنشاء حسابات الأدوار (الأهم) ─── */}
+      <div className="institutional-card p-6 border-2 border-gold-400 bg-gold-50/40">
+        <div className="flex items-start gap-4">
+          <div className="h-12 w-12 rounded-lg bg-gold-500/20 flex items-center justify-center flex-shrink-0">
+            <Users className="h-6 w-6 text-gold-700" />
+          </div>
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-1">
+              <h3 className="text-lg font-bold text-primary-700">الخطوة الأولى: إنشاء حسابات الأدوار</h3>
+              <span className="text-xs bg-gold-500 text-white px-2 py-0.5 rounded-full font-bold">ابدأ هنا</span>
+            </div>
+            <p className="text-sm text-darkgray mb-2 leading-relaxed">
+              ينشئ حسابات تسجيل الدخول الفعلية لجميع الأدوار في Supabase Auth:
+            </p>
+            <div className="grid grid-cols-2 gap-1 mb-3 text-xs">
+              {[
+                ['الرئيس', 'president@nauss.edu.sa', 'Demo@2026'],
+                ['لجنة الحوكمة', 'governance@nauss.edu.sa', 'Demo@2026'],
+                ['الموارد البشرية', 'hr@nauss.edu.sa', 'Demo@2026'],
+                ['المستشار', 'advisor@nauss.edu.sa', 'Demo@2026'],
+                ['مدير النظام', 'admin@nauss.edu.sa', 'Zx.321321'],
+              ].map(([role, email, pass]) => (
+                <div key={email} className="bg-white border border-gold-200 rounded p-2">
+                  <div className="font-bold text-primary-700">{role}</div>
+                  <div className="text-darkgray/70 font-mono text-[10px]">{email}</div>
+                  <div className="text-darkgray/70 font-mono text-[10px]">{pass}</div>
+                </div>
+              ))}
+            </div>
+
+            {staffError && (
+              <div className="mb-3 p-3 bg-rose-50 border border-rose-200 rounded-lg text-sm text-wine">
+                ❌ {staffError}
+              </div>
+            )}
+            {staffResults && (
+              <div className="mb-3 p-3 bg-sage/10 border border-sage/20 rounded-lg max-h-40 overflow-y-auto">
+                {staffResults.map((r, i) => (
+                  <div key={i} className={`text-xs font-mono ${r.startsWith('✅') ? 'text-sage' : r.startsWith('❌') ? 'text-wine' : 'text-primary-600 font-bold'}`}>{r}</div>
+                ))}
+              </div>
+            )}
+
+            <button
+              onClick={handleStaffSeed}
+              disabled={staffSeeding}
+              className="inline-flex items-center gap-2 bg-gold-600 hover:bg-gold-700 text-white px-5 py-2.5 rounded-lg font-bold transition disabled:opacity-60"
+            >
+              {staffSeeding ? <Loader2 className="h-4 w-4 animate-spin" /> : <Users className="h-4 w-4" />}
+              {staffSeeding ? 'جارٍ إنشاء الحسابات...' : 'إنشاء حسابات الأدوار'}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* ─── الخطوة الثانية: إنشاء البيانات التجريبية ─── */}
       <div className="institutional-card p-6 border-2 border-primary-200 bg-primary-50/30">
         <div className="flex items-start gap-4">
           <div className="h-12 w-12 rounded-lg bg-primary-600/15 flex items-center justify-center flex-shrink-0">
             <Database className="h-6 w-6 text-primary-600" />
           </div>
           <div className="flex-1">
-            <h3 className="text-lg font-bold text-primary-700 mb-1">إنشاء البيانات التجريبية</h3>
+            <div className="flex items-center gap-2 mb-1">
+              <h3 className="text-lg font-bold text-primary-700">الخطوة الثانية: إنشاء البيانات التجريبية</h3>
+            </div>
             <p className="text-sm text-darkgray mb-3 leading-relaxed">
-              ينشئ 5 مرشحين تجريبيين كاملين مع مبادراتهم، مؤشرات أدائهم، بطاقاتهم القيادية، وخطط تطويرهم. الأسماء والبيانات افتراضية لأغراض العرض فقط.
+              ينشئ 5 مرشحين تجريبيين كاملين مع مبادراتهم، مؤشرات أدائهم، مقيّميهم المعتمدين، بطاقاتهم القيادية، وخطط تطويرهم. شغّل هذه الخطوة <strong>بعد</strong> إنشاء حسابات الأدوار.
             </p>
 
             {seedError && (
