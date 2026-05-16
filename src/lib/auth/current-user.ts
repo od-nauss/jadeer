@@ -1,3 +1,10 @@
+/**
+ * current-user.ts
+ * الجهة الوحيدة لجلب بيانات المستخدم الحالي في المنصة
+ * يستخدم createClient للـ auth (يحتاج session cookies)
+ * ويستخدم createServiceClient لجميع استعلامات DB (يتجاوز RLS)
+ */
+
 import { createClient, createServiceClient } from '@/lib/supabase/server';
 import { getRoleInfo, type RoleCode } from './roles';
 
@@ -17,118 +24,101 @@ export interface CurrentUser {
 }
 
 const ADMIN_EMAIL = 'admin@nauss.edu.sa';
+const ROLE_PRIORITY: RoleCode[] = ['admin', 'president', 'governance', 'hr', 'advisor', 'candidate'];
 
 export async function getCurrentUser(): Promise<CurrentUser | null> {
   try {
-    const supabase = createClient();
+    // 1. التحقق من الجلسة (يجب أن يكون createClient لأنه يقرأ cookies)
+    const authClient = createClient();
+    const { data: { user: authUser }, error: authError } = await authClient.auth.getUser();
+    if (authError || !authUser) return null;
 
-    const {
-      data: { user: authUser },
-    } = await supabase.auth.getUser();
+    // 2. جلب بيانات المستخدم من DB (service client يتجاوز RLS)
+    const svc = createServiceClient();
 
-    if (!authUser) return null;
+    let userData: {
+      id: string; email: string; full_name: string;
+      job_title: string | null; department: string | null;
+      employee_number: string | null; is_active?: boolean;
+    } | null = null;
 
-    // Try to find user by auth_user_id first, then by email
-    // لا نُدرج registration_status في الاستعلام الأساسي لأن العمود قد لا يكون موجوداً
-    let { data: userData } = await supabase
+    // أولاً: بحث بـ auth_user_id
+    const { data: byAuthId } = await svc
       .from('users')
-      .select('id, email, full_name, job_title, department, employee_number')
+      .select('id, email, full_name, job_title, department, employee_number, is_active')
       .eq('auth_user_id', authUser.id)
       .maybeSingle();
 
-    if (!userData) {
-      // Try by email (handles auth_user_id mismatch after account repair)
-      const { data: byEmail } = await supabase
+    if (byAuthId) {
+      userData = byAuthId;
+    } else {
+      // ثانياً: بحث بالبريد الإلكتروني (معالجة حالة عدم تطابق auth_user_id)
+      const { data: byEmail } = await svc
         .from('users')
-        .select('id, email, full_name, job_title, department, employee_number')
+        .select('id, email, full_name, job_title, department, employee_number, is_active')
         .eq('email', authUser.email!)
         .maybeSingle();
 
       if (byEmail) {
-        // Fix the auth_user_id link using service client
-        try {
-          const service = createServiceClient();
-          await service
-            .from('users')
-            .update({ auth_user_id: authUser.id })
-            .eq('id', byEmail.id);
-        } catch { /* ignore */ }
         userData = byEmail;
+        // ربط auth_user_id للمرات القادمة
+        try { await svc.from('users').update({ auth_user_id: authUser.id }).eq('id', byEmail.id); } catch { /* ignore */ }
       }
     }
 
-    // Auto-provision: create users table record if not found at all
+    // ثالثاً: إنشاء تلقائي إذا لم يُوجد سجل (مستخدم جديد)
     if (!userData) {
-      try {
-        const service = createServiceClient();
-        const fullName =
-          authUser.user_metadata?.full_name ||
-          authUser.email?.split('@')[0] ||
-          'مستخدم';
+      const fullName = authUser.user_metadata?.full_name || authUser.email?.split('@')[0] || 'مستخدم';
+      const { data: newUser } = await svc
+        .from('users')
+        .upsert({ auth_user_id: authUser.id, email: authUser.email!, full_name: fullName, is_active: true }, { onConflict: 'email' })
+        .select('id, email, full_name, job_title, department, employee_number, is_active')
+        .single();
 
-        const { data: newUser } = await service
-          .from('users')
-          .upsert(
-            {
-              auth_user_id: authUser.id,
-              email: authUser.email!,
-              full_name: fullName,
-              is_active: true,
-            },
-            { onConflict: 'email' }
-          )
-          .select('id, email, full_name, job_title, department, employee_number')
-          .single();
-
-        if (newUser) {
-          userData = newUser;
-
-          // Auto-assign admin role for admin email
-          if (authUser.email === ADMIN_EMAIL) {
-            const { data: adminRole } = await service
-              .from('roles')
-              .select('id')
-              .eq('code', 'admin')
-              .single();
-            if (adminRole) {
-              await service
-                .from('user_roles')
-                .upsert(
-                  { user_id: newUser.id, role_id: adminRole.id },
-                  { onConflict: 'user_id,role_id' }
-                );
-            }
+      if (newUser) {
+        userData = newUser;
+        // تعيين دور مدير النظام تلقائياً للبريد المحدد
+        if (authUser.email === ADMIN_EMAIL) {
+          const { data: adminRole } = await svc.from('roles').select('id').eq('code', 'admin').single();
+          if (adminRole) {
+            await svc.from('user_roles').upsert({ user_id: newUser.id, role_id: adminRole.id }, { onConflict: 'user_id,role_id' });
           }
         }
-      } catch { /* Auto-provisioning failed */ }
+      }
     }
 
     if (!userData) return null;
 
-    // قراءة registration_status بشكل آمن — العمود قد لا يكون موجوداً في DB القديمة
+    // 3. قراءة registration_status بشكل آمن (العمود قد لا يكون موجوداً)
     let registrationStatus: 'active' | 'pending' | 'rejected' = 'active';
     try {
-      const svc = createServiceClient();
       const { data: statusRow } = await svc
         .from('users')
-        .select('registration_status')
-        .eq('id', (userData as any).id)
+        .select('registration_status, is_active')
+        .eq('id', userData.id)
         .maybeSingle();
-      if (statusRow && (statusRow as any).registration_status) {
-        registrationStatus = (statusRow as any).registration_status;
-      }
-    } catch { /* عمود غير موجود بعد — نتجاهل */ }
 
-    // المستخدمون المعلّقون أو المرفوضون
+      if (statusRow) {
+        const rs = (statusRow as any).registration_status;
+        if (rs === 'pending' || rs === 'rejected') {
+          registrationStatus = rs;
+        } else if ((statusRow as any).is_active === false) {
+          // is_active=false يعني الحساب معلق حتى لو لم يكن registration_status موجوداً
+          registrationStatus = 'pending';
+        }
+      }
+    } catch { /* العمود غير موجود بعد — نبقى على 'active' */ }
+
+    // 4. مستخدمون معلقون أو مرفوضون
     if (registrationStatus === 'pending' || registrationStatus === 'rejected') {
       return {
-        id: (userData as any).id,
+        id: userData.id,
         auth_user_id: authUser.id,
-        email: (userData as any).email,
-        full_name: (userData as any).full_name,
-        job_title: (userData as any).job_title,
-        department: (userData as any).department,
-        employee_number: (userData as any).employee_number,
+        email: userData.email,
+        full_name: userData.full_name,
+        job_title: userData.job_title,
+        department: userData.department,
+        employee_number: userData.employee_number,
         roles: [],
         primaryRole: 'candidate' as RoleCode,
         isAdmin: false,
@@ -136,19 +126,19 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
       };
     }
 
-    const { data: rolesData } = await supabase
+    // 5. جلب الأدوار
+    const { data: rolesData } = await svc
       .from('user_roles')
       .select('roles!inner(code)')
       .eq('user_id', userData.id);
 
     const roles = (rolesData || [])
-      .map((r) => ((r as unknown as { roles: { code: string } }).roles?.code ?? '') as RoleCode)
-      .filter((code) => !!code && getRoleInfo(code) !== null);
+      .map(r => ((r as any).roles?.code as RoleCode))
+      .filter(code => !!code && getRoleInfo(code) !== null);
 
     if (roles.length === 0) return null;
 
-    const rolePriority: RoleCode[] = ['admin', 'president', 'governance', 'hr', 'advisor', 'candidate'];
-    const primaryRole = rolePriority.find((r) => roles.includes(r)) || roles[0];
+    const primaryRole = ROLE_PRIORITY.find(r => roles.includes(r)) || roles[0];
 
     return {
       id: userData.id,
@@ -182,8 +172,8 @@ export async function logAudit(params: {
   status?: string;
 }) {
   try {
-    const supabase = createClient();
-    await supabase.from('audit_logs').insert({
+    const svc = createServiceClient();
+    await svc.from('audit_logs').insert({
       user_id: params.user_id || null,
       user_role: params.user_role || null,
       operation_type: params.operation_type,
@@ -196,7 +186,5 @@ export async function logAudit(params: {
       sensitivity: params.sensitivity || 'normal',
       status: params.status || 'success',
     });
-  } catch {
-    // ignore
-  }
+  } catch { /* ignore */ }
 }

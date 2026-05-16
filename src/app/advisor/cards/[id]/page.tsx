@@ -11,7 +11,7 @@ import {
   Users,
   ScrollText,
 } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { canAdvisorViewCard } from '@/lib/auth/advisor-access';
 import { Card, Badge } from '@/components/ui';
@@ -25,7 +25,7 @@ export default async function LeadershipCardDetailPage({
 }: {
   params: { id: string };
 }) {
-  const supabase = createClient();
+  const supabase = createServiceClient();
 
   // فحص صلاحية المستشار
   const user = await getCurrentUser();

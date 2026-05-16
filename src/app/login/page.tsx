@@ -1,20 +1,31 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useState, Suspense, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { Loader2, Lock, Mail, AlertCircle } from 'lucide-react';
+import { Loader2, Lock, Mail, AlertCircle, Eye, EyeOff } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { UniversityLogo } from '@/components/branding/Logo';
-import { ROLES } from '@/lib/auth/roles';
+
+/** Fallback قائم على الدور المعروف في URL البريد (للحالات الاستثنائية) */
+function getHomepathByEmail(email: string): string {
+  const e = email.toLowerCase();
+  if (e.includes('admin'))      return '/admin/dashboard';
+  if (e.includes('president'))  return '/executive/dashboard';
+  if (e.includes('governance')) return '/governance/dashboard';
+  if (e === 'hr@nauss.edu.sa' || e.startsWith('hr+')) return '/hr/dashboard';
+  if (e.includes('advisor'))    return '/advisor/dashboard';
+  return '/candidate/dashboard';
+}
 
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [email, setEmail] = useState('');
+  const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [showPass, setShowPass] = useState(false);
+  const [loading, setLoading]   = useState(false);
+  const [error, setError]       = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -23,56 +34,49 @@ function LoginForm() {
 
     try {
       const supabase = createClient();
-      const { data, error: authError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
 
-      if (authError) {
+      const { data, error: authError } = await supabase.auth.signInWithPassword({ email, password });
+
+      if (authError || !data?.user) {
         setError('البريد الإلكتروني أو كلمة المرور غير صحيحة.');
         setLoading(false);
         return;
       }
 
-      if (!data.user) {
-        setError('فشل تسجيل الدخول.');
-        setLoading(false);
-        return;
-      }
-
-      // Fallback بناءً على البريد — يعمل دائماً حتى بدون API
-      const emailFallback = (email: string) => {
-        if (email.includes('admin')) return '/admin/dashboard';
-        if (email.includes('president')) return '/executive/dashboard';
-        if (email.includes('governance')) return '/governance/dashboard';
-        if (email.includes('hr@')) return '/hr/dashboard';
-        if (email.includes('advisor')) return '/advisor/dashboard';
-        return '/candidate/dashboard';
-      };
-
-      let homePath = emailFallback(data.user.email || '');
+      // محاولة جلب الدور من الـ API (يستخدم session cookie الذي أنشأه signInWithPassword)
+      let homePath = getHomepathByEmail(email);
 
       try {
-        const meRes = await fetch('/api/auth/me', { credentials: 'include' });
+        const meRes = await fetch('/api/auth/me', { credentials: 'include', cache: 'no-store' });
         if (meRes.ok) {
           const meData = await meRes.json();
           if (meData.homePath) homePath = meData.homePath;
+          // مستخدم في وضع الانتظار
+          if (meData.registrationStatus === 'pending') {
+            router.push('/pending-approval');
+            return;
+          }
+          if (meData.registrationStatus === 'rejected') {
+            router.push('/pending-approval?status=rejected');
+            return;
+          }
         }
       } catch { /* استخدم الـ fallback */ }
 
       const redirect = searchParams.get('redirect');
       router.push(redirect || homePath);
       router.refresh();
-    } catch (err) {
+    } catch {
       setError('حدث خطأ غير متوقع. حاول مرة أخرى.');
       setLoading(false);
     }
   }
 
   return (
-    <div className="min-h-screen institutional-bg flex items-center justify-center px-4 py-8">
+    <div className="min-h-screen institutional-bg flex items-center justify-center px-4 py-8" dir="rtl">
       <div className="max-w-md w-full">
-        {/* Logo */}
+
+        {/* الشعار والعنوان */}
         <div className="text-center mb-8">
           <UniversityLogo size="lg" className="mx-auto" />
           <h1 className="text-3xl font-bold text-primary-700 mt-6">
@@ -81,19 +85,20 @@ function LoginForm() {
           <p className="text-sm text-darkgray mt-2">منصة مؤسسية لقياس الجدارة القيادية</p>
         </div>
 
-        {/* Form Card */}
+        {/* بطاقة الدخول */}
         <div className="institutional-card p-8">
           <h2 className="text-2xl font-bold text-primary-700 mb-1">تسجيل الدخول</h2>
           <p className="text-sm text-darkgray mb-6">أدخل بياناتك للوصول إلى المنصة</p>
 
           {error && (
-            <div className="mb-4 p-3 bg-rose-50 border border-rose-200 rounded-lg flex items-start gap-2 text-sm text-wine">
+            <div className="mb-4 p-3 bg-rose-50 border border-rose-200 rounded-xl flex items-start gap-2 text-sm text-wine">
               <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
               <span>{error}</span>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* البريد الإلكتروني */}
             <div>
               <label className="block text-sm font-medium text-primary-700 mb-1.5">
                 البريد الإلكتروني
@@ -103,15 +108,17 @@ function LoginForm() {
                 <input
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={e => setEmail(e.target.value)}
                   required
-                  className="w-full pr-10 pl-3 py-2.5 border border-gold-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition"
+                  autoComplete="email"
+                  className="w-full pr-10 pl-3 py-2.5 border border-gold-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition"
                   placeholder="example@domain.com"
                   dir="ltr"
                 />
               </div>
             </div>
 
+            {/* كلمة المرور */}
             <div>
               <label className="block text-sm font-medium text-primary-700 mb-1.5">
                 كلمة المرور
@@ -119,41 +126,51 @@ function LoginForm() {
               <div className="relative">
                 <Lock className="absolute right-3 top-3 h-4 w-4 text-gold-600" />
                 <input
-                  type="password"
+                  type={showPass ? 'text' : 'password'}
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={e => setPassword(e.target.value)}
                   required
-                  className="w-full pr-10 pl-3 py-2.5 border border-gold-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition"
+                  autoComplete="current-password"
+                  className="w-full pr-10 pl-10 py-2.5 border border-gold-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition"
                   placeholder="••••••••"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPass(!showPass)}
+                  className="absolute left-3 top-3 text-darkgray hover:text-primary-700 transition"
+                >
+                  {showPass ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
               </div>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full btn-primary py-3 rounded-lg font-bold disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full btn-primary py-3 rounded-xl font-bold text-base disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition"
             >
-              {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : 'تسجيل الدخول'}
+              {loading ? (
+                <>
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  جارٍ التحقق...
+                </>
+              ) : 'تسجيل الدخول'}
             </button>
           </form>
 
-          <div className="mt-6 pt-6 border-t border-gold-200 text-center">
+          <div className="mt-6 pt-5 border-t border-gold-200 text-center">
             <p className="text-sm text-darkgray">
               ليس لديك حساب؟{' '}
-              <Link href="/register" className="text-primary-700 font-bold hover:text-primary-800">
+              <Link href="/register" className="text-primary-700 font-bold hover:text-primary-800 transition">
                 إنشاء حساب جديد
               </Link>
             </p>
           </div>
         </div>
 
-        <Link
-          href="/"
-          className="block text-center mt-6 text-sm text-darkgray hover:text-primary-700"
-        >
-          ← العودة للصفحة الرئيسية
-        </Link>
+        <p className="text-center text-xs text-darkgray mt-6">
+          © 2026 جامعة نايف العربية للعلوم الأمنية
+        </p>
       </div>
     </div>
   );
@@ -161,7 +178,11 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <Suspense>
+    <Suspense fallback={
+      <div className="min-h-screen institutional-bg flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary-600" />
+      </div>
+    }>
       <LoginForm />
     </Suspense>
   );

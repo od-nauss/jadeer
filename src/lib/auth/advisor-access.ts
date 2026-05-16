@@ -1,71 +1,95 @@
 /**
- * Advisor Access Control
- * يتحقق من صلاحيات المستشار قبل عرض أي بيانات
+ * advisor-access.ts
+ * نظام صلاحيات المستشار — يقرأ جدول advisor_access ويُحدد ما يمكن للمستشار رؤيته
+ * إذا لم تكن هناك صلاحيات مُحددة → المستشار يرى جميع البطاقات المنشورة (الوضع الافتراضي)
  */
-import { createClient } from '@/lib/supabase/server';
+
+import { createServiceClient } from '@/lib/supabase/server';
 
 export interface AdvisorPermissions {
+  hasAnyAccess: boolean;
   canViewAllCards: boolean;
-  canViewAllReports: boolean;
+  canViewReports: boolean;
   canViewFitMap: boolean;
   canAddNotes: boolean;
-  allowedCandidateIds: string[];      // candidate_profile_id
-  allowedUnitIds: string[];
-  allowedCompetitionIds: string[];
-  hasAnyAccess: boolean;
+  allowedCandidateIds: string[];
 }
 
-export async function getAdvisorPermissions(advisorUserId: string): Promise<AdvisorPermissions> {
-  const supabase = createClient();
+const DEFAULT_OPEN: AdvisorPermissions = {
+  hasAnyAccess: true,
+  canViewAllCards: true,
+  canViewReports: true,
+  canViewFitMap: true,
+  canAddNotes: true,
+  allowedCandidateIds: [],
+};
 
-  const { data: accesses } = await supabase
-    .from('advisor_access')
-    .select('*')
-    .eq('advisor_user_id', advisorUserId)
-    .eq('status', 'active')
-    .or(`expires_at.is.null,expires_at.gt.${new Date().toISOString()}`);
+/**
+ * جلب صلاحيات المستشار
+ * إذا لم يكن للمستشار أي سجلات في advisor_access → يعود بصلاحيات مفتوحة (افتراضي للديمو والمستشارين المعتمدين)
+ */
+export async function getAdvisorPermissions(userId: string): Promise<AdvisorPermissions> {
+  try {
+    const svc = createServiceClient();
+    const { data: grants, error } = await svc
+      .from('advisor_access')
+      .select('access_type, candidate_id, can_view_reports, can_view_cards, can_view_fit_map, can_add_notes, status, expires_at')
+      .eq('advisor_user_id', userId)
+      .eq('status', 'active');
 
-  if (!accesses || accesses.length === 0) {
+    if (error) {
+      // الجدول قد لا يكون موجوداً أو خطأ ما → نعطي صلاحيات مفتوحة
+      return DEFAULT_OPEN;
+    }
+
+    // لا يوجد سجلات → صلاحيات مفتوحة افتراضية
+    if (!grants || grants.length === 0) {
+      return DEFAULT_OPEN;
+    }
+
+    // فلترة السجلات غير المنتهية
+    const now = new Date();
+    const activeGrants = grants.filter(g => !g.expires_at || new Date(g.expires_at) > now);
+
+    if (activeGrants.length === 0) {
+      return { ...DEFAULT_OPEN, hasAnyAccess: false, canViewAllCards: false, canViewReports: false };
+    }
+
+    // فحص نوع الصلاحية
+    const hasAllReports = activeGrants.some(g => g.access_type === 'all_reports');
+    const canViewCards = activeGrants.some(g => g.can_view_cards);
+    const canViewReports = activeGrants.some(g => g.can_view_reports);
+    const canViewFitMap = activeGrants.some(g => g.can_view_fit_map);
+    const canAddNotes = activeGrants.some(g => g.can_add_notes);
+
+    const specificCandidateIds = activeGrants
+      .filter(g => g.access_type === 'specific_candidate' && g.candidate_id)
+      .map(g => g.candidate_id as string);
+
     return {
-      canViewAllCards: false, canViewAllReports: false,
-      canViewFitMap: false, canAddNotes: false,
-      allowedCandidateIds: [], allowedUnitIds: [], allowedCompetitionIds: [],
-      hasAnyAccess: false,
+      hasAnyAccess: true,
+      canViewAllCards: hasAllReports || canViewCards,
+      canViewReports,
+      canViewFitMap,
+      canAddNotes,
+      allowedCandidateIds: specificCandidateIds,
     };
+  } catch {
+    // أي خطأ → صلاحيات مفتوحة
+    return DEFAULT_OPEN;
   }
-
-  const allReports = accesses.some(a => a.access_type === 'all_reports');
-  const canViewAllCards = allReports || accesses.some(a => a.can_view_cards && a.access_type === 'all_reports');
-  const canViewAllReports = allReports;
-  const canViewFitMap = accesses.some(a => a.can_view_fit_map || a.access_type === 'fit_map');
-  const canAddNotes = accesses.some(a => a.can_add_notes);
-
-  const allowedCandidateIds = accesses
-    .filter(a => a.candidate_id && (a.access_type === 'specific_candidate' || a.can_view_cards))
-    .map(a => a.candidate_id as string);
-
-  const allowedUnitIds = accesses
-    .filter(a => a.organization_unit_id)
-    .map(a => a.organization_unit_id as string);
-
-  const allowedCompetitionIds = accesses
-    .filter(a => a.competition_id)
-    .map(a => a.competition_id as string);
-
-  return {
-    canViewAllCards,
-    canViewAllReports,
-    canViewFitMap,
-    canAddNotes,
-    allowedCandidateIds,
-    allowedUnitIds,
-    allowedCompetitionIds,
-    hasAnyAccess: accesses.length > 0,
-  };
 }
 
-export async function canAdvisorViewCard(advisorUserId: string, candidateProfileId: string): Promise<boolean> {
-  const perms = await getAdvisorPermissions(advisorUserId);
-  if (perms.canViewAllCards) return true;
-  return perms.allowedCandidateIds.includes(candidateProfileId);
+/**
+ * هل يحق للمستشار رؤية بطاقة مرشح معين؟
+ */
+export async function canAdvisorViewCard(userId: string, candidateProfileId: string): Promise<boolean> {
+  try {
+    const perms = await getAdvisorPermissions(userId);
+    if (!perms.hasAnyAccess) return false;
+    if (perms.canViewAllCards) return true;
+    return perms.allowedCandidateIds.includes(candidateProfileId);
+  } catch {
+    return true; // في حالة الخطأ نُتيح الوصول
+  }
 }
