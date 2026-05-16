@@ -72,7 +72,6 @@ export const SIDEBAR_ITEMS: Record<RoleCode, SidebarItem[]> = {
     { label: 'المسابقات الوظيفية', href: '/executive/competitions', icon: Trophy },
     { label: 'توصيات المنصة', href: '/executive/recommendations', icon: Lightbulb },
     { label: 'التنبيهات القيادية', href: '/executive/alerts', icon: AlertTriangle },
-    { label: 'مركز العرض التنفيذي', href: '/executive-center', icon: Presentation },
     { label: 'المستشارون', href: '/executive/advisors', icon: GraduationCap },
     { label: 'إدارة المستخدمين', href: '/executive/users', icon: Users },
   ],

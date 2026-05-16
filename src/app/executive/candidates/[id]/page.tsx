@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowRight, Award, User, Briefcase, Activity, Users, Brain, Shield, Target, ScrollText } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from "@/lib/supabase/server";;
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { Card, Badge } from '@/components/ui';
 import { READINESS_LEVELS } from '@/lib/utils';
@@ -44,7 +44,7 @@ export default async function ExecutiveCandidateCardPage({
   const user = await getCurrentUser();
   if (!user) return null;
 
-  const supabase = createClient();
+  const supabase = createServiceClient();
   const activeTab = searchParams.tab || 'summary';
 
   const [
@@ -96,9 +96,9 @@ export default async function ExecutiveCandidateCardPage({
   const candidateUser = cardTyped.candidate_profiles?.users;
   const profile = cardTyped.candidate_profiles;
   const level = READINESS_LEVELS[card.readiness_level as keyof typeof READINESS_LEVELS];
-  const strengths = (card.primary_strengths as string[] | null) || [];
-  const gaps = (card.development_gaps as string[] | null) || [];
-  const axisScores = (card.axis_scores as Record<string, number> | null) || {};
+  const strengths = (card.strengths_json as string[] | null) || [];
+  const gaps = (card.gaps_json as string[] | null) || [];
+  const axisScores = (card.axis_scores_json as Record<string, number> | null) || {};
   const specialTags = (card.special_tags as string[] | null) || [];
 
   // إحصاء 360
