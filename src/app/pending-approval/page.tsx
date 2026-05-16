@@ -55,12 +55,11 @@ function PendingApprovalContent() {
             نأسف لإبلاغك بأن طلب تسجيلك لم يُقبل في هذه المرحلة.
           </p>
           <p className="text-sm text-darkgray mb-6">
-            للاستفسار عن الأسباب أو التقدم مجدداً، يُرجى التواصل مع إدارة الموارد البشرية.
+            للاستفسار أو التقدم مجدداً، تواصل مع مدير النظام مباشرة.
           </p>
           <div className="bg-gold-50 border border-gold-200 rounded-xl p-4 mb-6 text-right">
             <div className="text-sm font-bold text-primary-700 mb-2">للتواصل:</div>
-            <div className="text-sm text-darkgray">البريد الإلكتروني: hr@nauss.edu.sa</div>
-            <div className="text-sm text-darkgray">الهاتف: +966-1-2345678</div>
+            <div className="text-sm text-darkgray">admin@nauss.edu.sa</div>
           </div>
           <button
             onClick={handleLogout}
@@ -94,7 +93,7 @@ function PendingApprovalContent() {
           </h2>
 
           <p className="text-darkgray mb-4 leading-relaxed">
-            تم استلام طلب تسجيلك بنجاح. يقوم فريق الموارد البشرية حالياً بمراجعة بياناتك والتحقق من الأهلية.
+            تم استلام طلبك بنجاح. يقوم <strong>مدير النظام</strong> بمراجعة الطلب والتحقق من صحة الدور المطلوب.
           </p>
 
           <div className="bg-primary-50 border border-primary-100 rounded-xl p-4 mb-6 text-right">
@@ -102,23 +101,23 @@ function PendingApprovalContent() {
             <ul className="space-y-2 text-sm text-darkgray">
               <li className="flex items-start gap-2">
                 <span className="text-gold-600 font-bold mt-0.5">•</span>
-                <span>سيتم مراجعة طلبك خلال <strong>1-3 أيام عمل</strong></span>
+                <span>سيراجع مدير النظام طلبك ويتواصل مع الجهة المختصة للتحقق</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-gold-600 font-bold mt-0.5">•</span>
-                <span>ستصلك رسالة بريد إلكتروني عند الموافقة أو رفض الطلب</span>
+                <span>ستصلك رسالة بريد إلكتروني عند الاعتماد</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-gold-600 font-bold mt-0.5">•</span>
-                <span>بعد الموافقة، يمكنك الدخول مباشرة لمنصة جدير</span>
+                <span>بعد الاعتماد، تستطيع الدخول مباشرة بصلاحياتك الكاملة</span>
               </li>
             </ul>
           </div>
 
           <div className="bg-gold-50 border border-gold-200 rounded-xl p-4 mb-6 text-right">
             <div className="text-sm font-bold text-primary-700 mb-2">للاستفسار:</div>
-            <div className="text-sm text-darkgray">البريد الإلكتروني: hr@nauss.edu.sa</div>
-            <div className="text-sm text-darkgray">الهاتف: +966-1-2345678</div>
+            <div className="text-sm text-darkgray">تواصل مع مدير النظام مباشرة</div>
+            <div className="text-sm text-darkgray">أو عبر البريد: admin@nauss.edu.sa</div>
           </div>
 
           {checkResult === 'still_pending' && (

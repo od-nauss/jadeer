@@ -34,11 +34,10 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // منع التسجيل الذاتي بأدوار حساسة
-    const PRIVILEGED_ROLES = ['admin', 'president', 'governance', 'hr', 'advisor'];
-    if (source === 'self' && PRIVILEGED_ROLES.includes(role)) {
+    // الأدمن لا يُنشأ بالتسجيل الذاتي
+    if (source === 'self' && role === 'admin') {
       return NextResponse.json(
-        { error: 'لا يمكن التسجيل الذاتي بهذا الدور. تواصل مع مدير النظام.' },
+        { error: 'لا يمكن التسجيل الذاتي بدور مدير النظام.' },
         { status: 403 }
       );
     }
@@ -61,8 +60,11 @@ export async function POST(request: NextRequest) {
     }
 
     const isAdminSource = source === 'admin';
-    // المرشح القيادي (التسجيل الذاتي) يُفعَّل فوراً — لا انتظار
-    const isActiveImmediately = isAdminSource || role === 'candidate';
+
+    // الأدوار الحساسة تنتظر اعتماد مدير النظام، المرشح يدخل فوراً
+    const PRIVILEGED_ROLES = ['president', 'governance', 'hr', 'advisor'];
+    const isPending = source === 'self' && PRIVILEGED_ROLES.includes(role);
+    const isActiveImmediately = !isPending;
 
     // إنشاء سجل في جدول users
     const { data: userRow, error: userError } = await supabase
@@ -75,7 +77,7 @@ export async function POST(request: NextRequest) {
         job_title: jobTitle || null,
         department: department || null,
         is_active: isActiveImmediately,
-        registration_status: 'active',
+        registration_status: isPending ? 'pending' : 'active',
       })
       .select('id')
       .single();
@@ -89,9 +91,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // تعيين الدور فوراً لجميع الحالات النشطة
+    // تعيين الدور فوراً للحالات النشطة
     if (isActiveImmediately) {
-      const assignRole = isAdminSource ? role : 'candidate';
+      const assignRole = isAdminSource ? role : role || 'candidate';
       const { data: roleRow } = await supabase
         .from('roles')
         .select('id')
@@ -117,18 +119,21 @@ export async function POST(request: NextRequest) {
 
     await supabase.from('audit_logs').insert({
       user_id: userRow.id,
-      user_role: isAdminSource ? role : 'candidate',
-      operation_type: isAdminSource ? 'admin_user_created' : 'candidate_registered',
+      user_role: isPending ? null : (isAdminSource ? role : role || 'candidate'),
+      operation_type: isAdminSource ? 'admin_user_created' : isPending ? 'privileged_registration_pending' : 'candidate_registered',
       description: isAdminSource
         ? `إنشاء مستخدم من قِبَل مدير النظام بدور: ${role}`
-        : 'تسجيل ذاتي كمرشح قيادي — دخول فوري',
-      sensitivity: 'normal',
+        : isPending
+          ? `تسجيل ذاتي بدور حساس "${role}" — قيد اعتماد مدير النظام`
+          : `تسجيل ذاتي كمرشح قيادي — دخول فوري`,
+      sensitivity: isPending ? 'sensitive' : 'normal',
     });
 
     return NextResponse.json({
       success: true,
       userId: userRow.id,
-      status: 'active',
+      status: isPending ? 'pending' : 'active',
+      requestedRole: isPending ? role : undefined,
     });
   } catch (error) {
     console.error('Register error:', error);
