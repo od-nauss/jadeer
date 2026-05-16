@@ -1,18 +1,14 @@
-import { createClient } from '@/lib/supabase/server';
-import { getCurrentUser } from '@/lib/auth/current-user';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card } from '@/components/ui';
 import { TrendingUp, Brain, AlertTriangle } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
 export default async function HRLeadershipNeedsPage() {
-  const user = await getCurrentUser();
-  if (!user) return null;
-
-  const supabase = createClient();
+  const supabase = createServiceClient();
 
   const [{ data: cards }, { data: units }] = await Promise.all([
-    supabase.from('leadership_cards').select('readiness_level, leadership_type, development_gaps, axis_scores, candidate_profiles(users(department))').eq('is_published', true),
+    supabase.from('leadership_cards').select('readiness_level, leadership_type, development_gaps, axis_scores, candidate_profiles(users(department))').eq('is_published', true).limit(200),
     supabase.from('organization_units').select('id, name, unit_type, is_critical, has_vacancy, needs_successor'),
   ]);
 

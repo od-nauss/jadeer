@@ -1,5 +1,5 @@
 import { TrendingUp, Target, AlertTriangle, BarChart3, Brain } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
@@ -17,7 +17,7 @@ const READINESS_LABELS: Record<string, string> = {
 };
 
 export default async function HRDevelopmentReportsPage() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
 
   const [
     { data: cards },

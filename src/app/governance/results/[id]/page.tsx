@@ -37,9 +37,9 @@ export default async function GovernanceResultDetailPage({ params }: { params: {
   const profileId = cTyped.candidate_profiles?.id;
   const level = READINESS_LEVELS[card.readiness_level as keyof typeof READINESS_LEVELS];
 
-  const strengths: string[]               = (card.strengths_json   as string[] | null) || [];
-  const gaps: string[]                    = (card.gaps_json        as string[] | null) || [];
-  const axisScores: Record<string, number>= (card.axis_scores_json as Record<string, number> | null) || {};
+  const strengths: string[]               = (card.primary_strengths as string[] | null) || [];
+  const gaps: string[]                    = (card.development_gaps  as string[] | null) || [];
+  const axisScores: Record<string, number>= (card.axis_scores       as Record<string, number> | null) || {};
   const totalScore = Number(card.total_score || card.readiness_score || 0);
   const trustScore = Number(card.trust_score || card.confidence_score || 0);
 

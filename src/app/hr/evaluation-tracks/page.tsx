@@ -1,5 +1,5 @@
-import { Route, Users, Trophy, GitBranch, TrendingUp } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { Route, TrendingUp } from 'lucide-react';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge } from '@/components/ui';
 import Link from 'next/link';
 
@@ -24,7 +24,7 @@ const STATUS_LABELS: Record<string, { label: string; variant: 'primary' | 'gold'
 };
 
 export default async function HREvaluationTracksPage() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
 
   const { data: profiles } = await supabase
     .from('candidate_profiles')
