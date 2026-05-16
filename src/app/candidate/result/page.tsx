@@ -48,8 +48,8 @@ export default async function CandidateResultPage() {
   }
 
   const level = READINESS_LEVELS[card.readiness_level as keyof typeof READINESS_LEVELS];
-  const strengths = (card.primary_strengths as string[] | null) || [];
-  const gaps = (card.development_gaps as string[] | null) || [];
+  const strengths = (card.strengths_json as string[] | null) || [];
+  const gaps = (card.gaps_json as string[] | null) || [];
 
   return (
     <div>

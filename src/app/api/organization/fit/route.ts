@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
   // ط¬ظ„ط¨ ط§ظ„ط¨ط·ط§ظ‚ط§طھ ط§ظ„ظ‚ظٹط§ط¯ظٹط© ط§ظ„ظ…ط¹طھظ…ط¯ط©
   let cardQuery = service
     .from('leadership_cards')
-    .select('id, candidate_profile_id, readiness_level, leadership_type, total_score, trust_score, axis_scores, primary_strengths, development_gaps, candidate_profiles(id, status, completion_score, users(department))')
+    .select('id, candidate_profile_id, readiness_level, leadership_type, total_score, trust_score, axis_scores_json, strengths_json, gaps_json, candidate_profiles(id, status, completion_score, users(department))')
     .eq('is_published', true);
   if (candidateId) cardQuery = cardQuery.eq('candidate_profile_id', candidateId);
   const { data: cards } = await cardQuery;
@@ -56,12 +56,12 @@ export async function POST(req: NextRequest) {
           leadership_type: card.leadership_type || '',
           total_score: Number(card.total_score) || 0,
           trust_score: Number(card.trust_score) || 0,
-          axis_scores: (card.axis_scores as Record<string, number>) || {},
-          primary_strengths: (card.primary_strengths as string[]) || [],
-          development_gaps: (card.development_gaps as string[]) || [],
+          axis_scores: (card.axis_scores_json as Record<string, number>) || {},
+          primary_strengths: (card.strengths_json as string[]) || [],
+          development_gaps: (card.gaps_json as string[]) || [],
           governance_status: req_profile?.status || 'new',
-          team_score: (card.axis_scores as any)?.team ?? 50,
-          technology_score: (card.axis_scores as any)?.technology ?? 50,
+          team_score: (card.axis_scores_json as any)?.team ?? 50,
+          technology_score: (card.axis_scores_json as any)?.technology ?? 50,
           kpi_count: kpiRes.data?.length || 0,
           initiative_count: initRes.data?.length || 0,
         },

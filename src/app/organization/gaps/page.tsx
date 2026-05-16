@@ -25,7 +25,7 @@ export default async function OrganizationGapsPage() {
       .select('organization_unit_id, candidate_profile_id, fit_score, fit_level, gaps_json, risk_flags_json, candidate_profiles(users(full_name, department))')
       .order('fit_score', { ascending: false }),
     supabase.from('leadership_cards')
-      .select('readiness_level, development_gaps, leadership_type, candidate_profiles(users(department))')
+      .select('readiness_level, gaps_json, leadership_type, candidate_profiles(users(department))')
       .eq('is_published', true),
   ]);
 

@@ -30,7 +30,7 @@ export default async function AdvisorCandidatesPage() {
   const supabase = createServiceClient();
   let query = supabase
     .from('leadership_cards')
-    .select('id, total_score, trust_score, readiness_level, leadership_type, primary_strengths, candidate_profiles(id, users(full_name, job_title, department))')
+    .select('id, total_score, trust_score, readiness_level, leadership_type, strengths_json, candidate_profiles(id, users(full_name, job_title, department))')
     .eq('is_published', true)
     .order('total_score', { ascending: false });
 
@@ -74,7 +74,7 @@ export default async function AdvisorCandidatesPage() {
             const candidateUser = r.candidate_profiles?.users;
             if (!candidateUser) return null;
             const level = READINESS_LEVELS[card.readiness_level as keyof typeof READINESS_LEVELS];
-            const strengths = (card.primary_strengths as string[] | null) || [];
+            const strengths = (card.strengths_json as string[] | null) || [];
             return (
               <Link key={card.id} href={`/advisor/cards/${card.id}`} className="institutional-card p-5 hover:border-gold-400 transition">
                 <div className="flex items-start gap-3 mb-3">

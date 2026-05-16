@@ -24,7 +24,7 @@ export default async function HRDevelopmentReportsPage() {
     { data: plans },
     { data: planItems },
   ] = await Promise.all([
-    supabase.from('leadership_cards').select('readiness_level, development_gaps, axis_scores, candidate_profiles(users(department))').eq('is_published', true),
+    supabase.from('leadership_cards').select('readiness_level, gaps_json, axis_scores_json, candidate_profiles(users(department))').eq('is_published', true),
     supabase.from('development_plans').select('overall_status, candidate_profiles(users(department))'),
     supabase.from('development_plan_items').select('status, category, title, due_date'),
   ]);
@@ -32,7 +32,7 @@ export default async function HRDevelopmentReportsPage() {
   // 1) أكثر الفجوات تكراراً
   const gapMap: Record<string, number> = {};
   (cards || []).forEach((c: any) => {
-    ((c.development_gaps as string[]) || []).forEach(g => { gapMap[g] = (gapMap[g] || 0) + 1; });
+    ((c.gaps_json as string[]) || []).forEach(g => { gapMap[g] = (gapMap[g] || 0) + 1; });
   });
   const topGaps = Object.entries(gapMap).sort(([, a], [, b]) => b - a).slice(0, 10);
   const maxGap = topGaps[0]?.[1] || 1;
@@ -40,7 +40,7 @@ export default async function HRDevelopmentReportsPage() {
   // 2) متوسط المحاور
   const axisTotal: Record<string, number[]> = {};
   (cards || []).forEach((c: any) => {
-    const scores = (c.axis_scores as Record<string, number>) || {};
+    const scores = (c.axis_scores_json as Record<string, number>) || {};
     Object.entries(scores).forEach(([axis, score]) => {
       if (!axisTotal[axis]) axisTotal[axis] = [];
       axisTotal[axis].push(Number(score));

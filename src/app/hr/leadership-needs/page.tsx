@@ -8,14 +8,14 @@ export default async function HRLeadershipNeedsPage() {
   const supabase = createServiceClient();
 
   const [{ data: cards }, { data: units }] = await Promise.all([
-    supabase.from('leadership_cards').select('readiness_level, leadership_type, development_gaps, axis_scores, candidate_profiles(users(department))').eq('is_published', true).limit(200),
+    supabase.from('leadership_cards').select('readiness_level, leadership_type, gaps_json, axis_scores_json, candidate_profiles(users(department))').eq('is_published', true).limit(200),
     supabase.from('organization_units').select('id, name, unit_type, is_critical, has_vacancy, needs_successor'),
   ]);
 
   // تحليل الفجوات المتكررة
   const gapFrequency: Record<string, number> = {};
   (cards || []).forEach((c: any) => {
-    const gaps = (c.development_gaps as string[] | null) || [];
+    const gaps = (c.gaps_json as string[] | null) || [];
     gaps.forEach(g => { gapFrequency[g] = (gapFrequency[g] || 0) + 1; });
   });
   const sortedGaps = Object.entries(gapFrequency).sort(([, a], [, b]) => b - a).slice(0, 8);
@@ -27,7 +27,7 @@ export default async function HRLeadershipNeedsPage() {
   // متوسط المحاور
   const axisTotal: Record<string, number[]> = {};
   (cards || []).forEach((c: any) => {
-    const scores = (c.axis_scores as Record<string, number> | null) || {};
+    const scores = (c.axis_scores_json as Record<string, number> | null) || {};
     Object.entries(scores).forEach(([axis, score]) => {
       if (!axisTotal[axis]) axisTotal[axis] = [];
       axisTotal[axis].push(Number(score));

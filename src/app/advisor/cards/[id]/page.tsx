@@ -76,9 +76,9 @@ export default async function LeadershipCardDetailPage({
   };
   const candidateUser = (card as unknown as CardData).candidate_profiles?.users;
   const level = READINESS_LEVELS[card.readiness_level as keyof typeof READINESS_LEVELS];
-  const strengths = (card.primary_strengths as string[] | null) || [];
-  const gaps = (card.development_gaps as string[] | null) || [];
-  const axisScores = (card.axis_scores as Record<string, number> | null) || {};
+  const strengths = (card.strengths_json as string[] | null) || [];
+  const gaps = (card.gaps_json as string[] | null) || [];
+  const axisScores = (card.axis_scores_json as Record<string, number> | null) || {};
   const fitMap = (card.organization_fit as Record<string, number> | null) || {};
 
   return (

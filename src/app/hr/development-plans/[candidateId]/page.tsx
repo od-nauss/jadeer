@@ -79,7 +79,7 @@ export default function DevelopmentPlanBuilderPage() {
     const supabase = createClient();
     const [profileRes, cardRes, planRes] = await Promise.all([
       supabase.from('candidate_profiles').select('*, users(full_name, job_title, department)').eq('id', candidateId).maybeSingle(),
-      supabase.from('leadership_cards').select('total_score, readiness_level, development_gaps, primary_strengths, ai_summary').eq('candidate_profile_id', candidateId).maybeSingle(),
+      supabase.from('leadership_cards').select('total_score, readiness_level, gaps_json, strengths_json, ai_summary').eq('candidate_profile_id', candidateId).maybeSingle(),
       supabase.from('development_plans').select('*').eq('candidate_profile_id', candidateId).maybeSingle(),
     ]);
     setCandidate(profileRes.data as any);
@@ -88,10 +88,10 @@ export default function DevelopmentPlanBuilderPage() {
     if (planRes.data) {
       const { data: planItems } = await supabase.from('development_plan_items').select('*').eq('development_plan_id', planRes.data.id).order('created_at');
       setItems(planItems || []);
-      const gaps = (cardRes.data?.development_gaps as string[] || []);
+      const gaps = (cardRes.data?.gaps_json as string[] || []);
       setAiSuggestions(generateAISuggestions(planRes.data.readiness_level, gaps));
     } else if (cardRes.data) {
-      setAiSuggestions(generateAISuggestions(cardRes.data.readiness_level, cardRes.data.development_gaps || []));
+      setAiSuggestions(generateAISuggestions(cardRes.data.readiness_level, cardRes.data.gaps_json || []));
     }
     setLoading(false);
   }, [candidateId]);
@@ -132,8 +132,8 @@ export default function DevelopmentPlanBuilderPage() {
   const labelCls = 'block text-xs font-medium text-primary-700 mb-1';
   const cu = candidate?.users;
   const level = card ? READINESS_LEVELS[card.readiness_level as keyof typeof READINESS_LEVELS] : null;
-  const gaps = (card?.development_gaps as string[] || []);
-  const strengths = (card?.primary_strengths as string[] || []);
+  const gaps = (card?.gaps_json as string[] || []);
+  const strengths = (card?.strengths_json as string[] || []);
 
   if (loading) return <div className="space-y-3">{[1,2,3].map(i => <div key={i} className="h-24 bg-gold-50 rounded-xl animate-pulse" />)}</div>;
 
