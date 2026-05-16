@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowRight, Link2, CheckCircle2, Clock, XCircle, AlertTriangle, Brain, RotateCcw, Copy } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
-import { getCurrentUser } from '@/lib/auth/current-user';
+import { createServiceClient } from '@/lib/supabase/server';
 import { Card, Badge } from '@/components/ui';
 import { analyze360Results } from '@/lib/ai/analyzer360';
 import { Governance360Actions } from './actions';
@@ -26,10 +25,7 @@ const REL_LABELS: Record<string, string> = {
 };
 
 export default async function Governance360CandidatePage({ params }: { params: { candidateId: string } }) {
-  const user = await getCurrentUser();
-  if (!user) return null;
-
-  const supabase = createClient();
+  const supabase = createServiceClient();
 
   const [{ data: profile }, { data: links }, { data: evaluations }] = await Promise.all([
     supabase.from('candidate_profiles').select('id, status, users(full_name, job_title, department)').eq('id', params.candidateId).maybeSingle(),
