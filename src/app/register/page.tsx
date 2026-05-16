@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Loader2, Mail, Lock, User, Briefcase, Building, AlertCircle, Clock, Info } from 'lucide-react';
+import { Loader2, Mail, Lock, User, Briefcase, Building, AlertCircle, CheckCircle2, Info } from 'lucide-react';
 import { UniversityLogo } from '@/components/branding/Logo';
 
 export default function RegisterPage() {
@@ -63,22 +63,18 @@ export default function RegisterPage() {
     return (
       <div className="min-h-screen institutional-bg flex items-center justify-center px-4">
         <div className="max-w-md w-full institutional-card p-8 text-center">
-          <div className="w-16 h-16 rounded-full bg-gold-100 flex items-center justify-center mx-auto mb-4">
-            <Clock className="h-8 w-8 text-gold-600" />
+          <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
+            <CheckCircle2 className="h-8 w-8 text-sage" />
           </div>
-          <h2 className="text-2xl font-bold text-primary-700 mb-3">تم استلام طلبك</h2>
+          <h2 className="text-2xl font-bold text-primary-700 mb-3">تم إنشاء حسابك بنجاح!</h2>
           <p className="text-darkgray mb-4 leading-relaxed">
-            تم تسجيل طلبك بنجاح. سيقوم فريق الموارد البشرية بمراجعة بياناتك خلال <strong>1-3 أيام عمل</strong>، وستصلك رسالة بريد إلكتروني عند الموافقة.
+            يمكنك الآن تسجيل الدخول والبدء في رحلتك القيادية. أكمل ملفك الشخصي لتبدأ مسار تقييم الجاهزية.
           </p>
-          <div className="bg-primary-50 border border-primary-100 rounded-xl p-4 mb-6 text-right text-sm text-darkgray">
-            <div className="font-bold text-primary-700 mb-1">ملاحظة مهمة:</div>
-            لا يمكنك الدخول للمنصة حتى يتم قبول طلبك من قِبَل الموارد البشرية.
-          </div>
           <Link
             href="/login"
-            className="inline-block px-6 py-2.5 btn-primary rounded-lg font-bold text-sm"
+            className="inline-block px-8 py-3 btn-primary rounded-xl font-bold"
           >
-            العودة لصفحة الدخول
+            تسجيل الدخول الآن
           </Link>
         </div>
       </div>
@@ -110,7 +106,7 @@ export default function RegisterPage() {
           </div>
 
           <p className="text-sm text-darkgray mb-6">
-            سيتم مراجعة طلبك من قِبَل الموارد البشرية قبل تفعيل حسابك.
+            سجّل بياناتك وستتمكن من الدخول فوراً للبدء في رحلتك القيادية.
           </p>
 
           {error && (

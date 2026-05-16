@@ -5,9 +5,10 @@ import { getCurrentUser } from '@/lib/auth/current-user';
 export async function POST(request: NextRequest) {
   try {
     const caller = await getCurrentUser();
-    if (!caller || (!caller.isAdmin && !caller.roles.includes('hr'))) {
+    // مدير النظام فقط يملك صلاحية اعتماد الأدوار الحساسة
+    if (!caller || !caller.isAdmin) {
       return NextResponse.json(
-        { error: 'غير مصرح لك بهذه العملية.' },
+        { error: 'هذه العملية متاحة لمدير النظام فقط.' },
         { status: 403 }
       );
     }

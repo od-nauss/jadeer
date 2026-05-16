@@ -14,10 +14,13 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
 
-    // ── Review mode: HR or admin reviewing a request ─────────────
+    // ── وضع المراجعة: مدير النظام فقط يراجع طلبات الازدواج ─────────
     if (body.requestId) {
-      if (!caller.isAdmin && !caller.roles.includes('hr')) {
-        return NextResponse.json({ error: 'غير مصرح لك بمراجعة الطلبات.' }, { status: 403 });
+      if (!caller.isAdmin) {
+        return NextResponse.json(
+          { error: 'مراجعة طلبات الترشح متاحة لمدير النظام فقط.' },
+          { status: 403 }
+        );
       }
 
       const { requestId, action, rejectionReason } = body;

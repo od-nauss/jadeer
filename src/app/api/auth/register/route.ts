@@ -23,15 +23,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // If source is 'admin', verify the caller is admin or hr
+    // الأدوار الحساسة لا يُنشئها إلا مدير النظام
     if (source === 'admin') {
       const caller = await getCurrentUser();
-      if (!caller || (!caller.isAdmin && !caller.roles.includes('hr'))) {
+      if (!caller || !caller.isAdmin) {
         return NextResponse.json(
-          { error: 'غير مصرح لك بإنشاء مستخدمين.' },
+          { error: 'إنشاء المستخدمين بالأدوار الحساسة متاح لمدير النظام فقط.' },
           { status: 403 }
         );
       }
+    }
+
+    // منع التسجيل الذاتي بأدوار حساسة
+    const PRIVILEGED_ROLES = ['admin', 'president', 'governance', 'hr', 'advisor'];
+    if (source === 'self' && PRIVILEGED_ROLES.includes(role)) {
+      return NextResponse.json(
+        { error: 'لا يمكن التسجيل الذاتي بهذا الدور. تواصل مع مدير النظام.' },
+        { status: 403 }
+      );
     }
 
     const supabase = createServiceClient();
@@ -52,6 +61,8 @@ export async function POST(request: NextRequest) {
     }
 
     const isAdminSource = source === 'admin';
+    // المرشح القيادي (التسجيل الذاتي) يُفعَّل فوراً — لا انتظار
+    const isActiveImmediately = isAdminSource || role === 'candidate';
 
     // إنشاء سجل في جدول users
     const { data: userRow, error: userError } = await supabase
@@ -63,8 +74,8 @@ export async function POST(request: NextRequest) {
         employee_number: employeeNumber || null,
         job_title: jobTitle || null,
         department: department || null,
-        is_active: isAdminSource,
-        registration_status: isAdminSource ? 'active' : 'pending',
+        is_active: isActiveImmediately,
+        registration_status: 'active',
       })
       .select('id')
       .single();
@@ -78,12 +89,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // For admin-created users: assign role immediately
-    if (isAdminSource) {
+    // تعيين الدور فوراً لجميع الحالات النشطة
+    if (isActiveImmediately) {
+      const assignRole = isAdminSource ? role : 'candidate';
       const { data: roleRow } = await supabase
         .from('roles')
         .select('id')
-        .eq('code', role)
+        .eq('code', assignRole)
         .single();
 
       if (roleRow) {
@@ -93,8 +105,8 @@ export async function POST(request: NextRequest) {
         });
       }
 
-      // Create candidate_profile if role is candidate
-      if (role === 'candidate') {
+      // إنشاء ملف مرشح تلقائياً لأي مستخدم بدور candidate
+      if (assignRole === 'candidate') {
         await supabase.from('candidate_profiles').insert({
           user_id: userRow.id,
           status: 'new',
@@ -103,19 +115,20 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // تسجيل في audit_logs
     await supabase.from('audit_logs').insert({
       user_id: userRow.id,
-      user_role: isAdminSource ? role : null,
-      operation_type: isAdminSource ? 'admin_user_created' : 'user_registered',
-      description: isAdminSource ? `إنشاء مستخدم من قِبَل الإدارة بدور: ${role}` : 'تسجيل ذاتي — في انتظار الموافقة',
+      user_role: isAdminSource ? role : 'candidate',
+      operation_type: isAdminSource ? 'admin_user_created' : 'candidate_registered',
+      description: isAdminSource
+        ? `إنشاء مستخدم من قِبَل مدير النظام بدور: ${role}`
+        : 'تسجيل ذاتي كمرشح قيادي — دخول فوري',
       sensitivity: 'normal',
     });
 
     return NextResponse.json({
       success: true,
       userId: userRow.id,
-      status: isAdminSource ? 'active' : 'pending',
+      status: 'active',
     });
   } catch (error) {
     console.error('Register error:', error);
