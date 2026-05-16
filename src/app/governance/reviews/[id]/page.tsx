@@ -45,7 +45,7 @@ export default async function GovernanceReviewDetailPage({
     supabase.from('candidate_profiles').select('*, users(full_name, job_title, department, employee_number, email, years_of_experience)').eq('id', params.id).maybeSingle(),
     supabase.from('initiatives').select('*').eq('candidate_profile_id', params.id).order('created_at'),
     supabase.from('kpis').select('*').eq('candidate_profile_id', params.id).order('created_at'),
-    supabase.from('assessment_results').select('*, assessments(name, code)').eq('candidate_profile_id', params.id),
+    supabase.from('assessment_results').select('*, assessments(title, code)').eq('candidate_profile_id', params.id),
     supabase.from('evaluation_links').select('*, approved_evaluators(full_name, relationship_type, committee_selected)').eq('candidate_profile_id', params.id),
     supabase.from('evaluations_360').select('*').eq('candidate_profile_id', params.id),
     supabase.from('governance_decisions').select('*').eq('candidate_profile_id', params.id).order('decided_at', { ascending: false }),

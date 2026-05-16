@@ -12,7 +12,7 @@ export default async function Governance360Page() {
   const { data: profiles } = await supabase
     .from('candidate_profiles')
     .select('id, status, users(full_name, job_title, department)')
-    .in('status', ['awaiting_360', 'evaluation_in_progress', 'evaluation_complete']);
+    .in('status', ['awaiting_360', 'evaluation_in_progress', 'evaluation_complete', 'under_governance_review', 'approved']);
 
   if (!profiles || profiles.length === 0) {
     return (
