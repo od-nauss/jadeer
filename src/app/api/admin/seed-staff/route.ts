@@ -38,14 +38,8 @@ const STAFF_ACCOUNTS = [
     department: 'وحدة الاستشارات القيادية',
     role: 'advisor',
   },
-  {
-    email: 'admin@nauss.edu.sa',
-    password: 'Zx.321321',
-    full_name: 'مدير النظام',
-    job_title: 'مدير منصة جدير',
-    department: 'إدارة النظام',
-    role: 'admin',
-  },
+  // admin@nauss.edu.sa مُستثنى من هنا — لا نعيد تعيين كلمة مروره أبداً
+
 ];
 
 // ─── حسابات المرشحين التجريبيين (للتسجيل والتجربة) ──────────────────────

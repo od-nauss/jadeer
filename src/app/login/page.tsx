@@ -40,32 +40,30 @@ function LoginForm() {
         return;
       }
 
-      // جلب الدور الأساسي للمستخدم
-      const { data: userRow } = await supabase
-        .from('users')
-        .select('id, user_roles(roles(code))')
-        .eq('auth_user_id', data.user.id)
-        .maybeSingle();
-
-      type UserRoleRow = { roles: { code: string } };
-      const roles = (userRow as { user_roles?: UserRoleRow[] } | null)?.user_roles?.map(
-        (r) => r.roles.code
-      ) || [];
-
-      const rolePriority = ['admin', 'president', 'governance', 'hr', 'advisor', 'candidate'];
-      const primaryRole = rolePriority.find((r) => roles.includes(r)) || roles[0];
+      // نستخدم API server-side لجلب الدور — يتجاوز RLS بشكل موثوق
+      let homePath = '/';
+      try {
+        const meRes = await fetch('/api/auth/me', {
+          // أضف الـ cookie session التي أنشأها signInWithPassword
+          credentials: 'include',
+        });
+        if (meRes.ok) {
+          const meData = await meRes.json();
+          homePath = meData.homePath || '/';
+        }
+      } catch {
+        // fallback: وجّه بناءً على البريد الإلكتروني مباشرة
+        const e = data.user.email || '';
+        if (e.includes('admin')) homePath = '/admin/dashboard';
+        else if (e.includes('president')) homePath = '/executive/dashboard';
+        else if (e.includes('governance')) homePath = '/governance/dashboard';
+        else if (e.includes('hr')) homePath = '/hr/dashboard';
+        else if (e.includes('advisor')) homePath = '/advisor/dashboard';
+        else homePath = '/candidate/dashboard';
+      }
 
       const redirect = searchParams.get('redirect');
-      if (redirect) {
-        router.push(redirect);
-      } else if (primaryRole && ROLES[primaryRole as keyof typeof ROLES]) {
-        router.push(ROLES[primaryRole as keyof typeof ROLES].homePath);
-      } else if (data.user.email === 'admin@nauss.edu.sa') {
-        // المدير: توجيه للوحة الإدارة حتى لو لم يتم تهيئة السجل بعد
-        router.push('/admin/dashboard');
-      } else {
-        router.push('/');
-      }
+      router.push(redirect || homePath);
       router.refresh();
     } catch (err) {
       setError('حدث خطأ غير متوقع. حاول مرة أخرى.');

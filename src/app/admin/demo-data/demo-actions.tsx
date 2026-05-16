@@ -120,7 +120,6 @@ export function DemoDataActions({ totalRecords, isActive }: Props) {
                 ['لجنة الحوكمة', 'governance@nauss.edu.sa', 'Demo@2026'],
                 ['الموارد البشرية', 'hr@nauss.edu.sa', 'Demo@2026'],
                 ['المستشار', 'advisor@nauss.edu.sa', 'Demo@2026'],
-                ['مدير النظام', 'admin@nauss.edu.sa', 'Zx.321321'],
               ].map(([role, email, pass]) => (
                 <div key={email} className="bg-white border border-gold-200 rounded p-2">
                   <div className="font-bold text-primary-700">{role}</div>
