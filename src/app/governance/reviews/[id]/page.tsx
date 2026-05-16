@@ -41,8 +41,8 @@ export default async function GovernanceReviewDetailPage({
   const supabase = createServiceClient();
   const activeTab = searchParams.tab || 'summary';
 
-  const [{ data: profile }, { data: initiatives }, { data: kpis }, { data: assessments }, { data: evalLinks }, { data: evaluations }, { data: decisions }] = await Promise.all([
-    supabase.from('candidate_profiles').select('*, users(full_name, job_title, department, employee_number, email, years_of_experience)').eq('id', params.id).maybeSingle(),
+  const [{ data: profile, error: profileErr }, { data: initiatives }, { data: kpis }, { data: assessments }, { data: evalLinks }, { data: evaluations }, { data: decisions }] = await Promise.all([
+    supabase.from('candidate_profiles').select('*, users(full_name, job_title, department, employee_number, email, phone)').eq('id', params.id).maybeSingle(),
     supabase.from('initiatives').select('*').eq('candidate_profile_id', params.id).order('created_at'),
     supabase.from('kpis').select('*').eq('candidate_profile_id', params.id).order('created_at'),
     supabase.from('assessment_results').select('*, assessments(title, code)').eq('candidate_profile_id', params.id),
@@ -51,6 +51,7 @@ export default async function GovernanceReviewDetailPage({
     supabase.from('governance_decisions').select('*').eq('candidate_profile_id', params.id).order('decided_at', { ascending: false }),
   ]);
 
+  if (profileErr) console.error('Profile fetch error:', profileErr);
   if (!profile) notFound();
   const profileTyped = profile as any;
   const candidateUser = profileTyped.users;
