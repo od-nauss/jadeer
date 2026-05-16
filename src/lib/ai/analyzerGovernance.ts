@@ -1,34 +1,35 @@
 /**
- * Jadeer AI — Governance Analysis Engine
- * يحسب الدرجة الكلية ومستوى الثقة والتصنيف المقترح
+ * analyzerGovernance.ts
+ * محرك التحليل الشامل للجنة الحوكمة — يجمع كل مصادر البيانات ويولد درجة مرجحة
+ * ويكشف المخاطر والتحيزات ويقترح التصنيف النهائي
  */
 
 export interface GovernanceScoreInput {
   profile: {
     completion_score: number;
-    years_of_experience?: number;
-    internal_experience?: string;
-    led_projects?: string;
-    committee_participations?: string;
+    years_of_experience?: number | null;
+    internal_experience?: string | null;
+    led_projects?: string | null;
+    committee_participations?: string | null;
   };
   initiatives: Array<{
-    ai_score?: number;
-    achieved_impact?: string;
-    impact_metrics?: string;
-    evidence?: string;
-    is_sustainable?: boolean;
+    ai_score: number;
+    achieved_impact?: string | null;
+    impact_metrics?: string | null;
+    evidence?: string | null;
+    is_sustainable?: boolean | null;
   }>;
   kpis: Array<{
-    ai_score?: number;
-    target_value?: string;
-    actual_value?: string;
-    used_in_decision?: string;
-    is_officially_approved?: boolean;
+    ai_score: number;
+    target_value?: string | null;
+    actual_value?: string | null;
+    used_in_decision?: string | null;
+    is_officially_approved?: boolean | null;
   }>;
   assessmentResults: Array<{
-    assessment_code?: string;
+    assessment_code: string;
     score: number;
-    thinking_pattern?: string;
+    thinking_pattern?: string | null;
   }>;
   evaluation360: {
     overall_score: number;
@@ -38,12 +39,23 @@ export interface GovernanceScoreInput {
     evaluators_count: number;
     initiative_verification_rate: number;
     kpi_verification_rate: number;
-    detected_leadership_type?: string;
   } | null;
 }
 
-export interface GovernanceAnalysisResult {
-  // محاور الدرجة (0-100)
+export interface GovernanceScoreResult {
+  total_score: number;
+  trust_score: number;
+  readiness_label: string;
+  readiness_level: string;
+  leadership_type_label: string;
+  leadership_type: string;
+  ai_summary: string;
+  governance_recommendation: string;
+  primary_strengths: string[];
+  development_gaps: string[];
+  risk_flags: string[];
+  confidence_issues: string[];
+  special_flags: string[];
   axis_scores: {
     leadership: number;
     strategic: number;
@@ -53,277 +65,370 @@ export interface GovernanceAnalysisResult {
     technology: number;
     integrity: number;
   };
-  // الدرجة الكلية المرجحة
-  total_score: number;
-  // مستوى الثقة (مستقل عن الدرجة)
-  trust_score: number;
-  // تصنيف الجاهزية
-  readiness_level: 'ready_now' | 'ready_within_year' | 'promising' | 'specialist' | 'not_suitable' | 'high_performance_low_satisfaction' | 'human_leader';
-  readiness_label: string;
-  // نوع القيادة
-  leadership_type: 'strategic' | 'operational' | 'technical' | 'human_leader' | 'hidden' | 'emerging';
-  leadership_type_label: string;
-  // نقاط القوة والفجوات
-  primary_strengths: string[];
-  development_gaps: string[];
-  // التصنيفات الخاصة
-  special_flags: string[];
-  // الملخص
-  ai_summary: string;
-  governance_recommendation: string;
-  // تنبيهات
-  risk_flags: string[];
-  confidence_issues: string[];
 }
 
+/** أوزان المصادر من 100 */
 const WEIGHTS = {
-  leadership: 0.20,
-  strategic: 0.15,
-  performance: 0.15,
-  innovation: 0.15,
-  team: 0.15,
-  technology: 0.10,
-  integrity: 0.10,
+  profile: 15,       // اكتمال الملف والخبرة
+  initiatives: 20,   // المبادرات والإنجازات
+  kpis: 15,          // مؤشرات الأداء
+  assessments: 15,   // الاختبارات الذكية
+  eval360: 35,       // تقييم 360 درجة
 };
 
 const ASSESSMENT_AXIS_MAP: Record<string, string> = {
-  leadership_influence: 'leadership',
+  leadership_style: 'leadership',
   strategic_thinking: 'strategic',
-  decision_making: 'leadership',
-  crisis_management: 'leadership',
+  innovation: 'innovation',
   emotional_intelligence: 'team',
-  team_management: 'team',
-  tech_ai_usage: 'technology',
-  case_study: 'strategic',
+  tech_readiness: 'technology',
+  decision_making: 'strategic',
+  crisis_management: 'leadership',
+  communication: 'team',
 };
 
-export function computeGovernanceScore(input: GovernanceScoreInput): GovernanceAnalysisResult {
-  const risk_flags: string[] = [];
-  const confidence_issues: string[] = [];
+export function computeGovernanceScore(input: GovernanceScoreInput): GovernanceScoreResult {
+  const { profile, initiatives, kpis, assessmentResults, evaluation360 } = input;
 
-  // ── المحور 1: القيادة (من الاختبارات + 360) ────────────────
-  const leaderAssessments = input.assessmentResults.filter(r =>
-    ['leadership_influence', 'decision_making', 'crisis_management'].includes(r.assessment_code || '')
-  );
-  const leaderAssessScore = leaderAssessments.length > 0
-    ? leaderAssessments.reduce((s, r) => s + r.score, 0) / leaderAssessments.length : 50;
-  const leader360 = input.evaluation360?.overall_score ?? 50;
-  const leadershipScore = leaderAssessments.length > 0
-    ? leaderAssessScore * 0.5 + leader360 * 0.5 : leader360;
+  // ── 1. درجة الملف ──────────────────────────────────────────
+  let profileScore = profile.completion_score || 0;
+  if ((profile.years_of_experience || 0) >= 10) profileScore = Math.min(100, profileScore + 5);
+  if (profile.led_projects && profile.led_projects.length > 20) profileScore = Math.min(100, profileScore + 3);
+  if (profile.committee_participations && profile.committee_participations.length > 10) profileScore = Math.min(100, profileScore + 2);
 
-  // ── المحور 2: التفكير الاستراتيجي ──────────────────────────
-  const stratAssessments = input.assessmentResults.filter(r =>
-    ['strategic_thinking', 'case_study'].includes(r.assessment_code || '')
-  );
-  const strategicScore = stratAssessments.length > 0
-    ? stratAssessments.reduce((s, r) => s + r.score, 0) / stratAssessments.length : 55;
+  // ── 2. درجة المبادرات ──────────────────────────────────────
+  let initiativesScore = 0;
+  if (initiatives.length > 0) {
+    const scores = initiatives.map(i => i.ai_score || 0);
+    initiativesScore = scores.reduce((a, b) => a + b, 0) / scores.length;
+    const verifiedCount = initiatives.filter(i => i.evidence && i.evidence.length > 5).length;
+    const sustainableCount = initiatives.filter(i => i.is_sustainable).length;
+    initiativesScore = Math.min(100, initiativesScore + (verifiedCount * 2) + (sustainableCount * 1.5));
+  }
 
-  // ── المحور 3: الأداء والإنجاز (مبادرات + KPIs + الملف) ─────
-  // الأولوية: ai_score إذا متوفر، وإلا نستنتج من الشواهد والأثر
-  const validInis = input.initiatives.filter(i =>
-    (i.ai_score && i.ai_score > 40) || i.achieved_impact || i.evidence || i.is_sustainable
-  );
-  const iniScore = validInis.length > 0
-    ? Math.min(100, validInis.reduce((s, i) => {
-        const score = i.ai_score && i.ai_score > 0 ? i.ai_score
-          : (i.evidence ? 65 : 0) + (i.achieved_impact ? 15 : 0) + (i.is_sustainable ? 10 : 0);
-        return s + Math.max(50, Math.min(100, score));
-      }, 0) / validInis.length)
-    : Math.max(30, input.initiatives.length * 15); // تقدير بدائي
+  // ── 3. درجة المؤشرات ───────────────────────────────────────
+  let kpisScore = 0;
+  if (kpis.length > 0) {
+    const scores = kpis.map(k => k.ai_score || 0);
+    kpisScore = scores.reduce((a, b) => a + b, 0) / scores.length;
+    const officialCount = kpis.filter(k => k.is_officially_approved).length;
+    kpisScore = Math.min(100, kpisScore + (officialCount * 2));
+  }
 
-  const validKpis = input.kpis.filter(k => k.target_value);
-  const kpiScore = validKpis.length > 0
-    ? Math.min(100,
-        50 +
-        validKpis.filter(k => k.actual_value).length * 8 +
-        validKpis.filter(k => k.is_officially_approved).length * 8 +
-        validKpis.filter(k => k.used_in_decision).length * 6
-      )
-    : 40;
-  const performanceScore = Math.round(
-    iniScore * 0.35 + kpiScore * 0.35 + (input.profile.completion_score * 0.20) +
-    (input.profile.years_of_experience ? Math.min(10, input.profile.years_of_experience * 0.8) : 0)
-  );
+  // ── 4. درجة الاختبارات ─────────────────────────────────────
+  const axisFromAssessments: Record<string, number[]> = {};
+  let assessmentAvg = 0;
+  if (assessmentResults.length > 0) {
+    const scores = assessmentResults.map(a => a.score || 0);
+    assessmentAvg = scores.reduce((a, b) => a + b, 0) / scores.length;
+    for (const ar of assessmentResults) {
+      const axis = ASSESSMENT_AXIS_MAP[ar.assessment_code] || 'performance';
+      if (!axisFromAssessments[axis]) axisFromAssessments[axis] = [];
+      axisFromAssessments[axis].push(ar.score || 0);
+    }
+  }
 
-  // ── المحور 4: الابتكار (من المبادرات والتنوع) ──────────────
-  const sustainableInis = input.initiatives.filter(i => i.is_sustainable);
-  const withImpact = input.initiatives.filter(i => i.impact_metrics || i.achieved_impact);
-  const innovationScore = Math.min(100,
-    35 + withImpact.length * 10 + sustainableInis.length * 8 + validInis.length * 5 +
-    (input.profile.led_projects ? 8 : 0)
-  );
+  // ── 5. درجة 360 ────────────────────────────────────────────
+  const score360 = evaluation360?.overall_score || 0;
+  const team360 = evaluation360?.team_satisfaction_score || 0;
+  const confidence360 = evaluation360?.confidence_level || 0;
+  const evalCount = evaluation360?.evaluators_count || 0;
+  const initVerRate = evaluation360?.initiative_verification_rate || 0;
+  const kpiVerRate = evaluation360?.kpi_verification_rate || 0;
 
-  // ── المحور 5: الفريق (من 360) ──────────────────────────────
-  const teamScore = input.evaluation360?.team_satisfaction_score ?? 55;
+  // ── 6. الدرجة الكلية المرجحة ───────────────────────────────
+  const has360 = evaluation360 !== null && evalCount >= 3;
+  const effective360Weight = has360 ? WEIGHTS.eval360 : 0;
+  const redistrib = has360 ? 0 : WEIGHTS.eval360 / 4;
 
-  // ── المحور 6: التقنية (من الاختبارات) ──────────────────────
-  const techAssessment = input.assessmentResults.find(r => r.assessment_code === 'tech_ai_usage');
-  const techScore = techAssessment?.score ?? 55;
+  const totalDenom = WEIGHTS.profile + WEIGHTS.initiatives + WEIGHTS.kpis + WEIGHTS.assessments + effective360Weight;
 
-  // ── المحور 7: النزاهة (من 360 + الاختبارات) ────────────────
-  const integrityBase = input.evaluation360 ? Math.min(100, teamScore * 0.6 + leadershipScore * 0.4) : 60;
-  const integrityScore = Math.min(100, integrityBase + (input.profile.committee_participations ? 10 : 0));
+  const rawScore =
+    (profileScore * (WEIGHTS.profile + redistrib) +
+      initiativesScore * (WEIGHTS.initiatives + redistrib) +
+      kpisScore * (WEIGHTS.kpis + redistrib) +
+      assessmentAvg * (WEIGHTS.assessments + redistrib) +
+      score360 * effective360Weight) /
+    totalDenom;
 
+  const total_score = Math.round(Math.max(0, Math.min(100, rawScore)));
+
+  // ── 7. درجة الثقة ──────────────────────────────────────────
+  let trustBase = 40;
+  if (profile.completion_score >= 80) trustBase += 10;
+  if (initiatives.length >= 3) trustBase += 8;
+  const verifiedInits = initiatives.filter(i => i.evidence && i.evidence.length > 5).length;
+  trustBase += Math.min(verifiedInits * 3, 12);
+  if (has360) trustBase += Math.round(confidence360 * 0.2);
+  if (initVerRate > 60) trustBase += 5;
+  if (kpiVerRate > 60) trustBase += 5;
+  const trust_score = Math.min(95, trustBase);
+
+  // ── 8. درجات المحاور السبعة ────────────────────────────────
   const axis_scores = {
-    leadership: Math.round(leadershipScore),
-    strategic: Math.round(strategicScore),
-    performance: Math.round(performanceScore),
-    innovation: Math.round(innovationScore),
-    team: Math.round(teamScore),
-    technology: Math.round(techScore),
-    integrity: Math.round(integrityScore),
+    leadership: calcAxis('leadership', axisFromAssessments, evaluation360, initiativesScore),
+    strategic: calcAxis('strategic', axisFromAssessments, evaluation360, profileScore),
+    performance: calcAxis('performance', axisFromAssessments, evaluation360, kpisScore),
+    innovation: calcAxis('innovation', axisFromAssessments, evaluation360, initiativesScore),
+    team: has360 ? team360 : calcAxis('team', axisFromAssessments, evaluation360, 50),
+    technology: calcAxis('technology', axisFromAssessments, evaluation360, assessmentAvg),
+    integrity: Math.round((trust_score * 0.6) + (has360 ? score360 * 0.4 : total_score * 0.4)),
   };
 
-  // ── الدرجة الكلية المرجحة ─────────────────────────────────
-  const total_score = Math.round(
-    axis_scores.leadership * WEIGHTS.leadership +
-    axis_scores.strategic * WEIGHTS.strategic +
-    axis_scores.performance * WEIGHTS.performance +
-    axis_scores.innovation * WEIGHTS.innovation +
-    axis_scores.team * WEIGHTS.team +
-    axis_scores.technology * WEIGHTS.technology +
-    axis_scores.integrity * WEIGHTS.integrity
-  );
+  // ── 9. مستوى الجاهزية ──────────────────────────────────────
+  const { level, label } = resolveReadiness(total_score, trust_score, team360, has360);
 
-  // ── مستوى الثقة ──────────────────────────────────────────
-  let trust_score = 50;
-  if (input.profile.completion_score >= 70) trust_score += 10;
-  if (input.initiatives.length >= 2) trust_score += 10;
-  if (input.initiatives.filter(i => i.evidence).length >= 1) trust_score += 8;
-  if (input.kpis.filter(k => k.target_value && k.actual_value).length >= 2) trust_score += 8;
-  if (input.assessmentResults.length >= 4) trust_score += 8;
-  if (input.evaluation360) {
-    trust_score += Math.min(15, input.evaluation360.evaluators_count * 1.5);
-    trust_score -= input.evaluation360.extreme_count * 3;
-    if (input.evaluation360.initiative_verification_rate >= 50) trust_score += 5;
-    if (input.evaluation360.confidence_level >= 70) trust_score += 5;
-  } else {
-    trust_score -= 15;
-    confidence_issues.push('لم يكتمل تقييم 360 — مستوى الثقة منخفض.');
-  }
-  trust_score = Math.max(10, Math.min(100, trust_score));
+  // ── 10. نوع القيادة ────────────────────────────────────────
+  const { type, type_label } = resolveLeadershipType(axis_scores, assessmentResults);
 
-  // ── تصنيف الجاهزية ────────────────────────────────────────
-  let readiness_level: GovernanceAnalysisResult['readiness_level'];
-  let readiness_label: string;
+  // ── 11. نقاط القوة والفجوات ────────────────────────────────
+  const primary_strengths = extractStrengths(axis_scores, initiatives, kpis, has360, team360);
+  const development_gaps = extractGaps(axis_scores, profile, has360, evalCount);
 
-  // كشف الحالات الخاصة أولاً
-  const isHighPerformLowSat = axis_scores.performance >= 75 && axis_scores.team < 55;
-  const isHumanLeader = axis_scores.team >= 75 && axis_scores.performance < 60;
+  // ── 12. مخاطر وتنبيهات ─────────────────────────────────────
+  const risk_flags = extractRisks(input, axis_scores, has360, evalCount);
+  const confidence_issues = extractConfidenceIssues(input, trust_score, initVerRate, kpiVerRate);
+  const special_flags = extractSpecialFlags(total_score, trust_score, axis_scores, has360, team360);
 
-  if (isHighPerformLowSat) {
-    readiness_level = 'high_performance_low_satisfaction';
-    readiness_label = 'أداء مرتفع / رضا منخفض';
-    risk_flags.push('أداء مرتفع لكن رضا الفريق منخفض — لا يناسب القيادة المباشرة حالياً.');
-  } else if (isHumanLeader) {
-    readiness_level = 'human_leader';
-    readiness_label = 'قائد إنساني محتمل';
-    risk_flags.push('قوة إنسانية مرتفعة مع ضعف في الأداء والإنجاز — يحتاج تأهيلاً في المؤشرات.');
-  } else if (total_score >= 85) {
-    readiness_level = 'ready_now';
-    readiness_label = 'جاهز الآن';
-  } else if (total_score >= 75) {
-    readiness_level = 'ready_within_year';
-    readiness_label = 'جاهز خلال سنة';
-  } else if (total_score >= 65) {
-    readiness_level = 'promising';
-    readiness_label = 'واعد ويحتاج تطويراً موجهاً';
-  } else if (total_score >= 55) {
-    readiness_level = 'specialist';
-    readiness_label = 'متخصص جيد يحتاج تأهيلاً قيادياً';
-  } else {
-    readiness_level = 'not_suitable';
-    readiness_label = 'غير مناسب للمسار القيادي حالياً';
-  }
+  // ── 13. الملخص الذكي ───────────────────────────────────────
+  const ai_summary = buildAiSummary({
+    total_score, trust_score, level, type_label,
+    primary_strengths, development_gaps, has360, evalCount,
+  });
 
-  // ── نوع القيادة ───────────────────────────────────────────
-  let leadership_type: GovernanceAnalysisResult['leadership_type'];
-  let leadership_type_label: string;
-
-  // قيادة مخفية؟
-  const isHidden = axis_scores.team >= 75 && axis_scores.leadership >= 70 && input.profile.completion_score < 70;
-  if (isHidden) {
-    leadership_type = 'hidden';
-    leadership_type_label = 'قيادة مخفية محتملة';
-  } else if (axis_scores.strategic >= 80) {
-    leadership_type = 'strategic';
-    leadership_type_label = 'استراتيجية';
-  } else if (axis_scores.technology >= 75) {
-    leadership_type = 'technical';
-    leadership_type_label = 'تقنية';
-  } else if (isHumanLeader) {
-    leadership_type = 'human_leader';
-    leadership_type_label = 'إنسانية';
-  } else {
-    leadership_type = 'operational';
-    leadership_type_label = 'تشغيلية';
-  }
-
-  // ── نقاط القوة والفجوات ────────────────────────────────────
-  const primary_strengths: string[] = [];
-  const development_gaps: string[] = [];
-
-  const axisLabels: Record<string, string> = {
-    leadership: 'القيادة والتأثير', strategic: 'التفكير الاستراتيجي',
-    performance: 'الأداء والإنجاز', innovation: 'الابتكار والمبادرات',
-    team: 'رضا الفريق وأصحاب العلاقة', technology: 'التقنية والذكاء الاصطناعي',
-    integrity: 'النزاهة والالتزام',
-  };
-
-  for (const [axis, score] of Object.entries(axis_scores)) {
-    if (score >= 78) primary_strengths.push(axisLabels[axis]);
-    else if (score < 58) development_gaps.push(axisLabels[axis]);
-  }
-
-  // ── التصنيفات الخاصة ──────────────────────────────────────
-  const special_flags: string[] = [];
-  if (isHidden) special_flags.push('قيادة مخفية محتملة');
-  if (isHighPerformLowSat) special_flags.push('أداء مرتفع مع رضا منخفض');
-  if (isHumanLeader) special_flags.push('قائد إنساني محتمل');
-  if (total_score >= 82 && trust_score < 60) special_flags.push('درجة عالية / ثقة منخفضة');
-
-  if (input.evaluation360?.extreme_count && input.evaluation360.extreme_count > 0) {
-    risk_flags.push(`رُصد ${input.evaluation360.extreme_count} تقييم متطرف — يحتاج مراجعة.`);
-  }
-  if (input.initiatives.filter(i => !i.evidence).length > input.initiatives.length / 2) {
-    risk_flags.push('أكثر من نصف المبادرات بدون شواهد — يضعف قابلية التحقق.');
-  }
-
-  // ── الملخص ─────────────────────────────────────────────────
-  const ai_summary = [
-    `${readiness_label} — درجة الجاهزية: ${total_score}٪، مستوى الثقة: ${trust_score}٪.`,
-    `نوع القيادة: ${leadership_type_label}.`,
-    primary_strengths.length > 0 ? `نقاط القوة: ${primary_strengths.slice(0, 3).join('، ')}.` : '',
-    development_gaps.length > 0 ? `فجوات التطوير: ${development_gaps.slice(0, 2).join('، ')}.` : '',
-    special_flags.length > 0 ? `تنبيهات: ${special_flags.join(' | ')}.` : '',
-  ].filter(Boolean).join(' ');
-
-  const governance_recommendation = readiness_level === 'ready_now'
-    ? 'يُوصى باعتماد التصنيف وتحويل الملف لخطة تمكين وتكليف مناسب.'
-    : readiness_level === 'ready_within_year'
-    ? 'يُوصى باعتماد التصنيف مع خطة تطوير قيادي مركزة لمدة 6-12 شهراً.'
-    : readiness_level === 'promising'
-    ? 'يُوصى بخطة تطوير موجهة مع إعادة تقييم بعد 12-18 شهراً.'
-    : readiness_level === 'high_performance_low_satisfaction'
-    ? 'يُوصى بمسار تطوير إنساني قبل أي تكليف قيادي مباشر.'
-    : readiness_level === 'human_leader'
-    ? 'يُوصى بمسار تطوير في المؤشرات والأداء قبل اعتماد الجاهزية.'
-    : 'يُوصى بمسار تخصصي أو مهني وليس قيادياً في هذه المرحلة.';
+  const governance_recommendation = buildRecommendation(level, total_score, trust_score, risk_flags);
 
   return {
-    axis_scores,
     total_score,
-    trust_score: Math.round(trust_score),
-    readiness_level,
-    readiness_label,
-    leadership_type,
-    leadership_type_label,
-    primary_strengths,
-    development_gaps,
-    special_flags,
+    trust_score,
+    readiness_label: label,
+    readiness_level: level,
+    leadership_type_label: type_label,
+    leadership_type: type,
     ai_summary,
     governance_recommendation,
+    primary_strengths,
+    development_gaps,
     risk_flags,
     confidence_issues,
+    special_flags,
+    axis_scores,
   };
+}
+
+function calcAxis(
+  axis: string,
+  fromAssessments: Record<string, number[]>,
+  eval360: GovernanceScoreInput['evaluation360'],
+  fallback: number
+): number {
+  const vals: number[] = [];
+  if (fromAssessments[axis]) vals.push(...fromAssessments[axis]);
+  if (eval360 && axis in (eval360 as Record<string, unknown>)) {
+    // not every axis is in evaluation360 directly
+  }
+  if (vals.length === 0) return Math.round(Math.max(0, Math.min(100, fallback)));
+  return Math.round(vals.reduce((a, b) => a + b, 0) / vals.length);
+}
+
+function resolveReadiness(total: number, trust: number, team: number, has360: boolean) {
+  if (total >= 85 && trust >= 75 && (!has360 || team >= 70)) {
+    return { level: 'ready_now', label: 'جاهز الآن' };
+  }
+  if (total >= 72 && trust >= 60) {
+    return { level: 'ready_within_year', label: 'جاهز خلال سنة' };
+  }
+  if (total >= 58) {
+    return { level: 'promising', label: 'واعد ويحتاج تطويراً موجهاً' };
+  }
+  if (team < 55 && has360) {
+    return { level: 'high_performance_low_satisfaction', label: 'إنجاز عالٍ / رضا منخفض' };
+  }
+  if (total >= 45) {
+    return { level: 'specialist', label: 'متخصص يحتاج تجربة قيادية' };
+  }
+  return { level: 'not_suitable', label: 'لا يناسب القيادة المباشرة حالياً' };
+}
+
+function resolveLeadershipType(
+  axes: GovernanceScoreResult['axis_scores'],
+  assessments: GovernanceScoreInput['assessmentResults']
+) {
+  const patterns = assessments.map(a => a.thinking_pattern).filter(Boolean);
+  if (patterns.includes('strategic') && axes.strategic >= 75) {
+    return { type: 'strategic', type_label: 'قائد استراتيجي' };
+  }
+  if (patterns.includes('transformational') || (axes.innovation >= 75 && axes.leadership >= 70)) {
+    return { type: 'transformational', type_label: 'قائد تحويلي' };
+  }
+  if (axes.team >= 80 && axes.leadership >= 65) {
+    return { type: 'human_leader', type_label: 'قائد إنساني' };
+  }
+  if (axes.technology >= 80) {
+    return { type: 'technical', type_label: 'قائد تقني متخصص' };
+  }
+  if (axes.performance >= 80 && axes.strategic >= 70) {
+    return { type: 'operational', type_label: 'قائد تشغيلي' };
+  }
+  return { type: 'institutional', type_label: 'قائد تطوير مؤسسي' };
+}
+
+function extractStrengths(
+  axes: GovernanceScoreResult['axis_scores'],
+  initiatives: GovernanceScoreInput['initiatives'],
+  kpis: GovernanceScoreInput['kpis'],
+  has360: boolean,
+  team360: number
+): string[] {
+  const strengths: string[] = [];
+  if (axes.leadership >= 75) strengths.push('قدرة قيادية وتأثيرية مرتفعة');
+  if (axes.strategic >= 75) strengths.push('تفكير استراتيجي واضح');
+  if (axes.performance >= 75) strengths.push('مستوى أداء وإنجاز متميز');
+  if (axes.innovation >= 75) strengths.push('قدرة ابتكارية وريادة المبادرات');
+  if (has360 && team360 >= 80) strengths.push('رضا مرتفع من الفريق والمحيط');
+  if (axes.technology >= 75) strengths.push('توظيف متقدم للتقنية في العمل');
+  const sustainedInits = initiatives.filter(i => i.is_sustainable).length;
+  if (sustainedInits >= 2) strengths.push(`${sustainedInits} مبادرات مستدامة الأثر`);
+  const officialKpis = kpis.filter(k => k.is_officially_approved).length;
+  if (officialKpis >= 2) strengths.push(`${officialKpis} مؤشرات أداء معتمدة رسمياً`);
+  return strengths.slice(0, 5);
+}
+
+function extractGaps(
+  axes: GovernanceScoreResult['axis_scores'],
+  profile: GovernanceScoreInput['profile'],
+  has360: boolean,
+  evalCount: number
+): string[] {
+  const gaps: string[] = [];
+  if (axes.leadership < 60) gaps.push('تطوير مهارات القيادة والتأثير');
+  if (axes.strategic < 60) gaps.push('تعزيز التفكير الاستراتيجي ورؤية المستقبل');
+  if (axes.innovation < 60) gaps.push('تعزيز الإبداع وقيادة المبادرات');
+  if (axes.team < 60) gaps.push('تحسين ديناميكية العمل مع الفريق');
+  if (axes.technology < 55) gaps.push('تعزيز استخدام الأدوات الرقمية والتقنية');
+  if (!profile.years_of_experience || profile.years_of_experience < 5) gaps.push('بناء رصيد خبرة قيادية ميدانية');
+  if (has360 && evalCount < 5) gaps.push('توسيع دائرة التقييم لتشمل فئات أكثر تنوعاً');
+  return gaps.slice(0, 4);
+}
+
+function extractRisks(
+  input: GovernanceScoreInput,
+  axes: GovernanceScoreResult['axis_scores'],
+  has360: boolean,
+  evalCount: number
+): string[] {
+  const flags: string[] = [];
+  const { evaluation360 } = input;
+
+  if (has360 && evaluation360 && evaluation360.extreme_count >= 2) {
+    flags.push(`رُصد ${evaluation360.extreme_count} تقييمات متطرفة في نتائج 360 — احتمال وجود تحيز`);
+  }
+  if (has360 && evalCount < 4) {
+    flags.push('عدد المقيمين أقل من الحد الأمثل (4) مما يضعف مصداقية التقييم');
+  }
+  if (input.profile.completion_score < 60) {
+    flags.push(`اكتمال الملف منخفض (${input.profile.completion_score}٪) — يُوصى باستكمال البيانات قبل القرار`);
+  }
+  if (axes.integrity < 60) {
+    flags.push('مؤشر النزاهة أدنى من المستوى المتوقع — يستوجب مزيداً من التدقيق');
+  }
+  if (has360 && axes.team < 50) {
+    flags.push('رضا الفريق منخفض جداً — يُوصى بالتحقق من ديناميكيات بيئة العمل');
+  }
+  return flags;
+}
+
+function extractConfidenceIssues(
+  input: GovernanceScoreInput,
+  trust_score: number,
+  initVerRate: number,
+  kpiVerRate: number
+): string[] {
+  const issues: string[] = [];
+  if (trust_score < 55) issues.push('مستوى الثقة الكلي في النتائج منخفض — البيانات غير مكتملة أو غير محققة');
+  if (input.initiatives.length > 0 && initVerRate < 40) {
+    issues.push(`نسبة التحقق من المبادرات منخفضة (${initVerRate}٪) — يُوصى بطلب أدلة إضافية`);
+  }
+  if (input.kpis.length > 0 && kpiVerRate < 40) {
+    issues.push(`نسبة التحقق من المؤشرات منخفضة (${kpiVerRate}٪) — يُوصى بالتحقق من المصادر الرسمية`);
+  }
+  if (input.assessmentResults.length === 0) {
+    issues.push('لم يكتمل أي اختبار ذكاء — نتائج التحليل النفسي والمعرفي غير متوفرة');
+  }
+  return issues;
+}
+
+function extractSpecialFlags(
+  total: number,
+  trust: number,
+  axes: GovernanceScoreResult['axis_scores'],
+  has360: boolean,
+  team360: number
+): string[] {
+  const flags: string[] = [];
+  if (total >= 88 && trust >= 80) flags.push('🌟 مرشح استثنائي — يُوصى بالنظر في مسار التعيين المباشر');
+  if (has360 && team360 >= 90 && axes.leadership >= 75) flags.push('💡 نمط القيادة الإنسانية بارز — مناسب لقيادة فرق متنوعة');
+  if (axes.innovation >= 85 && axes.strategic >= 80) flags.push('🚀 إمكانات تحويلية عالية — مناسب لقيادة مشاريع التحول');
+  if (total >= 60 && trust < 50) flags.push('⚠ درجة جيدة لكن الثقة في البيانات منخفضة — يُوصى بمزيد من التحقق');
+  return flags;
+}
+
+function buildAiSummary(ctx: {
+  total_score: number;
+  trust_score: number;
+  level: string;
+  type_label: string;
+  primary_strengths: string[];
+  development_gaps: string[];
+  has360: boolean;
+  evalCount: number;
+}): string {
+  const { total_score, trust_score, level, type_label, primary_strengths, development_gaps, has360, evalCount } = ctx;
+
+  const readinessText: Record<string, string> = {
+    ready_now: 'جاهز للتولي القيادي الآن',
+    ready_within_year: 'قريب من الجاهزية القيادية خلال سنة',
+    promising: 'واعد ويستحق الاستثمار في تطويره',
+    specialist: 'متخصص يفتقر إلى تجربة قيادية كافية',
+    not_suitable: 'لا يُنصح بتوليه مهام قيادية في المرحلة الراهنة',
+    high_performance_low_satisfaction: 'يُحقق نتائج ممتازة لكن يحتاج تطوير الجانب الإنساني',
+    human_leader: 'قائد إنساني يتميز بالتأثير الإيجابي على فريقه',
+  };
+
+  const parts: string[] = [];
+  parts.push(`بناءً على تحليل شامل لجميع مصادر البيانات، يحصل المرشح على درجة إجمالية ${total_score}٪ بمستوى ثقة ${trust_score}٪.`);
+  parts.push(`التصنيف: ${readinessText[level] || level}. النمط القيادي المُرصد: ${type_label}.`);
+
+  if (primary_strengths.length > 0) {
+    parts.push(`أبرز نقاط القوة: ${primary_strengths.slice(0, 3).join('، ')}.`);
+  }
+  if (development_gaps.length > 0) {
+    parts.push(`مجالات التطوير الأولوية: ${development_gaps.slice(0, 2).join('، ')}.`);
+  }
+  if (has360) {
+    parts.push(`استُكملت ${evalCount} تقييمات 360 درجة، مما يُعزز موثوقية النتائج.`);
+  } else {
+    parts.push('لم تُستكمل تقييمات 360 درجة بعد، مما يُقلل من شمولية الصورة.');
+  }
+
+  return parts.join(' ');
+}
+
+function buildRecommendation(level: string, total: number, trust: number, risks: string[]): string {
+  if (risks.length >= 2) {
+    return 'يُوصى بتعليق القرار لحين معالجة المخاطر المُرصدة وتوثيق ردود المرشح عليها.';
+  }
+  if (level === 'ready_now') {
+    return 'يُوصى باعتماد الترشيح والمضي في إجراءات التعيين القيادي وفقاً للوائح المعمول بها.';
+  }
+  if (level === 'ready_within_year') {
+    return 'يُوصى بالاعتماد المشروط مع وضع خطة تطوير مدتها 6-12 شهراً وإعادة التقييم.';
+  }
+  if (level === 'promising') {
+    return 'يُوصى بإدراجه في برنامج تطوير قيادي موجه وإعادة التقييم خلال 12-18 شهراً.';
+  }
+  if (total < 50 || trust < 40) {
+    return 'يُوصى بإعادة الملف للاستكمال وإخضاعه لتقييم 360 كامل قبل أي قرار.';
+  }
+  return 'يُوصى بدراسة الملف في ضوء احتياجات المنصب المحدد وإجراء مقابلة تخصصية مع اللجنة.';
 }

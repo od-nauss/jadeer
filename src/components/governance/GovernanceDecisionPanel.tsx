@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { CheckCircle2, RotateCcw, XCircle, AlertTriangle, Loader2, Brain, Shield } from 'lucide-react';
+import { CheckCircle2, RotateCcw, XCircle, Shield, Loader2, ChevronDown } from 'lucide-react';
+import { Card, Badge } from '@/components/ui';
 
-interface Props {
+interface GovernanceDecisionPanelProps {
   candidateId: string;
   currentStatus: string;
   aiScore: number;
@@ -14,223 +14,296 @@ interface Props {
   aiGaps: string[];
 }
 
+const DECISION_OPTIONS = [
+  {
+    id: 'approved',
+    label: 'اعتماد الترشيح',
+    description: 'اعتماد المرشح رسمياً وإدراجه في قائمة التعاقب القيادي',
+    icon: CheckCircle2,
+    color: 'text-sage',
+    bg: 'bg-sage/10 border-sage/30',
+    activeBg: 'bg-sage text-white',
+  },
+  {
+    id: 'conditional_approval',
+    label: 'اعتماد مشروط',
+    description: 'اعتماد مشروط بإكمال متطلبات محددة خلال مدة معينة',
+    icon: Shield,
+    color: 'text-steelblue',
+    bg: 'bg-steelblue/10 border-steelblue/30',
+    activeBg: 'bg-steelblue text-white',
+  },
+  {
+    id: 'returned_for_completion',
+    label: 'إعادة للاستكمال',
+    description: 'إعادة الملف للمرشح لاستكمال بيانات أو متطلبات ناقصة',
+    icon: RotateCcw,
+    color: 'text-gold-700',
+    bg: 'bg-gold-50 border-gold-200',
+    activeBg: 'bg-gold-500 text-white',
+  },
+  {
+    id: 'deferred',
+    label: 'تأجيل القرار',
+    description: 'تأجيل البت في الملف لحين توفر معلومات إضافية',
+    icon: ChevronDown,
+    color: 'text-primary-600',
+    bg: 'bg-primary-50 border-primary-200',
+    activeBg: 'bg-primary-600 text-white',
+  },
+  {
+    id: 'rejected',
+    label: 'رفض الترشيح',
+    description: 'رفض الترشيح بصورة رسمية مع توثيق الأسباب',
+    icon: XCircle,
+    color: 'text-wine',
+    bg: 'bg-rose-50 border-rose-200',
+    activeBg: 'bg-wine text-white',
+  },
+];
+
+const LEADERSHIP_TYPES_AR = [
+  'قائد استراتيجي', 'قائد تحويلي', 'قائد إنساني', 'قائد تشغيلي',
+  'قائد ابتكاري تقني', 'قائد تقني متخصص', 'قائد تطوير مؤسسي', 'قائد أزمات',
+];
+
 export function GovernanceDecisionPanel({
-  candidateId, currentStatus, aiScore, aiLevel, aiLeadershipType, aiStrengths, aiGaps,
-}: Props) {
-  const router = useRouter();
-  const [decision, setDecision] = useState<'approve_process' | 'return' | 'reject' | ''>('');
-  const [processConcerns, setProcessConcerns] = useState('');
+  candidateId,
+  currentStatus,
+  aiScore,
+  aiLevel,
+  aiLeadershipType,
+  aiStrengths,
+  aiGaps,
+}: GovernanceDecisionPanelProps) {
+  const [selectedDecision, setSelectedDecision] = useState('');
   const [reason, setReason] = useState('');
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
+  const [conditions, setConditions] = useState('');
+  const [leadershipType, setLeadershipType] = useState(aiLeadershipType || '');
+  const [targetPositionNote, setTargetPositionNote] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
 
-  async function handleDecision() {
-    if (!decision) { setError('اختر قراراً'); return; }
-    if (reason.length < 20) { setError('اكتب سبباً واضحاً (20 حرف على الأقل)'); return; }
-    setSaving(true); setError(null);
+  const alreadyDecided = ['approved', 'rejected'].includes(currentStatus);
 
-    let url: string;
-    let body: object;
-
-    if (decision === 'approve_process') {
-      // اللجنة تُقرّ سلامة العملية → الذكاء الاصطناعي يُصدر البطاقة
-      url = `/api/governance/reviews/${candidateId}/finalize`;
-      body = {
-        process_approved: true,
-        process_concerns: processConcerns || undefined,
-      };
-    } else if (decision === 'return') {
-      url = `/api/governance/reviews/${candidateId}/finalize`;
-      body = { process_approved: false, return_reason: reason };
-    } else {
-      url = `/api/governance/reviews/${candidateId}/finalize`;
-      body = { process_approved: false, reject_reason: reason };
+  async function handleSubmit() {
+    if (!selectedDecision) { setError('يرجى تحديد نوع القرار'); return; }
+    if (!reason.trim() || reason.trim().length < 20) { setError('يرجى كتابة مسوغات القرار (20 حرف على الأقل)'); return; }
+    setError('');
+    setLoading(true);
+    try {
+      const res = await fetch('/api/governance/decisions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          candidateProfileId: candidateId,
+          decisionType: selectedDecision,
+          reason,
+          conditions: selectedDecision === 'conditional_approval' ? conditions : undefined,
+          leadershipType,
+          targetPositionNote,
+          aiScore,
+          aiLevel,
+        }),
+      });
+      if (!res.ok) {
+        const d = await res.json();
+        throw new Error(d.error || 'فشل في حفظ القرار');
+      }
+      setSuccess(true);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'حدث خطأ غير متوقع');
+    } finally {
+      setLoading(false);
     }
-
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-    const data = await res.json();
-    if (!res.ok) { setError(data.error || 'حدث خطأ'); setSaving(false); return; }
-
-    if (decision === 'approve_process') {
-      setSuccess(`✅ اعتمدت اللجنة سلامة العملية — الذكاء الاصطناعي أصدر البطاقة بدرجة ${data.ai_score}٪`);
-    } else {
-      setSuccess('تم تسجيل قرار اللجنة بنجاح');
-    }
-    setSaving(false);
-    setTimeout(() => router.push('/governance/reviews'), 2000);
   }
 
-  const inputCls = 'w-full px-3 py-2 border border-gold-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 outline-none';
-  const labelCls = 'block text-sm font-medium text-primary-700 mb-1';
+  if (success) {
+    return (
+      <div className="text-center py-12">
+        <CheckCircle2 className="h-16 w-16 text-sage mx-auto mb-4" />
+        <h2 className="text-xl font-bold text-primary-700 mb-2">تم تسجيل القرار بنجاح</h2>
+        <p className="text-darkgray text-sm">تم حفظ قرار اللجنة وإشعار الجهات المعنية.</p>
+        <button
+          onClick={() => window.location.reload()}
+          className="mt-6 px-6 py-2.5 bg-primary-700 text-white rounded-xl text-sm font-bold hover:bg-primary-800 transition"
+        >
+          تحديث الصفحة
+        </button>
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-5" dir="rtl">
-
-      {/* رسالة دور الذكاء الاصطناعي */}
-      <div className="p-4 bg-primary-50 border border-primary-200 rounded-xl">
-        <div className="flex items-center gap-2 mb-3">
-          <Brain className="h-5 w-5 text-gold-600" />
-          <span className="font-bold text-primary-700 text-sm">تحليل الذكاء الاصطناعي — النتيجة المحسوبة</span>
-        </div>
-        <div className="grid grid-cols-2 gap-3 text-sm mb-3">
-          <div><span className="text-darkgray">الدرجة: </span><strong className="text-2xl text-gold-700">{aiScore}٪</strong></div>
-          <div><span className="text-darkgray">التصنيف: </span><strong className="text-primary-700">{aiLevel}</strong></div>
-          <div><span className="text-darkgray">نوع القيادة: </span><strong className="text-primary-700">{aiLeadershipType}</strong></div>
-        </div>
-        {aiStrengths.length > 0 && (
-          <div className="text-xs text-sage mb-1">✓ نقاط قوة: {aiStrengths.slice(0, 3).join('، ')}</div>
-        )}
-        {aiGaps.length > 0 && (
-          <div className="text-xs text-wine">• فجوات: {aiGaps.slice(0, 3).join('، ')}</div>
-        )}
-        <div className="mt-3 p-2 bg-white border border-primary-100 rounded-lg text-xs text-primary-700">
-          <Shield className="h-3 w-3 inline ml-1" />
-          <strong>دور اللجنة:</strong> التحقق من سلامة العملية وخلوّها من التحيز — الدرجة صادرة من الذكاء الاصطناعي ولا تُعدَّل يدوياً.
-        </div>
-      </div>
-
-      {/* قرار اللجنة */}
-      <div>
-        <label className={labelCls}>قرار اللجنة *</label>
-        <div className="space-y-2">
-          {/* اعتماد العملية */}
-          <button
-            onClick={() => setDecision('approve_process')}
-            className={`w-full flex items-start gap-3 p-4 rounded-xl border-2 text-right transition-all ${
-              decision === 'approve_process'
-                ? 'border-sage bg-sage/10'
-                : 'border-gold-200 hover:border-sage/50 bg-white'
-            }`}
-          >
-            <CheckCircle2 className={`h-5 w-5 flex-shrink-0 mt-0.5 ${decision === 'approve_process' ? 'text-sage' : 'text-darkgray'}`} />
-            <div>
-              <div className="font-bold text-sm text-primary-700">اعتماد سلامة العملية</div>
-              <div className="text-xs text-darkgray mt-0.5">
-                العملية نظيفة — المقيّمون موثوقون، لا تحيز ظاهر، الشواهد كافية.<br />
-                سيُصدر الذكاء الاصطناعي البطاقة القيادية فوراً.
-              </div>
-            </div>
-          </button>
-
-          {/* إعادة للاستكمال */}
-          <button
-            onClick={() => setDecision('return')}
-            className={`w-full flex items-start gap-3 p-4 rounded-xl border-2 text-right transition-all ${
-              decision === 'return'
-                ? 'border-amber-500 bg-amber-50'
-                : 'border-gold-200 hover:border-amber-300 bg-white'
-            }`}
-          >
-            <RotateCcw className={`h-5 w-5 flex-shrink-0 mt-0.5 ${decision === 'return' ? 'text-amber-600' : 'text-darkgray'}`} />
-            <div>
-              <div className="font-bold text-sm text-primary-700">إعادة الملف — يحتاج معلومات إضافية</div>
-              <div className="text-xs text-darkgray mt-0.5">
-                رصدت اللجنة نقصاً في الشواهد أو المعلومات يمنع إقرار العملية.
-              </div>
-            </div>
-          </button>
-
-          {/* رفض العملية */}
-          <button
-            onClick={() => setDecision('reject')}
-            className={`w-full flex items-start gap-3 p-4 rounded-xl border-2 text-right transition-all ${
-              decision === 'reject'
-                ? 'border-wine bg-rose-50'
-                : 'border-gold-200 hover:border-rose-300 bg-white'
-            }`}
-          >
-            <XCircle className={`h-5 w-5 flex-shrink-0 mt-0.5 ${decision === 'reject' ? 'text-wine' : 'text-darkgray'}`} />
-            <div>
-              <div className="font-bold text-sm text-primary-700">رفض العملية — خلل جوهري في الإجراءات</div>
-              <div className="text-xs text-darkgray mt-0.5">
-                رصدت اللجنة تحيزاً أو مخالفة في العملية تستوجب الرفض الكامل.
-              </div>
-            </div>
-          </button>
-        </div>
-      </div>
-
-      {/* ملاحظات على العملية — عند الاعتماد */}
-      {decision === 'approve_process' && (
-        <div>
-          <label className={labelCls}>ملاحظات اللجنة على العملية (اختياري)</label>
-          <textarea rows={2} value={processConcerns} onChange={e => setProcessConcerns(e.target.value)}
-            className={inputCls}
-            placeholder="ملاحظات إضافية للسجل — لا تؤثر على الدرجة..." />
-          <div className="text-xs text-darkgray mt-1">
-            هذه الملاحظات تُضاف للسجل فقط — البطاقة تصدر بنتيجة الذكاء الاصطناعي كما هي.
+    <div className="space-y-5">
+      {/* توصية الذكاء الاصطناعي */}
+      <Card title="توصية منظومة التحليل الذكي" className="bg-primary-50 border-primary-200">
+        <div className="grid md:grid-cols-3 gap-4 mb-4">
+          <div className="bg-white rounded-xl p-4 text-center">
+            <div className="text-3xl font-bold text-primary-700">{aiScore}٪</div>
+            <div className="text-xs text-darkgray mt-1">الدرجة الكلية</div>
+          </div>
+          <div className="bg-white rounded-xl p-4 text-center">
+            <div className="text-sm font-bold text-gold-700">{aiLevel}</div>
+            <div className="text-xs text-darkgray mt-1">مستوى الجاهزية</div>
+          </div>
+          <div className="bg-white rounded-xl p-4 text-center">
+            <div className="text-sm font-bold text-steelblue">{aiLeadershipType}</div>
+            <div className="text-xs text-darkgray mt-1">النمط القيادي</div>
           </div>
         </div>
-      )}
+        <div className="grid md:grid-cols-2 gap-4 text-sm">
+          <div>
+            <div className="font-semibold text-sage mb-2">نقاط القوة المُرصدة:</div>
+            <ul className="space-y-1">
+              {aiStrengths.slice(0, 3).map((s, i) => (
+                <li key={i} className="flex items-start gap-2 text-darkgray">
+                  <span className="text-sage mt-0.5">✓</span>{s}
+                </li>
+              ))}
+              {aiStrengths.length === 0 && <li className="text-darkgray">—</li>}
+            </ul>
+          </div>
+          <div>
+            <div className="font-semibold text-amber-700 mb-2">فجوات التطوير:</div>
+            <ul className="space-y-1">
+              {aiGaps.slice(0, 3).map((g, i) => (
+                <li key={i} className="flex items-start gap-2 text-darkgray">
+                  <span className="text-amber-600 mt-0.5">!</span>{g}
+                </li>
+              ))}
+              {aiGaps.length === 0 && <li className="text-darkgray">—</li>}
+            </ul>
+          </div>
+        </div>
+      </Card>
 
-      {/* السبب — إلزامي للإعادة والرفض */}
-      {(decision === 'return' || decision === 'reject') && (
-        <div>
-          <label className={labelCls}>
-            {decision === 'return' ? 'وصف النقص المطلوب *' : 'سبب رفض العملية *'}
-          </label>
-          <textarea rows={3} value={reason} onChange={e => setReason(e.target.value)}
-            className={inputCls}
-            placeholder={decision === 'return'
-              ? 'صِف بوضوح ما ينقص من شواهد أو معلومات...'
-              : 'صِف الخلل أو التحيز المرصود بوضوح...'
-            }
-          />
-          <div className="text-xs text-darkgray mt-1">{reason.length} حرف (20 مطلوب)</div>
+      {alreadyDecided && (
+        <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 text-sm">
+          ⚠ هذا الملف سبق اتخاذ قرار نهائي بشأنه. يمكنك إصدار قرار جديد لتجاوز السابق إذا اقتضت الحاجة.
         </div>
       )}
 
-      {/* سبب عند الاعتماد أيضاً (للسجل) */}
-      {decision === 'approve_process' && (
-        <div>
-          <label className={labelCls}>تأكيد السلامة * (للسجل الحوكمي)</label>
-          <textarea rows={2} value={reason} onChange={e => setReason(e.target.value)}
-            className={inputCls}
-            placeholder="مثال: راجعت المقيّمين، الشواهد كافية، لا تحيز ظاهر، العملية سليمة..."
-          />
-          <div className="text-xs text-darkgray mt-1">{reason.length} حرف (20 مطلوب)</div>
+      {/* اختيار نوع القرار */}
+      <Card title="نوع القرار">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+          {DECISION_OPTIONS.map(opt => {
+            const Icon = opt.icon;
+            const isSelected = selectedDecision === opt.id;
+            return (
+              <button
+                key={opt.id}
+                onClick={() => setSelectedDecision(opt.id)}
+                className={`flex items-start gap-3 p-4 rounded-xl border-2 text-right transition-all ${
+                  isSelected ? opt.activeBg + ' border-transparent' : opt.bg + ' hover:opacity-80'
+                }`}
+              >
+                <Icon className={`h-5 w-5 flex-shrink-0 mt-0.5 ${isSelected ? 'text-current' : opt.color}`} />
+                <div>
+                  <div className={`font-bold text-sm ${isSelected ? '' : opt.color}`}>{opt.label}</div>
+                  <div className={`text-xs mt-0.5 ${isSelected ? 'opacity-80' : 'text-darkgray'}`}>{opt.description}</div>
+                </div>
+              </button>
+            );
+          })}
         </div>
+      </Card>
+
+      {/* تصنيف نوع القيادة */}
+      <Card title="تصنيف نوع القيادة (اختياري)">
+        <p className="text-xs text-darkgray mb-3">يمكن للجنة تأكيد أو تعديل النمط القيادي المُرصد من النظام.</p>
+        <div className="flex flex-wrap gap-2">
+          {LEADERSHIP_TYPES_AR.map(lt => (
+            <button
+              key={lt}
+              onClick={() => setLeadershipType(lt === leadershipType ? '' : lt)}
+              className={`px-3 py-1.5 rounded-lg text-sm border transition ${
+                leadershipType === lt
+                  ? 'bg-primary-700 text-white border-transparent'
+                  : 'border-primary-200 text-primary-700 hover:bg-primary-50'
+              }`}
+            >
+              {lt}
+            </button>
+          ))}
+        </div>
+      </Card>
+
+      {/* الشروط (للاعتماد المشروط) */}
+      {selectedDecision === 'conditional_approval' && (
+        <Card title="شروط الاعتماد المشروط">
+          <textarea
+            value={conditions}
+            onChange={e => setConditions(e.target.value)}
+            rows={3}
+            placeholder="حدد الشروط المطلوبة لاستكمال الاعتماد (مثل: إتمام برنامج تدريبي، تقديم وثائق، إجراء مقابلة تخصصية...)"
+            className="w-full p-3 border border-gold-200 rounded-xl text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary-300 bg-white"
+          />
+        </Card>
       )}
 
+      {/* ملاحظة المنصب المستهدف */}
+      <Card title="المنصب أو الدور المقترح (اختياري)">
+        <input
+          type="text"
+          value={targetPositionNote}
+          onChange={e => setTargetPositionNote(e.target.value)}
+          placeholder="مثال: مدير إدارة الموارد البشرية، نائب مدير عام..."
+          className="w-full p-3 border border-gold-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-300 bg-white"
+        />
+      </Card>
+
+      {/* مسوغات القرار */}
+      <Card title="مسوغات ودوافع القرار *">
+        <textarea
+          value={reason}
+          onChange={e => setReason(e.target.value)}
+          rows={5}
+          placeholder="اكتب هنا مسوغات القرار بشكل واضح ومفصل. يجب أن تتضمن: أسباب القرار، الاستناد إلى البيانات والتقييمات، والتوقعات المستقبلية للمرشح..."
+          className="w-full p-3 border border-gold-200 rounded-xl text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary-300 bg-white"
+        />
+        <div className="flex justify-between items-center mt-2">
+          <span className={`text-xs ${reason.trim().length < 20 ? 'text-wine' : 'text-sage'}`}>
+            {reason.trim().length} حرف {reason.trim().length < 20 ? '(الحد الأدنى 20 حرفاً)' : '✓'}
+          </span>
+          <span className="text-xs text-darkgray">يُوصى بكتابة 100 حرف على الأقل للتوثيق المؤسسي</span>
+        </div>
+      </Card>
+
+      {/* خطأ */}
       {error && (
-        <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl flex items-start gap-2 text-sm text-wine">
-          <AlertTriangle className="h-4 w-4 flex-shrink-0 mt-0.5" />
+        <div className="p-4 bg-rose-50 border border-rose-200 rounded-xl text-wine text-sm">
           {error}
         </div>
       )}
-      {success && (
-        <div className="p-3 bg-green-50 border border-green-200 rounded-xl text-sm text-sage font-medium">
-          {success}
-        </div>
-      )}
 
-      <button
-        onClick={handleDecision}
-        disabled={saving || !decision || reason.length < 20}
-        className={`w-full py-3 rounded-xl font-bold disabled:opacity-50 flex items-center justify-center gap-2 text-base transition ${
-          decision === 'approve_process'
-            ? 'bg-sage hover:bg-sage/90 text-white'
-            : decision === 'reject'
-            ? 'bg-wine hover:bg-wine/90 text-white'
-            : 'bg-amber-500 hover:bg-amber-600 text-white'
-        }`}
-      >
-        {saving ? <Loader2 className="h-5 w-5 animate-spin" /> : <Shield className="h-5 w-5" />}
-        {saving ? 'جارٍ تسجيل القرار...' :
-          decision === 'approve_process' ? 'اعتماد العملية — إصدار البطاقة' :
-          decision === 'return' ? 'إعادة الملف للاستكمال' :
-          decision === 'reject' ? 'رفض العملية' : 'تأكيد القرار'
-        }
-      </button>
-
-      <p className="text-xs text-darkgray text-center">
-        قرار اللجنة محفوظ في سجل الحوكمة ولا يمكن حذفه. البطاقة القيادية تصدر من الذكاء الاصطناعي عند اعتماد العملية.
-      </p>
+      {/* زر الإرسال */}
+      <div className="flex justify-end gap-3">
+        <button
+          onClick={() => { setSelectedDecision(''); setReason(''); setConditions(''); setError(''); }}
+          className="px-6 py-3 border border-gold-200 text-primary-700 rounded-xl text-sm font-bold hover:bg-gold-50 transition"
+        >
+          إعادة تعيين
+        </button>
+        <button
+          onClick={handleSubmit}
+          disabled={loading || !selectedDecision}
+          className="flex items-center gap-2 px-8 py-3 bg-primary-700 text-white rounded-xl text-sm font-bold hover:bg-primary-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {loading ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              جارٍ الحفظ...
+            </>
+          ) : (
+            <>
+              <Shield className="h-4 w-4" />
+              تسجيل قرار اللجنة
+            </>
+          )}
+        </button>
+      </div>
     </div>
   );
 }

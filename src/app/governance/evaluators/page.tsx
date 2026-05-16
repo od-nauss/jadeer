@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Users, ArrowLeft, AlertCircle } from 'lucide-react';
+import { Users, ArrowLeft, AlertCircle, Phone, Mail, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
@@ -26,7 +26,7 @@ export default async function GovernanceEvaluatorsPage() {
   if (typed.length > 0) {
     const { data: noms } = await supabase
       .from('evaluator_nominees')
-      .select('id, candidate_profile_id, full_name, job_title, relationship_type, can_verify_initiatives, can_verify_kpis')
+      .select('id, candidate_profile_id, full_name, job_title, department, email, phone, relationship_type, can_verify_initiatives, can_verify_kpis, has_personal_relationship, status')
       .in('candidate_profile_id', typed.map(p => p.id))
       .order('created_at');
     (noms || []).forEach((n: any) => {
@@ -74,14 +74,48 @@ export default async function GovernanceEvaluatorsPage() {
                 </div>
                 {noms.length > 0 ? (
                   <div>
-                    <div className="text-xs font-bold text-primary-700 mb-2">المقيمون المقترحون ({noms.length}/15):</div>
-                    <div className="grid md:grid-cols-3 gap-2">
+                    <div className="text-xs font-bold text-primary-700 mb-3">المقيمون المقترحون ({noms.length}/15):</div>
+                    <div className="space-y-2">
                       {noms.map((n: any, i: number) => (
-                        <div key={n.id} className="flex items-start gap-2 p-2.5 bg-gold-50 border border-gold-200 rounded-xl">
-                          <div className="h-6 w-6 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 text-xs font-bold flex-shrink-0">{i+1}</div>
-                          <div className="flex-1 min-w-0">
-                            <div className="text-sm font-bold text-primary-700 truncate">{n.full_name}</div>
-                            <div className="text-xs text-darkgray">{REL_LABELS[n.relationship_type] || n.relationship_type}</div>
+                        <div key={n.id} className={`flex items-start gap-3 p-3 border rounded-xl transition ${n.has_personal_relationship ? 'bg-amber-50 border-amber-200' : 'bg-gold-50 border-gold-200'}`}>
+                          <div className="h-7 w-7 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 text-xs font-bold flex-shrink-0 mt-0.5">{i+1}</div>
+                          <div className="flex-1 min-w-0 grid md:grid-cols-3 gap-2">
+                            <div>
+                              <div className="text-sm font-bold text-primary-700">{n.full_name}</div>
+                              <div className="text-xs text-darkgray">{n.job_title}{n.department ? ` · ${n.department}` : ''}</div>
+                              <div className="text-xs text-steelblue mt-0.5">{REL_LABELS[n.relationship_type] || n.relationship_type}</div>
+                            </div>
+                            <div className="space-y-1">
+                              {n.phone && (
+                                <div className="flex items-center gap-1.5 text-xs text-darkgray">
+                                  <Phone className="h-3 w-3 text-primary-500 flex-shrink-0" />
+                                  <span dir="ltr">{n.phone}</span>
+                                </div>
+                              )}
+                              {n.email && (
+                                <div className="flex items-center gap-1.5 text-xs text-darkgray">
+                                  <Mail className="h-3 w-3 text-primary-500 flex-shrink-0" />
+                                  <span className="truncate">{n.email}</span>
+                                </div>
+                              )}
+                            </div>
+                            <div className="flex flex-wrap gap-1 items-start">
+                              {n.can_verify_initiatives && (
+                                <span className="flex items-center gap-1 text-[10px] bg-green-100 text-sage px-1.5 py-0.5 rounded-lg">
+                                  <CheckCircle2 className="h-2.5 w-2.5" />يُحقق المبادرات
+                                </span>
+                              )}
+                              {n.can_verify_kpis && (
+                                <span className="flex items-center gap-1 text-[10px] bg-blue-100 text-steelblue px-1.5 py-0.5 rounded-lg">
+                                  <CheckCircle2 className="h-2.5 w-2.5" />يُحقق المؤشرات
+                                </span>
+                              )}
+                              {n.has_personal_relationship && (
+                                <span className="flex items-center gap-1 text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-lg">
+                                  <AlertTriangle className="h-2.5 w-2.5" />علاقة شخصية
+                                </span>
+                              )}
+                            </div>
                           </div>
                         </div>
                       ))}

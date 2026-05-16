@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowRight, User, Briefcase, Activity, ClipboardCheck, Users, Brain, AlertTriangle, Award, ScrollText, Shield } from 'lucide-react';
-import { createServiceClient } from "@/lib/supabase/server";;
+import { createServiceClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { Card, Badge } from '@/components/ui';
 import { computeGovernanceScore } from '@/lib/ai/analyzerGovernance';

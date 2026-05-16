@@ -25,8 +25,8 @@ export async function GET() {
       .from('candidate_profiles')
       .select(`
         id, status, completion_score, evaluation_track, updated_at,
-        users!candidate_profiles_user_id_fkey(id, full_name, job_title, department, email),
-        leadership_cards(readiness_level, total_score, readiness_score, is_published, status)
+        users(id, full_name, job_title, department, email),
+        leadership_cards(readiness_level, total_score, readiness_score, is_published)
       `)
       .order('updated_at', { ascending: false });
 
