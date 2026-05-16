@@ -1,14 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Loader2, Mail, Lock, User, Briefcase, Building, AlertCircle, CheckCircle2 } from 'lucide-react';
-import { createClient } from '@/lib/supabase/client';
+import { Loader2, Mail, Lock, User, Briefcase, Building, AlertCircle, Clock, Info } from 'lucide-react';
 import { UniversityLogo } from '@/components/branding/Logo';
 
 export default function RegisterPage() {
-  const router = useRouter();
   const [form, setForm] = useState({
     email: '',
     password: '',
@@ -45,7 +42,7 @@ export default function RegisterPage() {
       const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, source: 'self' }),
       });
       const data = await res.json();
 
@@ -56,9 +53,6 @@ export default function RegisterPage() {
       }
 
       setSuccess(true);
-      setTimeout(() => {
-        router.push('/login');
-      }, 2500);
     } catch {
       setError('حدث خطأ غير متوقع. حاول مرة أخرى.');
       setLoading(false);
@@ -69,12 +63,23 @@ export default function RegisterPage() {
     return (
       <div className="min-h-screen institutional-bg flex items-center justify-center px-4">
         <div className="max-w-md w-full institutional-card p-8 text-center">
-          <CheckCircle2 className="h-16 w-16 text-sage mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-primary-700 mb-2">تم إنشاء حسابك بنجاح</h2>
-          <p className="text-darkgray mb-4">
-            سيتم تحويلك لصفحة تسجيل الدخول للبدء في رحلتك القيادية.
+          <div className="w-16 h-16 rounded-full bg-gold-100 flex items-center justify-center mx-auto mb-4">
+            <Clock className="h-8 w-8 text-gold-600" />
+          </div>
+          <h2 className="text-2xl font-bold text-primary-700 mb-3">تم استلام طلبك</h2>
+          <p className="text-darkgray mb-4 leading-relaxed">
+            تم تسجيل طلبك بنجاح. سيقوم فريق الموارد البشرية بمراجعة بياناتك خلال <strong>1-3 أيام عمل</strong>، وستصلك رسالة بريد إلكتروني عند الموافقة.
           </p>
-          <Loader2 className="h-5 w-5 animate-spin text-primary-600 mx-auto" />
+          <div className="bg-primary-50 border border-primary-100 rounded-xl p-4 mb-6 text-right text-sm text-darkgray">
+            <div className="font-bold text-primary-700 mb-1">ملاحظة مهمة:</div>
+            لا يمكنك الدخول للمنصة حتى يتم قبول طلبك من قِبَل الموارد البشرية.
+          </div>
+          <Link
+            href="/login"
+            className="inline-block px-6 py-2.5 btn-primary rounded-lg font-bold text-sm"
+          >
+            العودة لصفحة الدخول
+          </Link>
         </div>
       </div>
     );
@@ -91,9 +96,21 @@ export default function RegisterPage() {
         </div>
 
         <div className="institutional-card p-8">
-          <h2 className="text-2xl font-bold text-primary-700 mb-1">إنشاء حساب جديد</h2>
+          <h2 className="text-2xl font-bold text-primary-700 mb-1">إنشاء حساب مرشح قيادي</h2>
+
+          {/* Important note about who should register */}
+          <div className="mb-5 p-4 bg-primary-50 border border-primary-100 rounded-xl flex items-start gap-3">
+            <Info className="h-5 w-5 text-primary-600 flex-shrink-0 mt-0.5" />
+            <div className="text-sm text-primary-800">
+              <div className="font-bold mb-1">هذا التسجيل مخصص للمرشحين القياديين فقط.</div>
+              <div className="text-primary-700">
+                أعضاء الموارد البشرية، لجنة الحوكمة، المستشارون والرئيس — يُضافون من قِبَل مديري النظام مباشرة، ولا يحتاجون للتسجيل هنا.
+              </div>
+            </div>
+          </div>
+
           <p className="text-sm text-darkgray mb-6">
-            ابدأ رحلتك في مسار الجاهزية القيادية. التقديم متاح لجميع الموظفين.
+            سيتم مراجعة طلبك من قِبَل الموارد البشرية قبل تفعيل حسابك.
           </p>
 
           {error && (
@@ -220,7 +237,7 @@ export default function RegisterPage() {
               disabled={loading}
               className="md:col-span-2 btn-primary py-3 rounded-lg font-bold disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-2"
             >
-              {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : 'إنشاء الحساب'}
+              {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : 'تقديم طلب التسجيل'}
             </button>
           </form>
 

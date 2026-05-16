@@ -13,6 +13,7 @@ export interface CurrentUser {
   primaryRole: RoleCode;
   isAdmin: boolean;
   impersonatingRole?: RoleCode;
+  registrationStatus: 'active' | 'pending' | 'rejected';
 }
 
 const ADMIN_EMAIL = 'admin@nauss.edu.sa';
@@ -30,7 +31,7 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
     // Try to find user by auth_user_id first, then by email
     let { data: userData } = await supabase
       .from('users')
-      .select('id, email, full_name, job_title, department, employee_number')
+      .select('id, email, full_name, job_title, department, employee_number, registration_status')
       .eq('auth_user_id', authUser.id)
       .maybeSingle();
 
@@ -38,7 +39,7 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
       // Try by email (handles auth_user_id mismatch after account repair)
       const { data: byEmail } = await supabase
         .from('users')
-        .select('id, email, full_name, job_title, department, employee_number')
+        .select('id, email, full_name, job_title, department, employee_number, registration_status')
         .eq('email', authUser.email!)
         .maybeSingle();
 
@@ -72,10 +73,11 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
               email: authUser.email!,
               full_name: fullName,
               is_active: true,
+              registration_status: 'active',
             },
             { onConflict: 'email' }
           )
-          .select('id, email, full_name, job_title, department, employee_number')
+          .select('id, email, full_name, job_title, department, employee_number, registration_status')
           .single();
 
         if (newUser) {
@@ -103,6 +105,25 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
 
     if (!userData) return null;
 
+    const registrationStatus = (userData.registration_status as 'active' | 'pending' | 'rejected') || 'active';
+
+    // Pending or rejected users: return minimal user with status (no roles needed)
+    if (registrationStatus === 'pending' || registrationStatus === 'rejected') {
+      return {
+        id: userData.id,
+        auth_user_id: authUser.id,
+        email: userData.email,
+        full_name: userData.full_name,
+        job_title: userData.job_title,
+        department: userData.department,
+        employee_number: userData.employee_number,
+        roles: [],
+        primaryRole: 'candidate',
+        isAdmin: false,
+        registrationStatus,
+      };
+    }
+
     const { data: rolesData } = await supabase
       .from('user_roles')
       .select('roles!inner(code)')
@@ -128,6 +149,7 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
       roles,
       primaryRole,
       isAdmin: roles.includes('admin'),
+      registrationStatus: 'active',
     };
   } catch {
     return null;

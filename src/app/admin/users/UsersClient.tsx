@@ -96,7 +96,7 @@ export function UsersClient({ initialUsers }: Props) {
       const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(addForm),
+        body: JSON.stringify({ ...addForm, source: 'admin' }),
       });
       const data = await res.json();
       if (!res.ok) { showToast(data.error || 'فشل إنشاء المستخدم', false); return; }

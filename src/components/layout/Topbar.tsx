@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { ROLES, type RoleCode } from '@/lib/auth/roles';
 import { cn } from '@/lib/utils';
+import { PortalSwitcher } from './PortalSwitcher';
 
 interface TopbarProps {
   fullName: string;
@@ -13,11 +14,12 @@ interface TopbarProps {
   role: RoleCode;
   isAdmin: boolean;
   unreadCount?: number;
+  userRoles?: RoleCode[];
 }
 
 const ALL_ROLES: RoleCode[] = ['admin', 'president', 'governance', 'hr', 'advisor', 'candidate'];
 
-export function Topbar({ fullName, email, role, isAdmin, unreadCount = 0 }: TopbarProps) {
+export function Topbar({ fullName, email, role, isAdmin, unreadCount = 0, userRoles = [] }: TopbarProps) {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [roleSwitcherOpen, setRoleSwitcherOpen] = useState(false);
@@ -47,6 +49,9 @@ export function Topbar({ fullName, email, role, isAdmin, unreadCount = 0 }: Topb
 
         {/* Right actions */}
         <div className="flex items-center gap-3">
+          {/* Portal Switcher — shown when user has multiple roles */}
+          <PortalSwitcher roles={userRoles} currentRole={role} />
+
           {/* أداة معاينة الأدوار — للمطور فقط */}
           {isAdmin && (
             <div className="relative">

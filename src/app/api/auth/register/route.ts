@@ -1,16 +1,37 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/server';
+import { getCurrentUser } from '@/lib/auth/current-user';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { email, password, fullName, employeeNumber, jobTitle, department } = body;
+    const {
+      email,
+      password,
+      fullName,
+      employeeNumber,
+      jobTitle,
+      department,
+      role = 'candidate',
+      source = 'self',
+    } = body;
 
     if (!email || !password || !fullName) {
       return NextResponse.json(
         { error: 'البيانات المطلوبة ناقصة.' },
         { status: 400 }
       );
+    }
+
+    // If source is 'admin', verify the caller is admin or hr
+    if (source === 'admin') {
+      const caller = await getCurrentUser();
+      if (!caller || (!caller.isAdmin && !caller.roles.includes('hr'))) {
+        return NextResponse.json(
+          { error: 'غير مصرح لك بإنشاء مستخدمين.' },
+          { status: 403 }
+        );
+      }
     }
 
     const supabase = createServiceClient();
@@ -30,6 +51,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const isAdminSource = source === 'admin';
+
     // إنشاء سجل في جدول users
     const { data: userRow, error: userError } = await supabase
       .from('users')
@@ -40,7 +63,8 @@ export async function POST(request: NextRequest) {
         employee_number: employeeNumber || null,
         job_title: jobTitle || null,
         department: department || null,
-        is_active: true,
+        is_active: isAdminSource,
+        registration_status: isAdminSource ? 'active' : 'pending',
       })
       .select('id')
       .single();
@@ -54,37 +78,45 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // ربط الدور candidate (المستخدم العادي)
-    const { data: candidateRole } = await supabase
-      .from('roles')
-      .select('id')
-      .eq('code', 'candidate')
-      .single();
+    // For admin-created users: assign role immediately
+    if (isAdminSource) {
+      const { data: roleRow } = await supabase
+        .from('roles')
+        .select('id')
+        .eq('code', role)
+        .single();
 
-    if (candidateRole) {
-      await supabase.from('user_roles').insert({
-        user_id: userRow.id,
-        role_id: candidateRole.id,
-      });
+      if (roleRow) {
+        await supabase.from('user_roles').insert({
+          user_id: userRow.id,
+          role_id: roleRow.id,
+        });
+      }
+
+      // Create candidate_profile if role is candidate
+      if (role === 'candidate') {
+        await supabase.from('candidate_profiles').insert({
+          user_id: userRow.id,
+          status: 'new',
+          completion_score: 0,
+        });
+      }
     }
-
-    // إنشاء candidate_profile فارغ
-    await supabase.from('candidate_profiles').insert({
-      user_id: userRow.id,
-      status: 'new',
-      completion_score: 0,
-    });
 
     // تسجيل في audit_logs
     await supabase.from('audit_logs').insert({
       user_id: userRow.id,
-      user_role: 'candidate',
-      operation_type: 'user_registered',
-      description: 'إنشاء حساب جديد',
+      user_role: isAdminSource ? role : null,
+      operation_type: isAdminSource ? 'admin_user_created' : 'user_registered',
+      description: isAdminSource ? `إنشاء مستخدم من قِبَل الإدارة بدور: ${role}` : 'تسجيل ذاتي — في انتظار الموافقة',
       sensitivity: 'normal',
     });
 
-    return NextResponse.json({ success: true, userId: userRow.id });
+    return NextResponse.json({
+      success: true,
+      userId: userRow.id,
+      status: isAdminSource ? 'active' : 'pending',
+    });
   } catch (error) {
     console.error('Register error:', error);
     return NextResponse.json(

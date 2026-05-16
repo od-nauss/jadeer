@@ -1,12 +1,14 @@
 import Link from 'next/link';
-import { GraduationCap, Users, Activity, Target, Bell, FileText, ArrowLeft, Trophy, Brain, AlertTriangle, Route, TrendingUp } from 'lucide-react';
+import { GraduationCap, Users, Activity, Target, Bell, FileText, ArrowLeft, Trophy, Brain, AlertTriangle, Route, TrendingUp, Star } from 'lucide-react';
 import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, StatCard, Card } from '@/components/ui';
+import { getCurrentUser } from '@/lib/auth/current-user';
 
 export const dynamic = 'force-dynamic';
 
 export default async function HRDashboard() {
   const supabase = createServiceClient();
+  const currentUser = await getCurrentUser();
 
   const [
     { count: totalCandidates },
@@ -64,8 +66,27 @@ export default async function HRDashboard() {
     { label: 'مسابقات مفتوحة', value: openCompetitions || 0, icon: <Trophy className="h-5 w-5" />, variant: 'gold' as const },
   ];
 
+  const isAlreadyCandidate = currentUser?.roles.includes('candidate');
+
   return (
     <div dir="rtl">
+      {/* Candidacy request banner — shown when not already a candidate */}
+      {!isAlreadyCandidate && (
+        <Link
+          href="/portal/request-candidacy"
+          className="flex items-center justify-between gap-4 mb-5 p-4 bg-gold-50 border border-gold-200 rounded-xl hover:bg-gold-100 transition group"
+        >
+          <div className="flex items-center gap-3">
+            <Star className="h-5 w-5 text-gold-600 flex-shrink-0" />
+            <div>
+              <div className="text-sm font-bold text-primary-700">هل تودّ التقدم كمرشح قيادي؟</div>
+              <div className="text-xs text-darkgray mt-0.5">يمكنك الاحتفاظ بدورك الحالي وإضافة دور المرشح القيادي</div>
+            </div>
+          </div>
+          <ArrowLeft className="h-4 w-4 text-gold-600 group-hover:translate-x-[-3px] transition-transform" />
+        </Link>
+      )}
+
       <PageHeader
         title="لوحة الموارد البشرية"
         description="مركز متابعة المرشحين، خطط التطوير، المسابقات الوظيفية، ومسارات التقييم. تحويل نتائج جدير لخطط تطوير قابلة للمتابعة."

@@ -1,50 +1,27 @@
 import { redirect } from 'next/navigation';
 import { getCurrentUser } from '@/lib/auth/current-user';
-import { Sidebar } from './Sidebar';
-import { Topbar } from './Topbar';
-import type { RoleCode } from '@/lib/auth/roles';
+import { Sidebar } from '@/components/layout/Sidebar';
+import { Topbar } from '@/components/layout/Topbar';
 
-interface DashboardLayoutProps {
-  children: React.ReactNode;
-  expectedRole: RoleCode;
-}
+export const dynamic = 'force-dynamic';
 
-export async function DashboardLayout({
-  children,
-  expectedRole,
-}: DashboardLayoutProps) {
-  let user;
-  try {
-    user = await getCurrentUser();
-  } catch (err: unknown) {
-    const msg = err instanceof Error ? err.message : String(err);
-    return (
-      <div className="p-8 font-mono text-sm">
-        <p className="text-red-700 font-bold">خطأ في getCurrentUser:</p>
-        <pre className="bg-red-50 p-4 rounded mt-2 whitespace-pre-wrap">{msg}</pre>
-      </div>
-    );
-  }
+export default async function PortalLayout({ children }: { children: React.ReactNode }) {
+  const user = await getCurrentUser();
 
   if (!user) {
     redirect('/login');
   }
 
-  // Pending approval — redirect to waiting page
   if (user.registrationStatus === 'pending') {
     redirect('/pending-approval');
   }
 
-  // Rejected — redirect to rejection notice
   if (user.registrationStatus === 'rejected') {
     redirect('/pending-approval?status=rejected');
   }
 
-  if (!user.isAdmin && !user.roles.includes(expectedRole)) {
-    redirect('/unauthorized');
-  }
-
-  const displayRole = expectedRole;
+  // Use the primary role for the sidebar/topbar
+  const displayRole = user.primaryRole;
 
   return (
     <div className="min-h-screen institutional-bg">
