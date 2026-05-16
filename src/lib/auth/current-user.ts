@@ -29,9 +29,10 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
     if (!authUser) return null;
 
     // Try to find user by auth_user_id first, then by email
+    // لا نُدرج registration_status في الاستعلام الأساسي لأن العمود قد لا يكون موجوداً
     let { data: userData } = await supabase
       .from('users')
-      .select('id, email, full_name, job_title, department, employee_number, registration_status')
+      .select('id, email, full_name, job_title, department, employee_number')
       .eq('auth_user_id', authUser.id)
       .maybeSingle();
 
@@ -39,7 +40,7 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
       // Try by email (handles auth_user_id mismatch after account repair)
       const { data: byEmail } = await supabase
         .from('users')
-        .select('id, email, full_name, job_title, department, employee_number, registration_status')
+        .select('id, email, full_name, job_title, department, employee_number')
         .eq('email', authUser.email!)
         .maybeSingle();
 
@@ -73,11 +74,10 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
               email: authUser.email!,
               full_name: fullName,
               is_active: true,
-              registration_status: 'active',
             },
             { onConflict: 'email' }
           )
-          .select('id, email, full_name, job_title, department, employee_number, registration_status')
+          .select('id, email, full_name, job_title, department, employee_number')
           .single();
 
         if (newUser) {
@@ -105,20 +105,32 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
 
     if (!userData) return null;
 
-    const registrationStatus = (userData.registration_status as 'active' | 'pending' | 'rejected') || 'active';
+    // قراءة registration_status بشكل آمن — العمود قد لا يكون موجوداً في DB القديمة
+    let registrationStatus: 'active' | 'pending' | 'rejected' = 'active';
+    try {
+      const svc = createServiceClient();
+      const { data: statusRow } = await svc
+        .from('users')
+        .select('registration_status')
+        .eq('id', (userData as any).id)
+        .maybeSingle();
+      if (statusRow && (statusRow as any).registration_status) {
+        registrationStatus = (statusRow as any).registration_status;
+      }
+    } catch { /* عمود غير موجود بعد — نتجاهل */ }
 
-    // Pending or rejected users: return minimal user with status (no roles needed)
+    // المستخدمون المعلّقون أو المرفوضون
     if (registrationStatus === 'pending' || registrationStatus === 'rejected') {
       return {
-        id: userData.id,
+        id: (userData as any).id,
         auth_user_id: authUser.id,
-        email: userData.email,
-        full_name: userData.full_name,
-        job_title: userData.job_title,
-        department: userData.department,
-        employee_number: userData.employee_number,
+        email: (userData as any).email,
+        full_name: (userData as any).full_name,
+        job_title: (userData as any).job_title,
+        department: (userData as any).department,
+        employee_number: (userData as any).employee_number,
         roles: [],
-        primaryRole: 'candidate',
+        primaryRole: 'candidate' as RoleCode,
         isAdmin: false,
         registrationStatus,
       };

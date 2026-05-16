@@ -40,27 +40,25 @@ function LoginForm() {
         return;
       }
 
-      // نستخدم API server-side لجلب الدور — يتجاوز RLS بشكل موثوق
-      let homePath = '/';
+      // Fallback بناءً على البريد — يعمل دائماً حتى بدون API
+      const emailFallback = (email: string) => {
+        if (email.includes('admin')) return '/admin/dashboard';
+        if (email.includes('president')) return '/executive/dashboard';
+        if (email.includes('governance')) return '/governance/dashboard';
+        if (email.includes('hr@')) return '/hr/dashboard';
+        if (email.includes('advisor')) return '/advisor/dashboard';
+        return '/candidate/dashboard';
+      };
+
+      let homePath = emailFallback(data.user.email || '');
+
       try {
-        const meRes = await fetch('/api/auth/me', {
-          // أضف الـ cookie session التي أنشأها signInWithPassword
-          credentials: 'include',
-        });
+        const meRes = await fetch('/api/auth/me', { credentials: 'include' });
         if (meRes.ok) {
           const meData = await meRes.json();
-          homePath = meData.homePath || '/';
+          if (meData.homePath) homePath = meData.homePath;
         }
-      } catch {
-        // fallback: وجّه بناءً على البريد الإلكتروني مباشرة
-        const e = data.user.email || '';
-        if (e.includes('admin')) homePath = '/admin/dashboard';
-        else if (e.includes('president')) homePath = '/executive/dashboard';
-        else if (e.includes('governance')) homePath = '/governance/dashboard';
-        else if (e.includes('hr')) homePath = '/hr/dashboard';
-        else if (e.includes('advisor')) homePath = '/advisor/dashboard';
-        else homePath = '/candidate/dashboard';
-      }
+      } catch { /* استخدم الـ fallback */ }
 
       const redirect = searchParams.get('redirect');
       router.push(redirect || homePath);
