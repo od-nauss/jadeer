@@ -3,13 +3,13 @@ import {
   Database, Trophy, Bell, Shield, TrendingUp,
   CheckCircle2, AlertTriangle, Clock
 } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, StatCard, Card } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
 
 export default async function AdminDashboard() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
 
   const results = await Promise.allSettled([
     supabase.from('users').select('id', { count: 'exact', head: true }),

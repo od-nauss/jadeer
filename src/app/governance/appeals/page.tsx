@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 import { AlertCircle } from 'lucide-react';
@@ -27,7 +27,7 @@ export default async function GovernanceAppealsPage() {
   const user = await getCurrentUser();
   if (!user) return null;
 
-  const supabase = createClient();
+  const supabase = createServiceClient();
   const { data: appeals } = await supabase
     .from('appeals')
     .select('*, candidate_profiles(users(full_name, job_title))')

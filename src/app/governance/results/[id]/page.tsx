@@ -275,7 +275,7 @@ export default async function GovernanceResultDetailPage({ params }: { params: {
                 { label: 'الملف القيادي',         done: true },
                 { label: 'المبادرات والإنجازات',  done: true },
                 { label: 'مؤشرات الأداء',          done: true },
-                { label: 'الاختبارات الذكية',      done: (card as any).axis_scores !== null },
+                { label: 'الاختبارات الذكية',      done: (card as any).axis_scores_json !== null },
                 { label: 'تقييم 360°',             done: (evals?.length || 0) > 0 },
                 { label: 'اعتماد لجنة الحوكمة',   done: card.is_published },
               ].map(({ label, done }) => (

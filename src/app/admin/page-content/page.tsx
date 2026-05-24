@@ -1,10 +1,10 @@
 import { FileText } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
 export default async function AdminPageContentPage() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
   const { data: pages } = await supabase
     .from('page_content')
     .select('*')

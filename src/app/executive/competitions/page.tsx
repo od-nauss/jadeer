@@ -1,10 +1,10 @@
 ﻿import { Trophy } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
 export default async function ExecutiveCompetitionsPage() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
   const { data: competitions } = await supabase
     .from('competitions')
     .select('*, organization_units(name)')

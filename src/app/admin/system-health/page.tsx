@@ -1,5 +1,5 @@
 import { Activity, Database, Shield, Brain, Key, Users, FileText, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
@@ -21,7 +21,7 @@ function StatusIcon({ ok, warn }: { ok: boolean; warn?: boolean }) {
 }
 
 export default async function SystemHealthPage() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
   const startTime = Date.now();
 
   const CORE_TABLES = [

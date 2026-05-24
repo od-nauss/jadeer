@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 import { Users } from 'lucide-react';
@@ -10,7 +10,7 @@ export default async function ExecutiveAdvisorsPage() {
   const user = await getCurrentUser();
   if (!user) return null;
 
-  const supabase = createClient();
+  const supabase = createServiceClient();
 
   // جميع المستشارين
   const { data: advisorUsers } = await supabase

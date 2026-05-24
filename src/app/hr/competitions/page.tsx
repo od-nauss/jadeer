@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Trophy, Plus, ArrowLeft, Calendar, Users } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
@@ -19,7 +19,7 @@ const TYPE_LABELS: Record<string, string> = { leadership: 'قيادية', operat
 export default async function HRCompetitionsPage() {
   const user = await getCurrentUser();
   if (!user) return null;
-  const supabase = createClient();
+  const supabase = createServiceClient();
   const { data: competitions } = await supabase.from('competitions').select('*, organization_units(name)').order('created_at', { ascending: false });
   const { data: candidateCounts } = await supabase.from('competition_candidates').select('competition_id');
   const countMap: Record<string, number> = {};

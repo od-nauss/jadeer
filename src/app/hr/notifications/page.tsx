@@ -1,10 +1,10 @@
 ﻿import { Bell } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
 export default async function HRNotificationsPage() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
   const { data: notifications } = await supabase
     .from('notifications')
     .select('*')

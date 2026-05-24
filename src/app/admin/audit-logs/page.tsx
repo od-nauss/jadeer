@@ -1,10 +1,10 @@
 ﻿import { ScrollText, Filter } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
 export default async function AdminAuditLogsPage() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
   const { data: logs } = await supabase
     .from('audit_logs')
     .select('*, users(full_name)')

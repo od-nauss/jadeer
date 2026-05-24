@@ -1,10 +1,10 @@
 ﻿import { Users } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
 export default async function ExecutiveUsersPage() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
   const { data: users } = await supabase
     .from('users')
     .select('id, full_name, job_title, department, email, user_roles(roles(code, name_ar))')

@@ -1,5 +1,5 @@
 import { notFound, redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { AssessmentRunner } from '@/components/candidate/AssessmentRunner';
 import { UniversityLogo } from '@/components/branding/Logo';
@@ -12,7 +12,7 @@ export default async function TakeAssessmentPage({ params }: { params: { id: str
   const user = await getCurrentUser();
   if (!user) redirect('/login');
 
-  const supabase = createClient();
+  const supabase = createServiceClient();
 
   // التحقق من وجود الاختبار
   const { data: assessment } = await supabase

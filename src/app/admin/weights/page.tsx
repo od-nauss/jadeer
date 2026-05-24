@@ -1,5 +1,5 @@
 import { Sliders } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader } from '@/components/ui';
 import { WeightsClient } from './WeightsClient';
 
@@ -16,7 +16,7 @@ const DEFAULT_WEIGHTS = [
 ];
 
 export default async function AdminWeightsPage() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
   const { data: settings } = await supabase
     .from('system_settings')
     .select('*')

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Trophy, ArrowRight, Users, CheckCircle2, Clock, AlertTriangle, Calendar } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 import { READINESS_LEVELS } from '@/lib/utils';
@@ -22,7 +22,7 @@ export default async function CompetitionDetailPage({ params }: { params: { id: 
   const user = await getCurrentUser();
   if (!user) return null;
 
-  const supabase = createClient();
+  const supabase = createServiceClient();
   const { data: comp } = await supabase
     .from('competitions')
     .select('*, organization_units(name)')

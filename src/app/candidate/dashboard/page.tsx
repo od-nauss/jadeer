@@ -3,7 +3,7 @@ import {
   User, Briefcase, Activity, ClipboardCheck, Users, Award, Target,
   CheckCircle2, Circle, ArrowLeft, Sparkles, Brain, AlertCircle, Bell,
 } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { PageHeader, Card } from '@/components/ui';
 import { analyzeConsistency } from '@/lib/ai/analyzer';
@@ -32,7 +32,7 @@ export default async function CandidateDashboard() {
   const user = await getCurrentUser();
   if (!user) return null;
 
-  const supabase = createClient();
+  const supabase = createServiceClient();
 
   // 1) جلب الملف أولاً لمعرفة الـ profile_id
   const { data: profile } = await supabase

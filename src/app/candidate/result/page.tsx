@@ -1,5 +1,5 @@
 ﻿import { Award, AlertCircle } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { PageHeader, Card } from '@/components/ui';
 import { READINESS_LEVELS } from '@/lib/utils';
@@ -9,7 +9,7 @@ export default async function CandidateResultPage() {
   const user = await getCurrentUser();
   if (!user) return null;
 
-  const supabase = createClient();
+  const supabase = createServiceClient();
   const { data: profile } = await supabase
     .from('candidate_profiles')
     .select('id')

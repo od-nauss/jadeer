@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 import { Bell, AlertTriangle, CheckCircle2, ArrowLeft, Brain } from 'lucide-react';
@@ -28,7 +28,7 @@ export default async function ExecutiveAlertsPage() {
   const user = await getCurrentUser();
   if (!user) return null;
 
-  const supabase = createClient();
+  const supabase = createServiceClient();
 
   // جلب التنبيهات من الجدول الصحيح
   const { data: alerts } = await supabase

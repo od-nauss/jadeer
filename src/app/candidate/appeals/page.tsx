@@ -1,5 +1,5 @@
 import { AlertCircle, Clock, CheckCircle2, XCircle } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 import { AppealForm } from '@/components/candidate/AppealForm';
@@ -28,7 +28,7 @@ export default async function CandidateAppealsPage() {
   const user = await getCurrentUser();
   if (!user) return null;
 
-  const supabase = createClient();
+  const supabase = createServiceClient();
   const { data: profile } = await supabase.from('candidate_profiles').select('id, status').eq('user_id', user.id).maybeSingle();
   const { data: appeals } = await supabase.from('appeals').select('*').eq('candidate_profile_id', profile?.id || '').order('created_at', { ascending: false });
 

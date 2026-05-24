@@ -1,11 +1,11 @@
 ﻿import Link from 'next/link';
 import { TrendingUp, ArrowLeft, Award, AlertTriangle, Eye } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card, EmptyState } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
 export default async function ExecutiveRecommendationsPage() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
 
   // مرشحون جاهزون الآن
   const { data: readyNow } = await supabase

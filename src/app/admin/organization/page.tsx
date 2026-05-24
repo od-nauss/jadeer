@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Building2, Plus, AlertTriangle, CheckCircle, Users, Briefcase } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card, Badge } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
@@ -77,7 +77,7 @@ function UnitTreeNode({ node, depth = 0 }: { node: any; depth?: number }) {
 }
 
 export default async function AdminOrganizationPage() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
   const { data: units } = await supabase
     .from('organization_units')
     .select('*')

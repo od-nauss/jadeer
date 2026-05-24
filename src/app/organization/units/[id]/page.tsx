@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowRight, Building2, Users, AlertTriangle, Brain, TrendingUp, FileText, History } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { Card, Badge } from '@/components/ui';
 import { FIT_LEVEL_AR, FIT_LEVEL_COLOR } from '@/lib/ai/analyzerFit';
 
@@ -31,7 +31,7 @@ export default async function OrganizationUnitPage({
   params, searchParams
 }: { params: { id: string }; searchParams: { tab?: string } }) {
   const tab = searchParams.tab || 'data';
-  const supabase = createClient();
+  const supabase = createServiceClient();
 
   const [{ data: unit }, { data: fitScores }, { data: successionMap }, { data: parent }] = await Promise.all([
     supabase.from('organization_units').select('*, organization_unit_requirements(*)').eq('id', params.id).single(),

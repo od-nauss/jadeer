@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ClipboardCheck, ArrowLeft, CheckCircle2, Play, Clock, Lock } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
@@ -21,7 +21,7 @@ export default async function CandidateAssessmentsPage() {
   const user = await getCurrentUser();
   if (!user) return null;
 
-  const supabase = createClient();
+  const supabase = createServiceClient();
   const { data: profile } = await supabase
     .from('candidate_profiles')
     .select('id')

@@ -1,5 +1,5 @@
 ﻿import { Bell } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth/current-user';
 import { PageHeader, Card, Badge, EmptyState } from '@/components/ui';
 
@@ -8,7 +8,7 @@ export default async function CandidateNotificationsPage() {
   const user = await getCurrentUser();
   if (!user) return null;
 
-  const supabase = createClient();
+  const supabase = createServiceClient();
   const { data: notifications } = await supabase
     .from('notifications')
     .select('*')

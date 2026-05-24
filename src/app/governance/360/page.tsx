@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import { Eye, ArrowLeft } from 'lucide-react';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/server';
 import { PageHeader, Card, EmptyState } from '@/components/ui';
 
 export const dynamic = 'force-dynamic';
 
 export default async function Governance360Page() {
-  const supabase = createClient();
+  const supabase = createServiceClient();
 
   // جلب المرشحين الذين تقييم 360 جارٍ لهم
   const { data: profiles } = await supabase
