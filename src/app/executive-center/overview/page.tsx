@@ -17,13 +17,13 @@ export default function ExecutiveOverview() {
           منصة <span className="text-gold-400">جدير</span>
         </h1>
         <p className="text-xl md:text-2xl text-gold-200 font-light mb-4">
-          لتحليل الجاهزية القيادية وبناء قيادات المستقبل
+          لتحليل الجاهزية واكتشاف الكفاءات المؤسسية
         </p>
 
         {/* الرسالة الافتتاحية — بلغة تُعظّم القائد */}
         <div className="max-w-3xl mx-auto mt-10 p-8 bg-white/5 border border-gold-400/20 rounded-3xl">
           <p className="text-lg text-white/85 leading-loose text-right">
-            القيادات الاستثنائية لا تُبنى بالحظ — بل بمنظومة مدروسة تُعطي كل كفاءة حقها من الفرصة.
+            الكفاءات الاستثنائية لا تُكتشف بالحظ — بل بمنظومة مدروسة تُعطي كل كفاءة حقها من الفرصة.
             منصة جدير تُزوّد متخذ القرار برؤية تحليلية شاملة تُعزز حكمته وتُوثّق خياراته،
             فيصدر قراره مدعوماً بالبيانات، محمياً بالحوكمة، مُسجَّلاً للتاريخ.
           </p>
@@ -36,6 +36,10 @@ export default function ExecutiveOverview() {
           <Link href="/executive-center/why"
             className="inline-flex items-center gap-2 bg-gold-500 hover:bg-gold-400 text-primary-900 font-bold px-7 py-3.5 rounded-xl transition-all">
             لماذا منظمتك تحتاجها؟ <ArrowLeft className="h-4 w-4" />
+          </Link>
+          <Link href="/executive-center/three-cards"
+            className="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-500 text-white font-bold px-7 py-3.5 rounded-xl transition-all border border-gold-400/30">
+            ★ نظام البطاقات الثلاث <ArrowLeft className="h-4 w-4" />
           </Link>
           <Link href="/executive-center/demo-models"
             className="inline-flex items-center gap-2 border border-gold-400/50 text-gold-200 hover:bg-white/5 px-7 py-3.5 rounded-xl transition">
@@ -84,8 +88,8 @@ export default function ExecutiveOverview() {
             {
               icon: TrendingUp,
               color: 'text-steelblue', bg: 'bg-steelblue/10',
-              title: 'بناء الصف القيادي الثاني',
-              desc: 'المنظمة التي تعرف مسبقاً من سيقود غداً لا تُفاجأ بالفراغ القيادي.',
+              title: 'بناء الصف الثاني من الكفاءات',
+              desc: 'المنظمة التي تعرف مسبقاً كفاءاتها الجاهزة لا تُفاجأ بالفراغ القيادي.',
             },
             {
               icon: Brain,
@@ -123,7 +127,7 @@ export default function ExecutiveOverview() {
             { n: '1', label: 'يُقدّم الموظف ملفه', sub: 'مبادرات · مؤشرات · اختبارات ذكية', color: 'bg-primary-600' },
             { n: '2', label: 'تقييم متعدد المصادر', sub: '360° · تحليل الذكاء الاصطناعي', color: 'bg-gold-600' },
             { n: '3', label: 'مراجعة الحوكمة', sub: 'التحقق من سلامة الإجراء', color: 'bg-steelblue' },
-            { n: '4', label: 'البطاقة القيادية', sub: 'نتيجة موثقة · خطة تطوير · ملاءمة تنظيمية', color: 'bg-sage' },
+            { n: '4', label: 'البطاقات الثلاث المترابطة', sub: 'جاهزية + أداء متوازن + توصية نهائية', color: 'bg-sage' },
           ].map((step) => (
             <div key={step.n} className="text-center group">
               <div className={`inline-flex h-16 w-16 items-center justify-center rounded-2xl ${step.color} text-white text-2xl font-bold mb-3 mx-auto block transition group-hover:scale-105`}>

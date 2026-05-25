@@ -48,7 +48,7 @@ export default async function ExecutiveRecommendationsPage() {
       cards: readyNow,
     },
     {
-      title: 'قيادات مخفية يستحقّ اكتشافها',
+      title: 'كفاءات مخفية يستحقّ اكتشافها',
       desc: 'كفاءات قيادية ظهرت دون منصب رسمي',
       icon: Eye,
       color: 'gold',

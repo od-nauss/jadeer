@@ -37,7 +37,7 @@ export default async function ExecutiveReportsPage() {
   const reports = [
     { title: 'تقرير الجاهزية القيادية الشامل', icon: FileText, desc: 'كافة المرشحين بتصنيفهم وملاءمتهم' },
     { title: 'تقرير الكفاءات الجاهزة الآن', icon: TrendingUp, desc: 'المرشحون 85%+ المعتمدون للتكليف' },
-    { title: 'تقرير القيادات المخفية', icon: Eye, desc: 'الكفاءات التي لم تكن ظاهرة في القيادة' },
+    { title: 'تقرير الكفاءات المخفية', icon: Eye, desc: 'الكفاءات التي لم تكن ظاهرة من قبل' },
     { title: 'تقرير الفجوات القيادية', icon: BarChart3, desc: 'وحدات تنظيمية بدون بدائل قيادية' },
     { title: 'تقرير توزيع التصنيفات', icon: PieChart, desc: 'النسب والإحصائيات' },
     { title: 'تقرير الصف الثاني والثالث', icon: Users, desc: 'خريطة التعاقب الوظيفي' },
@@ -55,7 +55,7 @@ export default async function ExecutiveReportsPage() {
         <StatCard label="إجمالي البطاقات" value={allCards.length} icon={<Users className="h-5 w-5" />} variant="primary" />
         <StatCard label="متوسط الجاهزية" value={`${avgScore}%`} icon={<TrendingUp className="h-5 w-5" />} variant="gold" />
         <StatCard label="متوسط الثقة" value={`${avgTrust}%`} icon={<BarChart3 className="h-5 w-5" />} variant="sage" />
-        <StatCard label="قيادات مخفية" value={hiddenLeaders} icon={<Eye className="h-5 w-5" />} variant="primary" />
+        <StatCard label="كفاءات مخفية" value={hiddenLeaders} icon={<Eye className="h-5 w-5" />} variant="primary" />
       </div>
 
       <Card title="توزيع التصنيفات" subtitle="نسبة كل تصنيف من إجمالي البطاقات المعتمدة">

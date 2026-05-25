@@ -51,7 +51,7 @@ export default async function ExecutiveAlertsPage() {
   ]);
 
   if ((readyNow || 0) > 0) aiAlerts.push({ type: 'ready_now', severity: 'high', title: 'مرشحون جاهزون للتكليف', message: `يوجد ${readyNow} مرشح مصنف "جاهز الآن" باعتماد لجنة الحوكمة.`, recommended_action: 'راجع قائمة المرشحين لاتخاذ قرار التكليف المناسب.' });
-  if ((hiddenCount || 0) > 0) aiAlerts.push({ type: 'hidden_leadership', severity: 'medium', title: 'قيادات مخفية', message: `رُصد ${hiddenCount} حالة قيادة مخفية محتملة بين الموظفين.`, recommended_action: 'راجع بطاقاتهم للنظر في فرص التطوير والتكليف.' });
+  if ((hiddenCount || 0) > 0) aiAlerts.push({ type: 'hidden_leadership', severity: 'medium', title: 'كفاءات مخفية', message: `رُصد ${hiddenCount} كفاءة مخفية محتملة بين الموظفين.`, recommended_action: 'راجع بطاقاتهم للنظر في فرص التطوير والتكليف.' });
   if ((lowSat || 0) > 0) aiAlerts.push({ type: 'high_performance_low_satisfaction', severity: 'medium', title: 'أداء عالٍ مع رضا منخفض', message: `${lowSat} مرشح يحقق نتائج قوية لكن رضا فريقه منخفض.`, recommended_action: 'يُنصح بمراجعة نمط قيادتهم قبل أي تكليف مباشر.' });
   if (unitsNoSuccessor && unitsNoSuccessor.length > 0) aiAlerts.push({ type: 'no_successor', severity: 'high', title: 'وحدات بدون بدائل جاهزة', message: `وحدات تشغيلية بدون بديل قيادي: ${unitsNoSuccessor.map(u => u.name).join('، ')}.`, recommended_action: 'راجع خريطة الملاءمة وخطط التعاقب.' });
 

@@ -72,7 +72,7 @@ export default async function ExecutiveCandidatesPage({
         <div className="flex gap-2">
           <Link href={searchParams.flag === 'hidden' ? '/executive/candidates' : '/executive/candidates?flag=hidden'}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-sm ${searchParams.flag === 'hidden' ? 'bg-primary-700 text-white border-transparent' : 'border-gold-200 text-darkgray hover:bg-gold-50'}`}>
-            <Eye className="h-3.5 w-3.5" />قيادات مخفية
+            <Eye className="h-3.5 w-3.5" />كفاءات مخفية
           </Link>
         </div>
       </div>

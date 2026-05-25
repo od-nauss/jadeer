@@ -9,6 +9,7 @@ const EXEC_PAGES = [
   { slug: 'why',              title: 'لماذا نحتاجها؟' },
   { slug: 'beneficiaries',    title: 'من المستفيد؟' },
   { slug: 'how-it-works',     title: 'كيف تعمل؟' },
+  { slug: 'three-cards',      title: '★ البطاقات الثلاث' },
   { slug: 'methodology',      title: 'منهجية التقييم' },
   { slug: 'anti-bias',        title: 'منع التحيز' },
   { slug: 'system-preview',   title: 'لقطات النظام' },
@@ -17,7 +18,7 @@ const EXEC_PAGES = [
   { slug: 'organization-fit', title: 'الملاءمة التنظيمية' },
   { slug: 'demo-models',      title: 'النماذج التجريبية' },
   { slug: 'urgency',          title: 'القيمة العاجلة' },
-  { slug: 'faq-leadership',   title: 'أسئلة وأجوبة متوقعة' },
+  { slug: 'faq-leadership',   title: 'أسئلة وأجوبة' },
   { slug: 'decision',         title: 'من الفكرة للتنفيذ' },
   { slug: 'export',           title: 'تصدير العرض' },
 ];
