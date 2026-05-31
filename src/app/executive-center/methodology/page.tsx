@@ -116,7 +116,7 @@ export default function MethodologyPage() {
       <section className="bg-white/5 border border-gold-400/20 rounded-2xl p-7">
         <div className="flex items-center gap-3 mb-6">
           <Brain className="h-6 w-6 text-gold-400" />
-          <h2 className="text-xl font-bold text-white">مثال حي: احتساب درجة نورة القحطاني</h2>
+          <h2 className="text-xl font-bold text-white">مثال حي: احتساب درجة نورة عبدالله</h2>
         </div>
 
         <div className="grid sm:grid-cols-2 gap-3 mb-6">

@@ -125,7 +125,7 @@ export default function HowItWorksPage() {
             {/* Header */}
             <div className="flex items-center justify-between mb-5">
               <div>
-                <h3 className="text-xl font-bold text-[#1a365d]">مرحباً، سعد الحارثي</h3>
+                <h3 className="text-xl font-bold text-[#1a365d]">مرحباً، سعد محمد</h3>
                 <p className="text-sm text-gray-500 mt-0.5">مسار الجاهزية القيادية — الدورة الثانية 1447هـ</p>
               </div>
               <div className="text-left">

@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 
 const MODELS = [
   {
-    name: 'نورة القحطاني',
+    name: 'نورة عبدالله',
     title: 'رئيس قسم العمليات',
     department: 'إدارة العمليات',
     score: 87,
@@ -22,7 +22,7 @@ const MODELS = [
     fitPct: 92,
   },
   {
-    name: 'سعد الحارثي',
+    name: 'سعد محمد',
     title: 'مدير إدارة المشاريع',
     department: 'قطاع الشؤون الأكاديمية',
     score: 78,
@@ -39,7 +39,7 @@ const MODELS = [
     fitPct: 84,
   },
   {
-    name: 'هند العتيبي',
+    name: 'هند عمر',
     title: 'مديرة وحدة دعم الفرق',
     department: 'إدارة دعم الفرق والمستفيدين',
     score: 76,
@@ -56,7 +56,7 @@ const MODELS = [
     fitPct: 88,
   },
   {
-    name: 'عبدالعزيز الدوسري',
+    name: 'عبدالعزيز سالم',
     title: 'مهندس بيانات أول',
     department: 'إدارة التقنية والذكاء الاصطناعي',
     score: 71,
@@ -73,7 +73,7 @@ const MODELS = [
     fitPct: 71,
   },
   {
-    name: 'فهد المطيري',
+    name: 'فهد خالد',
     title: 'مدير إدارة الجودة',
     department: 'إدارة الجودة والامتثال',
     score: 81,

@@ -16,7 +16,7 @@ INSERT INTO evaluator_nominees (
 ) VALUES (
   'eeee0001-demo-conf-0001-000000000001',
   'ffff0001-cafe-beef-0000-aaaaaaaaaaaa',
-  'خالد بن عبدالله العتيبي',
+  'خالد عبدالله',
   'khalid.otaibi@demo.sa',
   '0501234567',
   'إدارة العمليات',
@@ -42,7 +42,7 @@ INSERT INTO evaluator_nominees (
 ) VALUES (
   'eeee0002-demo-conf-0002-000000000002',
   'ffff0002-cafe-beef-0000-aaaaaaaaaaaa',
-  'محمد بن سعد الدوسري',
+  'محمد سعد',
   'mohammed.dosari@demo.sa',
   '0559876543',
   'إدارة التقنية',

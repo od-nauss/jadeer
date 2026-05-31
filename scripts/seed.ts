@@ -49,7 +49,7 @@ const CANDIDATES = [
   {
     email: 'saad@nauss.edu.sa',
     password: 'Demo@2026',
-    full_name: 'سعد الحارثي',
+    full_name: 'سعد محمد',
     job_title: 'مدير إدارة المشاريع',
     department: 'قطاع الشؤون الأكاديمية',
     employee_number: 'EMP-1001',
@@ -66,7 +66,7 @@ const CANDIDATES = [
   {
     email: 'noura@nauss.edu.sa',
     password: 'Demo@2026',
-    full_name: 'نورة القحطاني',
+    full_name: 'نورة عبدالله',
     job_title: 'رئيس قسم العمليات',
     department: 'إدارة العمليات',
     employee_number: 'EMP-1002',
@@ -83,7 +83,7 @@ const CANDIDATES = [
   {
     email: 'abdulaziz@nauss.edu.sa',
     password: 'Demo@2026',
-    full_name: 'عبدالعزيز الدوسري',
+    full_name: 'عبدالعزيز سالم',
     job_title: 'مهندس بيانات أول',
     department: 'إدارة التقنية والذكاء الاصطناعي',
     employee_number: 'EMP-1003',
@@ -100,7 +100,7 @@ const CANDIDATES = [
   {
     email: 'hind@nauss.edu.sa',
     password: 'Demo@2026',
-    full_name: 'هند العتيبي',
+    full_name: 'هند عمر',
     job_title: 'مديرة وحدة دعم الفرق',
     department: 'إدارة دعم الفرق والمستفيدين',
     employee_number: 'EMP-1004',
@@ -117,7 +117,7 @@ const CANDIDATES = [
   {
     email: 'fahad@nauss.edu.sa',
     password: 'Demo@2026',
-    full_name: 'فهد المطيري',
+    full_name: 'فهد خالد',
     job_title: 'مدير إدارة الجودة',
     department: 'إدارة الجودة والامتثال',
     employee_number: 'EMP-1005',
@@ -248,9 +248,9 @@ async function createCandidateProfile(userId: string, candidate: typeof CANDIDAT
 
   // مرشحون للتقييم 360 (15 مقترح + 8 معتمدون)
   const nomineeNames = [
-    'م. محمد العبدالله', 'أ. فاطمة الزهراني', 'م. عبدالله الغامدي', 'أ. منى السبيعي', 'م. أحمد القحطاني',
-    'أ. ريم الحربي', 'م. سلمان الدوسري', 'أ. هدى المطيري', 'م. خالد العتيبي', 'أ. أمل العنزي',
-    'م. ياسر الشهري', 'أ. لمى البلوي', 'م. فيصل الراشد', 'أ. نوف القرني', 'م. عمر الشمري',
+    'م. محمد نايف', 'أ. فاطمة أحمد', 'م. عبدالله سعد', 'أ. منى ناصر', 'م. أحمد علي',
+    'أ. ريم وليد', 'م. سلمان عمر', 'أ. هدى خالد', 'م. خالد عمر', 'أ. أمل سعد',
+    'م. ياسر فهد', 'أ. لمى راشد', 'م. فيصل عادل', 'أ. نوف سالم', 'م. عمر وليد',
   ];
   const relationships = ['مدير مباشر', 'زميل', 'زميل', 'مرؤوس', 'مرؤوس', 'صاحب علاقة', 'زميل', 'زميل', 'مرؤوس', 'صاحب علاقة', 'زميل', 'مرؤوس', 'صاحب علاقة', 'زميل', 'مرؤوس'];
 

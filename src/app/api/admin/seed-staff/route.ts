@@ -47,7 +47,7 @@ const DEMO_CANDIDATES = [
   {
     email: 'saad.harthy@demo.jadeer.sa',
     password: 'Demo@2026',
-    full_name: 'سعد بن محمد الحارثي',
+    full_name: 'سعد محمد',
     job_title: 'مدير التخطيط الاستراتيجي',
     department: 'إدارة المشاريع الاستراتيجية',
     role: 'candidate',
@@ -56,7 +56,7 @@ const DEMO_CANDIDATES = [
   {
     email: 'noura.qahtani@demo.jadeer.sa',
     password: 'Demo@2026',
-    full_name: 'نورة بنت عبدالله القحطاني',
+    full_name: 'نورة عبدالله',
     job_title: 'رئيسة قسم العمليات والجودة',
     department: 'إدارة العمليات',
     role: 'candidate',
@@ -65,7 +65,7 @@ const DEMO_CANDIDATES = [
   {
     email: 'abdulaziz.dosari@demo.jadeer.sa',
     password: 'Demo@2026',
-    full_name: 'عبدالعزيز بن سالم الدوسري',
+    full_name: 'عبدالعزيز سالم',
     job_title: 'مهندس أنظمة ذكاء اصطناعي أول',
     department: 'إدارة التقنية والذكاء الاصطناعي',
     role: 'candidate',
@@ -74,7 +74,7 @@ const DEMO_CANDIDATES = [
   {
     email: 'hind.otaibi@demo.jadeer.sa',
     password: 'Demo@2026',
-    full_name: 'هند بنت عمر العتيبي',
+    full_name: 'هند عمر',
     job_title: 'أخصائية تطوير وتدريب',
     department: 'إدارة دعم الفرق والمستفيدين',
     role: 'candidate',
@@ -83,7 +83,7 @@ const DEMO_CANDIDATES = [
   {
     email: 'fahad.mutairi@demo.jadeer.sa',
     password: 'Demo@2026',
-    full_name: 'فهد بن خالد المطيري',
+    full_name: 'فهد خالد',
     job_title: 'مدير برنامج الامتثال المؤسسي',
     department: 'إدارة الجودة والامتثال',
     role: 'candidate',

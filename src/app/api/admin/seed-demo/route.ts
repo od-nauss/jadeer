@@ -33,7 +33,7 @@ const kpi2Id   = (i: number) => `b0020000-cafe-beef-000${i}-aaaaaaaaaaaa`;
 const PROFILES = [
   {
     idx: 0,
-    name: 'سعد بن محمد الحارثي',
+    name: 'سعد محمد',
     email: 'saad.harthy@demo.jadeer.sa',
     jobTitle: 'مدير التخطيط الاستراتيجي',
     dept: 'إدارة المشاريع الاستراتيجية',
@@ -55,7 +55,7 @@ const PROFILES = [
   },
   {
     idx: 1,
-    name: 'نورة بنت عبدالله القحطاني',
+    name: 'نورة عبدالله',
     email: 'noura.qahtani@demo.jadeer.sa',
     jobTitle: 'رئيسة قسم العمليات والجودة',
     dept: 'إدارة العمليات',
@@ -76,7 +76,7 @@ const PROFILES = [
   },
   {
     idx: 2,
-    name: 'عبدالعزيز بن سالم الدوسري',
+    name: 'عبدالعزيز سالم',
     email: 'abdulaziz.dosari@demo.jadeer.sa',
     jobTitle: 'مهندس أنظمة ذكاء اصطناعي أول',
     dept: 'إدارة التقنية والذكاء الاصطناعي',
@@ -97,7 +97,7 @@ const PROFILES = [
   },
   {
     idx: 3,
-    name: 'هند بنت عمر العتيبي',
+    name: 'هند عمر',
     email: 'hind.otaibi@demo.jadeer.sa',
     jobTitle: 'أخصائية تطوير وتدريب',
     dept: 'إدارة دعم الفرق والمستفيدين',
@@ -118,7 +118,7 @@ const PROFILES = [
   },
   {
     idx: 4,
-    name: 'فهد بن خالد المطيري',
+    name: 'فهد خالد',
     email: 'fahad.mutairi@demo.jadeer.sa',
     jobTitle: 'مدير برنامج الامتثال المؤسسي',
     dept: 'إدارة الجودة والامتثال',
@@ -320,9 +320,9 @@ export async function POST() {
 
     // ─── مقيمون معتمدون + روابط تقييم + تقييمات 360 ──────────────────────
     const EVAL_NAMES = [
-      'خالد بن أحمد السالم', 'محمد بن عمر الزهراني', 'سارة بنت علي القحطاني',
-      'نواف بن سعد الحربي', 'ريم بنت فيصل الشهري', 'فيصل بن ناصر الدوسري',
-      'أميرة بنت خالد العتيبي',
+      'خالد أحمد', 'محمد عمر', 'سارة علي',
+      'نواف سعد', 'ريم فيصل', 'فيصل ناصر',
+      'أميرة خالد',
     ];
     const RELATIONSHIPS = [
       'direct_manager', 'peer', 'peer', 'subordinate',

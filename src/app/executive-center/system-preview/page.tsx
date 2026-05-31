@@ -74,9 +74,9 @@ export default function SystemPreviewPage() {
               <div className="text-xs font-bold text-[#E8D5A3] mb-3">أعلى المرشحين جاهزيةً</div>
               <div className="space-y-2">
                 {[
-                  { name: 'نورة القحطاني', dept: 'إدارة العمليات', score: 87, trust: 91, status: 'جاهزة الآن', statusColor: 'bg-green-900/60 text-green-300' },
-                  { name: 'فهد المطيري', dept: 'إدارة الجودة', score: 81, trust: 79, status: 'جاهز مشروط', statusColor: 'bg-yellow-900/60 text-yellow-300' },
-                  { name: 'سعد الحارثي', dept: 'المشاريع الاستراتيجية', score: 78, trust: 85, status: 'جاهز خلال سنة', statusColor: 'bg-blue-900/60 text-blue-300' },
+                  { name: 'نورة عبدالله', dept: 'إدارة العمليات', score: 87, trust: 91, status: 'جاهزة الآن', statusColor: 'bg-green-900/60 text-green-300' },
+                  { name: 'فهد خالد', dept: 'إدارة الجودة', score: 81, trust: 79, status: 'جاهز مشروط', statusColor: 'bg-yellow-900/60 text-yellow-300' },
+                  { name: 'سعد محمد', dept: 'المشاريع الاستراتيجية', score: 78, trust: 85, status: 'جاهز خلال سنة', statusColor: 'bg-blue-900/60 text-blue-300' },
                 ].map((cand, i) => (
                   <div key={i} className="flex items-center gap-3 bg-white/5 rounded-lg px-3 py-2">
                     <div className="h-7 w-7 rounded-full bg-[#2D5A8B] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
@@ -144,7 +144,7 @@ export default function SystemPreviewPage() {
             <div className="bg-[#1a365d] rounded-xl p-5 mb-4 flex items-start justify-between">
               <div>
                 <div className="text-[#E8D5A3] text-xs mb-1 font-medium">بطاقة قيادية معتمدة · الدورة الثانية 1447هـ</div>
-                <h3 className="text-2xl font-bold text-white">نورة القحطاني</h3>
+                <h3 className="text-2xl font-bold text-white">نورة عبدالله</h3>
                 <p className="text-blue-200 text-sm mt-0.5">رئيس قسم العمليات · إدارة العمليات</p>
               </div>
               <div className="text-center">
@@ -229,10 +229,10 @@ export default function SystemPreviewPage() {
             <h3 className="text-lg font-bold text-[#1a365d] mb-4">لوحة الحوكمة — قائمة المراجعة المعلقة</h3>
             <div className="space-y-2">
               {[
-                { name: 'سعد الحارثي', stage: 'اعتماد المقيّمين', alert: null, time: 'منذ 2 يوم' },
-                { name: 'نورة القحطاني', stage: 'مراجعة تقرير AI', alert: null, time: 'منذ 5 ساعات' },
-                { name: 'عبدالعزيز الدوسري', stage: 'كشف تحيز محتمل', alert: '⚠ مقيّم يحتاج مراجعة', time: 'منذ ساعة' },
-                { name: 'هند العتيبي', stage: 'مراجعة التظلم', alert: '📋 طلب إعادة مراجعة', time: 'منذ 3 أيام' },
+                { name: 'سعد محمد', stage: 'اعتماد المقيّمين', alert: null, time: 'منذ 2 يوم' },
+                { name: 'نورة عبدالله', stage: 'مراجعة تقرير AI', alert: null, time: 'منذ 5 ساعات' },
+                { name: 'عبدالعزيز سالم', stage: 'كشف تحيز محتمل', alert: '⚠ مقيّم يحتاج مراجعة', time: 'منذ ساعة' },
+                { name: 'هند عمر', stage: 'مراجعة التظلم', alert: '📋 طلب إعادة مراجعة', time: 'منذ 3 أيام' },
               ].map((item, i) => (
                 <div key={i} className={`flex items-center gap-3 rounded-xl px-4 py-3 border ${item.alert ? 'bg-amber-50 border-amber-200' : 'bg-white border-gray-200'}`}>
                   <div className="h-8 w-8 rounded-full bg-[#2D5A8B] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">

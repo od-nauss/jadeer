@@ -113,10 +113,10 @@ export default function OrganizationFitPage() {
             {/* Cards Grid */}
             <div className="grid grid-cols-3 gap-3">
               {[
-                { name: 'إدارة العمليات', type: 'إدارة', critical: true, candidate: 'نورة القحطاني', score: 92, level: 'ملاءمة عالية', color: 'border-green-300 bg-green-50' },
-                { name: 'إدارة المشاريع الاستراتيجية', type: 'إدارة', critical: true, candidate: 'سعد الحارثي', score: 84, level: 'ملاءمة جيدة', color: 'border-blue-300 bg-blue-50' },
-                { name: 'إدارة التقنية والذكاء الاصطناعي', type: 'إدارة', critical: true, candidate: 'عبدالعزيز الدوسري', score: 71, level: 'ملاءمة مشروطة', color: 'border-yellow-300 bg-yellow-50' },
-                { name: 'إدارة دعم الفرق', type: 'إدارة', critical: false, candidate: 'هند العتيبي', score: 88, level: 'ملاءمة عالية', color: 'border-green-300 bg-green-50' },
+                { name: 'إدارة العمليات', type: 'إدارة', critical: true, candidate: 'نورة عبدالله', score: 92, level: 'ملاءمة عالية', color: 'border-green-300 bg-green-50' },
+                { name: 'إدارة المشاريع الاستراتيجية', type: 'إدارة', critical: true, candidate: 'سعد محمد', score: 84, level: 'ملاءمة جيدة', color: 'border-blue-300 bg-blue-50' },
+                { name: 'إدارة التقنية والذكاء الاصطناعي', type: 'إدارة', critical: true, candidate: 'عبدالعزيز سالم', score: 71, level: 'ملاءمة مشروطة', color: 'border-yellow-300 bg-yellow-50' },
+                { name: 'إدارة دعم الفرق', type: 'إدارة', critical: false, candidate: 'هند عمر', score: 88, level: 'ملاءمة عالية', color: 'border-green-300 bg-green-50' },
                 { name: 'إدارة الجودة والامتثال', type: 'إدارة', critical: true, candidate: null, score: 0, level: 'بلا مرشح', color: 'border-red-300 bg-red-50' },
                 { name: 'قطاع التحول الرقمي', type: 'قطاع', critical: true, candidate: null, score: 0, level: 'بلا مرشح', color: 'border-red-300 bg-red-50' },
               ].map((unit, i) => (
