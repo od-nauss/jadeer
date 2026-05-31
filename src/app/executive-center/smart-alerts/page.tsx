@@ -41,8 +41,8 @@ export default function AIAnalysisPage() {
             },
             {
               icon: Eye,
-              title: 'الكشف عن القيادة غير المرئية',
-              desc: 'يرصد الموظفين الذين يُظهرون مؤشرات قيادة استثنائية في بياناتهم الفعلية — بغض النظر عن مدى ظهورهم الإداري.',
+              title: 'الكشف عن الكفاءات غير المرئية',
+              desc: 'يرصد الكفاءات التي تُظهر مؤشرات استثنائية في بياناتها الفعلية — بغض النظر عن مدى ظهورها الإداري.',
               color: 'text-blue-300', bg: 'bg-blue-400/10',
             },
             {
@@ -130,7 +130,7 @@ export default function AIAnalysisPage() {
                 <div className="text-xs text-gray-400 mt-0.5">مستوى الثقة</div>
               </div>
               <div className="bg-white/5 rounded-xl p-3 text-center">
-                <div className="text-sm font-bold text-blue-300 mt-1">قائد تشغيلي</div>
+                <div className="text-sm font-bold text-blue-300 mt-1">كفاءة تشغيلية</div>
                 <div className="text-xs text-gray-400 mt-0.5">النمط القيادي</div>
               </div>
             </div>
