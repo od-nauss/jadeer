@@ -39,10 +39,10 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY, {
 
 const ACCOUNTS = [
   { email: 'admin@nauss.edu.sa', password: 'Zx.321321', full_name: 'مدير منصة جدير', job_title: 'مدير النظام', department: 'تقنية المعلومات', role: 'admin', is_demo: false },
-  { email: 'president@nauss.edu.sa', password: 'Demo@2026', full_name: 'د. خالد المالكي', job_title: 'الرئيس التنفيذي', department: 'الرئاسة', role: 'president', is_demo: true },
+  { email: 'president@nauss.edu.sa', password: 'Demo@2026', full_name: 'د. خالد نايف', job_title: 'الرئيس التنفيذي', department: 'الرئاسة', role: 'president', is_demo: true },
   { email: 'governance@nauss.edu.sa', password: 'Demo@2026', full_name: 'د. ريم العيسى', job_title: 'رئيس لجنة الحوكمة', department: 'الحوكمة', role: 'governance', is_demo: true },
-  { email: 'advisor@nauss.edu.sa', password: 'Demo@2026', full_name: 'أ. ماجد الزهراني', job_title: 'مستشار قيادي', department: 'المستشارية', role: 'advisor', is_demo: true },
-  { email: 'hr@nauss.edu.sa', password: 'Demo@2026', full_name: 'أ. سارة الغامدي', job_title: 'مدير الموارد البشرية', department: 'الموارد البشرية', role: 'hr', is_demo: true },
+  { email: 'advisor@nauss.edu.sa', password: 'Demo@2026', full_name: 'أ. ماجد عمر', job_title: 'مستشار قيادي', department: 'المستشارية', role: 'advisor', is_demo: true },
+  { email: 'hr@nauss.edu.sa', password: 'Demo@2026', full_name: 'أ. سارة علي', job_title: 'مدير الموارد البشرية', department: 'الموارد البشرية', role: 'hr', is_demo: true },
 ];
 
 const CANDIDATES = [

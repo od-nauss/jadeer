@@ -71,7 +71,7 @@ const AXIS_ICONS: Record<string, typeof Star> = {
   performance: TrendingUp,
   innovation: Zap,
   team: Users,
-  technology: Zap,
+  technology: BookOpen,
   integrity: Shield,
 };
 
@@ -411,8 +411,9 @@ export function computeBalancedCard(
 ): BalancedPerformanceCard {
   // 1. الأثر المؤسسي — من المبادرات
   const initiativeScores = initiatives.map(i => Number(i.ai_score || 50));
+  const sustainableBonus = Math.min(9, initiatives.filter(i => i.is_sustainable).length * 3);
   const institutionalImpactScore = initiativeScores.length > 0
-    ? Math.min(100, Math.round(initiativeScores.reduce((a, b) => a + b, 0) / initiativeScores.length + (initiatives.filter(i => i.is_sustainable).length * 3)))
+    ? Math.min(100, Math.round(initiativeScores.reduce((a, b) => a + b, 0) / initiativeScores.length + sustainableBonus))
     : 0;
 
   // 2. جودة الإنجاز — من المؤشرات (نسبة تحقيق الهدف)

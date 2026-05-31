@@ -23,7 +23,7 @@ const PIDS = [
 
 const PROFILES = [
   { idx: 0, readiness: 'ready_within_year', leadType: 'strategic',                 status: 'under_governance_review',
-    name: 'سعد بن محمد الحارثي',   total: 78, trust: 72,
+    name: 'سعد محمد',   total: 78, trust: 72,
     axes: { leadership: 80, strategic: 88, performance: 72, innovation: 76, team: 68, technology: 74, integrity: 85 },
     strengths: ['تفكير استراتيجي متميز', 'رؤية الصورة الكبيرة'],
     gaps: ['يحتاج تعزيز إدارة الفريق'],
@@ -35,7 +35,7 @@ const PROFILES = [
     aiRec: 'مرشح قوي للقيادة الاستراتيجية — يوصى ببرنامج القيادة التحويلية وتكليف تجريبي',
   },
   { idx: 1, readiness: 'ready_now', leadType: 'operational', status: 'approved',
-    name: 'نورة بنت عبدالله القحطاني', total: 91, trust: 89,
+    name: 'نورة عبدالله', total: 91, trust: 89,
     axes: { leadership: 88, strategic: 74, performance: 96, innovation: 81, team: 91, technology: 84, integrity: 93 },
     strengths: ['أداء تشغيلي استثنائي 96%', 'رضا الفريق مرتفع 91%'],
     gaps: ['التخطيط الاستراتيجي بعيد المدى'],
@@ -47,7 +47,7 @@ const PROFILES = [
     aiRec: 'تكليف قيادي فوري موصى به — أداؤها يتجاوز متطلبات المنصب',
   },
   { idx: 2, readiness: 'promising', leadType: 'technical', status: 'under_governance_review',
-    name: 'عبدالعزيز بن سالم الدوسري', total: 62, trust: 58,
+    name: 'عبدالعزيز سالم', total: 62, trust: 58,
     axes: { leadership: 54, strategic: 61, performance: 82, innovation: 91, team: 52, technology: 95, integrity: 79 },
     strengths: ['خبرة تقنية نادرة في الذكاء الاصطناعي', 'ابتكار 91%'],
     gaps: ['القيادة الإنسانية 54%', 'رضا الفريق 52%'],
@@ -59,7 +59,7 @@ const PROFILES = [
     aiRec: 'واعد جداً للقيادة التقنية — مسار تطوير قيادي مكثف 18 شهراً',
   },
   { idx: 3, readiness: 'human_leader', leadType: 'human', status: 'approved',
-    name: 'هند بنت عمر العتيبي', total: 68, trust: 74,
+    name: 'هند عمر', total: 68, trust: 74,
     axes: { leadership: 71, strategic: 55, performance: 63, innovation: 61, team: 96, technology: 52, integrity: 91 },
     strengths: ['رضا الفريق استثنائي 96%', 'نزاهة مؤسسية 91%'],
     gaps: ['مؤشرات الأداء الكمية', 'استخدام التقنية 52%'],
@@ -71,7 +71,7 @@ const PROFILES = [
     aiRec: 'تعيين رئاسة قسم دعم الفرق — يُشترط إتمام برنامج قياس الأثر 6 أشهر',
   },
   { idx: 4, readiness: 'high_performance_low_satisfaction', leadType: 'specialist_leadership', status: 'approved',
-    name: 'فهد بن خالد المطيري', total: 45, trust: 62,
+    name: 'فهد خالد', total: 45, trust: 62,
     axes: { leadership: 61, strategic: 67, performance: 97, innovation: 44, team: 31, technology: 68, integrity: 85 },
     strengths: ['أداء فردي 97% — استثنائي', 'امتثال 100% في التدقيقات'],
     gaps: ['رضا الفريق 31% — أزمة قيادية حادة'],
@@ -92,9 +92,9 @@ const kpi1Id = i => `b0010000-cafe-beef-000${i}-aaaaaaaaaaaa`;
 const kpi2Id = i => `b0020000-cafe-beef-000${i}-aaaaaaaaaaaa`;
 
 const EVAL_NAMES = [
-  'خالد بن أحمد السالم', 'محمد بن عمر الزهراني', 'سارة بنت علي القحطاني',
-  'نواف بن سعد الحربي', 'ريم بنت فيصل الشهري', 'فيصل بن ناصر الدوسري',
-  'أميرة بنت خالد العتيبي',
+  'خالد أحمد', 'محمد عمر', 'سارة علي',
+  'نواف سعد', 'ريم فيصل', 'فيصل ناصر',
+  'أميرة خالد',
 ];
 const RELS = ['direct_manager', 'peer', 'peer', 'subordinate', 'subordinate', 'stakeholder', 'project_partner'];
 
